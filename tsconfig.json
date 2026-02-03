@@ -14,7 +14,7 @@
     "noUnusedParameters": true, // 사용 안 하는 파라미터 경고
     "baseUrl": ".",
     "paths": {
-      "@/": ["src/"]
+      "@/*": ["src/*"]
     }
   },
   "ts-node": { "esm": true },
