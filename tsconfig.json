@@ -11,7 +11,11 @@
     "jsx": "react-jsx",
     "lib": ["dom", "dom.iterable", "esnext"],
     "noUnusedLocals": true, // 사용 안 하는 변수 경고
-    "noUnusedParameters": true // 사용 안 하는 파라미터 경고
+    "noUnusedParameters": true, // 사용 안 하는 파라미터 경고
+    "baseUrl": ".",
+    "paths": {
+      "@/": ["src/"]
+    }
   },
   "ts-node": { "esm": true },
   "include": ["src/**/*"],
