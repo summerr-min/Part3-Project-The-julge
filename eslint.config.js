@@ -1,9 +1,9 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import tseslint from 'typescript-eslint'
-import { defineConfig, globalIgnores } from 'eslint/config'
+import js from '@eslint/js';
+import globals from 'globals';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
+import tseslint from 'typescript-eslint';
+import { defineConfig, globalIgnores } from 'eslint/config';
 
 export default defineConfig([
   globalIgnores(['dist', 'node_modules']),
@@ -28,6 +28,14 @@ export default defineConfig([
         { allowConstantExport: true },
       ],
     },
+    settings: {
+      'import/resolver': {
+        typescript: {
+          alwaysTryTypes: true,
+          project: './tsconfig.json', // 또는 './tsconfig.app.json'
+        },
+      },
+    },
   },
 
   // 2. JS / JSX 전용 규칙
@@ -39,9 +47,9 @@ export default defineConfig([
       reactRefresh.configs.vite,
     ],
     rules: {
-      'quotes': ['error', 'single', { allowTemplateLiterals: true }], // 싱글 쿼트 강제 (템플릿 리터럴 허용)
-      'semi': ['error', 'always'],// 세미콜론 필수
-      'no-unused-vars': 'warn',// 미사용 변수 경고
+      quotes: ['error', 'single', { allowTemplateLiterals: true }], // 싱글 쿼트 강제 (템플릿 리터럴 허용)
+      semi: ['error', 'always'], // 세미콜론 필수
+      'no-unused-vars': 'warn', // 미사용 변수 경고
     },
   },
 
@@ -55,14 +63,14 @@ export default defineConfig([
       reactRefresh.configs.vite,
     ],
     rules: {
-      'quotes': ['error', 'single', { allowTemplateLiterals: true }], // 싱글 쿼트 강제 (템플릿 리터럴 허용)
-      'semi': ['error', 'always'],// 세미콜론 필수
+      quotes: ['error', 'single', { allowTemplateLiterals: true }], // 싱글 쿼트 강제 (템플릿 리터럴 허용)
+      semi: ['error', 'always'], // 세미콜론 필수
 
       // TS 전용 미사용 변수 규칙 (기본 rules는 끄고 TS 전용 사용)
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': 'warn',
 
-      '@typescript-eslint/no-explicit-any': 'warn',// any 사용 자제
+      '@typescript-eslint/no-explicit-any': 'warn', // any 사용 자제
     },
   },
 ]);
