@@ -1,6 +1,6 @@
-// import EnvelopIcon from '@/assets/icons/envelope_icon.svg?react';
-// import FacebookIcon from '@/assets/icons/facebook_icon.svg?react';
-// import InstagramIcon from '@/assets/icons/instagram_icon.svg?react';
+import EnvelopIcon from '@/assets/icons/envelope_icon.svg?react';
+import FacebookIcon from '@/assets/icons/facebook_icon.svg?react';
+import InstagramIcon from '@/assets/icons/instagram_icon.svg?react';
 import {
   Wrapper,
   LeftWrapper,
@@ -22,9 +22,15 @@ function Footer() {
       </MiddleWrapper>
 
       <RightWrapper>
-        <Icon></Icon>
-        <Icon></Icon>
-        <Icon></Icon>
+        <Icon>
+          <EnvelopIcon />
+        </Icon>
+        <Icon>
+          <FacebookIcon />
+        </Icon>
+        <Icon>
+          <InstagramIcon />
+        </Icon>
       </RightWrapper>
     </Wrapper>
   );
