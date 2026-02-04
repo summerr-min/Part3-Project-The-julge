@@ -13,10 +13,10 @@ import ShopCreatePage from './pages/ShopCreatePage';
  * @component
  */
 
-// const TestTitleStyles = styled.h1`
-//   ${({ theme }) => theme.fonts.h1};
-//   color: ${({ theme }) => theme.colors.red40};
-// `;
+const TestTitleStyles = styled.h1`
+  ${({ theme }) => theme.fonts.h1};
+  color: ${({ theme }) => theme.colors.red40};
+`;
 function App() {
   return (
     <BrowserRouter>
@@ -34,7 +34,7 @@ function App() {
           <Route path="/shop/create" element={<ShopCreatePage />} />
         </Route>
       </Routes>
-      {/* <TestTitleStyles>디자인 적용 확인(폰트 적용 완료)</TestTitleStyles> */}
+      <TestTitleStyles>디자인 적용 확인(폰트 적용 완료)</TestTitleStyles>
     </BrowserRouter>
   );
 }

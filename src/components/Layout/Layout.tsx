@@ -37,7 +37,7 @@ export function UserLayout() {
 }
 
 export function FullLayout() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   return (
     <main>
