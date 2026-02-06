@@ -8,8 +8,16 @@ interface Props {
 }
 
 function WageBadge({ defaultWage, currentWage, isClosed }: Props) {
+  const isSameWage = defaultWage === currentWage;
+
+  if (isSameWage) {
+    return (
+      <WageBadgeUI averageWage={0} arrow={undefined} isClosed={isClosed} />
+    );
+  }
+
   const determineArrowDirection = () => {
-    if (defaultWage <= currentWage) {
+    if (defaultWage < currentWage) {
       return '↑';
     }
     return '↓';
