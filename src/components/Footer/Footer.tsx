@@ -7,7 +7,7 @@ import {
   MiddleWrapper,
   RightWrapper,
   Icon,
-} from '@/styles/FooterStyles';
+} from '@/components/Footer/Footer.styles';
 
 function Footer() {
   return (

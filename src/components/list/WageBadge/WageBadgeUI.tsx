@@ -1,4 +1,4 @@
-import { WageBadge } from '@/styles/WageBadgeStyles';
+import { WageBadge } from '@/components/list/WageBadge/WageBadge.styles';
 
 interface Props {
   averageWage: number;
