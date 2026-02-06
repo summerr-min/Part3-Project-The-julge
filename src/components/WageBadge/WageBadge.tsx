@@ -11,9 +11,7 @@ function WageBadge({ defaultWage, currentWage, isClosed }: Props) {
   const isSameWage = defaultWage === currentWage;
 
   if (isSameWage) {
-    return (
-      <WageBadgeUI averageWage={0} arrow={undefined} isClosed={isClosed} />
-    );
+    return null;
   }
 
   const determineArrowDirection = () => {
