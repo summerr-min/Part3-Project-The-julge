@@ -4,15 +4,15 @@ import {
   MessageStyles,
   ButtonWrapperStyles,
   ButtonStyles,
-} from './AuthModal.styles';
+} from './Modal.styles';
 
-type AuthModalProps = {
+type ModalProps = {
   message: string;
   onClose: () => void;
 };
 
 // 공통 알림 모달
-const AuthModal = ({ message, onClose }: AuthModalProps) => {
+const Modal = ({ message, onClose }: ModalProps) => {
   return (
     <OverlayStyles onClick={onClose}>
       <ModalStyles
@@ -29,4 +29,4 @@ const AuthModal = ({ message, onClose }: AuthModalProps) => {
   );
 };
 
-export default AuthModal;
+export default Modal;
