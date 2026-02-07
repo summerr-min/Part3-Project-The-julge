@@ -7,6 +7,7 @@ export async function signUp(body: {
   type: 'employee' | 'employer';
 }) {
   const res = await instance.post('/users', body);
+
   return res.data;
 }
 

@@ -12,7 +12,7 @@ import AuthLayout, {
   PrimaryButton,
 } from '@/components/Auth/AuthLayout';
 
-import AlertModal from '@/components/common/Modal/AuthModal';
+import AlertModal from '@/components/common/Modal/Modal';
 
 const Login = () => {
   const navigate = useNavigate();
