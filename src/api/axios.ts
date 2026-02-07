@@ -1,7 +1,7 @@
 import Axios from 'axios';
 
 const instance = Axios.create({
-  baseURL: 'https://bootcamp-api.codeit.kr/api/21-5/the-julge',
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
