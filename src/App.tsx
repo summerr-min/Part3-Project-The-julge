@@ -5,24 +5,32 @@ import {
   LandingLayout,
   UserLayout,
 } from './components/Layout/Layout';
+
 import ShopDetailPage from './pages/ShopDetailPage';
 import ShopCreatePage from './pages/ShopCreatePage';
+
+import Signup from '@/pages/SignupPage';
+import Login from '@/pages/LoginPage';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route element={<LandingLayout />}>
-          {/* <Route path="/shop/:id/" element={<ShopDetailPage />} /> */}
+          <Route path="signup" element={<Signup />} />
+          <Route path="login" element={<Login />} />
         </Route>
+
         <Route element={<EmployerLayout />}>
-          <Route path="/shop/:id/" element={<ShopDetailPage />} />
+          <Route path="shop/:id" element={<ShopDetailPage />} />
         </Route>
+
         <Route element={<UserLayout />}>
-          {/* <Route path="/shop/:id/" element={<ShopDetailPage />} /> */}
+          {/* 여기에 user 전용 라우트 추가 */}
         </Route>
+
         <Route element={<FullLayout />}>
-          <Route path="/shop/create" element={<ShopCreatePage />} />
+          <Route path="shop/create" element={<ShopCreatePage />} />
         </Route>
       </Routes>
     </BrowserRouter>
