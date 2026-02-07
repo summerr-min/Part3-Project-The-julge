@@ -18,7 +18,7 @@ import AuthLayout, {
   ToggleWrap,
 } from '@/components/Auth/AuthLayout';
 
-import AuthModal from '@/components/common/Modal/AuthModal';
+import AuthModal from '@/components/common/Modal/Modal';
 
 type UserType = 'employee' | 'employer';
 
