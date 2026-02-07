@@ -4,7 +4,7 @@ import {
   MessageStyles,
   ButtonWrapperStyles,
   ButtonStyles,
-} from './AuthModalStyles';
+} from './AuthModal.styles';
 
 type AuthModalProps = {
   message: string;
@@ -15,7 +15,9 @@ type AuthModalProps = {
 const AuthModal = ({ message, onClose }: AuthModalProps) => {
   return (
     <OverlayStyles onClick={onClose}>
-      <ModalStyles onClick={(e) => e.stopPropagation()}>
+      <ModalStyles
+        onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
+      >
         <MessageStyles>{message}</MessageStyles>
         <ButtonWrapperStyles>
           <ButtonStyles type="button" onClick={onClose}>
