@@ -1,7 +1,7 @@
 // import { Outlet, useNavigate } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
 
-export function LandingLayout() {
+export function AuthLayout() {
   return (
     <div>
       <main>
