@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import {
   EmployerLayout,
   FullLayout,
-  LandingLayout,
+  AuthLayout,
   UserLayout,
 } from './components/Layout/Layout';
 
@@ -16,7 +16,11 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<LandingLayout />}>
+        <Route element={<FullLayout />}>
+          <Route path="shop/create" element={<ShopCreatePage />} />
+        </Route>
+
+        <Route element={<AuthLayout />}>
           <Route path="signup" element={<Signup />} />
           <Route path="login" element={<Login />} />
         </Route>
@@ -27,10 +31,6 @@ function App() {
 
         <Route element={<UserLayout />}>
           {/* 여기에 user 전용 라우트 추가 */}
-        </Route>
-
-        <Route element={<FullLayout />}>
-          <Route path="shop/create" element={<ShopCreatePage />} />
         </Route>
       </Routes>
     </BrowserRouter>
