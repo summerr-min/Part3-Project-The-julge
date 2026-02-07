@@ -6,13 +6,13 @@ import {
   ButtonStyles,
 } from './Modal.styles';
 
-type AuthModalProps = {
+type ModalProps = {
   message: string;
   onClose: () => void;
 };
 
 // 공통 알림 모달
-const Modal = ({ message, onClose }: AuthModalProps) => {
+const Modal = ({ message, onClose }: ModalProps) => {
   return (
     <OverlayStyles onClick={onClose}>
       <ModalStyles
