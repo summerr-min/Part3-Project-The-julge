@@ -1,12 +1,10 @@
 import instance from './axios';
 
-export type UserType = 'employee' | 'employer';
-
 // 회원가입 API
 export async function signUp(body: {
   email: string;
   password: string;
-  type: UserType;
+  type: 'employee' | 'employer';
 }) {
   const res = await instance.post('/users', body);
 
