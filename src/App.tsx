@@ -8,32 +8,42 @@ import {
 
 import ShopDetailPage from './pages/ShopDetailPage';
 import ShopCreatePage from './pages/ShopCreatePage';
+import ProfilePage from './pages/ProfilePage';
+import ProfileEditPage from './pages/ProfileEditPage';
 
-import Signup from '@/pages/SignupPage';
-import Login from '@/pages/LoginPage';
+import Signup from './pages/SignupPage';
+import Login from './pages/LoginPage';
+
+import { theme } from '@/styles/theme';
+import { GlobalStyles } from '@/styles/GlobalStyles';
+import { ThemeProvider } from 'styled-components';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<FullLayout />}>
-          <Route path="shop/create" element={<ShopCreatePage />} />
-        </Route>
+    <ThemeProvider theme={theme}>
+      <GlobalStyles />
+      <BrowserRouter>
+        <Routes>
+          <Route element={<FullLayout />}>
+            <Route path="shop/create" element={<ShopCreatePage />} />
+          </Route>
 
-        <Route element={<AuthLayout />}>
-          <Route path="signup" element={<Signup />} />
-          <Route path="login" element={<Login />} />
-        </Route>
+          <Route element={<AuthLayout />}>
+            <Route path="signup" element={<Signup />} />
+            <Route path="login" element={<Login />} />
+          </Route>
 
-        <Route element={<EmployerLayout />}>
-          <Route path="shop/:id" element={<ShopDetailPage />} />
-        </Route>
+          <Route element={<EmployerLayout />}>
+            <Route path="shop/:id" element={<ShopDetailPage />} />
+          </Route>
 
-        <Route element={<UserLayout />}>
-          {/* 여기에 user 전용 라우트 추가 */}
-        </Route>
-      </Routes>
-    </BrowserRouter>
+          <Route element={<UserLayout />}>
+            <Route path="profile" element={<ProfilePage />} />
+            <Route path="profile/edit" element={<ProfileEditPage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

@@ -4,6 +4,7 @@ declare module 'styled-components' {
   export interface DefaultTheme {
     // 1. 색상 타입 정의
     colors: {
+      primary: string;
       black: string;
       gray50: string;
       gray40: string;

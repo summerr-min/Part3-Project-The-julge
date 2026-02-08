@@ -4,6 +4,7 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from '@/styles/theme';
 import { GlobalStyles } from '@/styles/GlobalStyles';
 import App from './App';
+import 'spoqa-han-sans/css/SpoqaHanSansNeo.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
