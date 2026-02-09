@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import IconLogo from '@/assets/icons/logo_icon.svg?react';
 
 // styled-components 모음
@@ -44,9 +44,9 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
     <PageStyles>
       <CardStyles>
         <LogoAreaStyles>
-          {/* <Link to="noticeList"> */}
-          <IconLogo />
-          {/* </Link> */}
+          <Link to="noticeList">
+            <IconLogo />
+          </Link>
         </LogoAreaStyles>
         {children}
       </CardStyles>
