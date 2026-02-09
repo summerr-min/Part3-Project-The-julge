@@ -1,16 +1,32 @@
 import styled from 'styled-components';
 
-/* == 페이지 컨테이너  */
+// 페이지 컨테이너
 export const PageContainer = styled.div`
   justify-content: center;
   margin: 0 auto;
   padding: 60px 238px;
+
+  /* 태블릿 (744px) */
+  @media (max-width: 744px) {
+    padding: 60px 32px;
+  }
+
+  /* 모바일 (375px) */
+  @media (max-width: 375px) {
+    padding: 40px 12px 80px;
+  }
 `;
-/* == 내 프로필  ==  */
+// == 내 프로필 타이틀
 export const Title = styled.h2`
   ${({ theme }) => theme.fonts.h1};
   color: ${({ theme }) => theme.colors.black};
   margin-bottom: 32px;
+
+  // 모바일
+  @media (max-width: 375px) {
+    ${({ theme }) => theme.fonts.h3};
+    margin-bottom: 24px;
+  }
 `;
 
 export const EmptyCard = styled.div`
@@ -57,6 +73,15 @@ export const InputGroup = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
+
+  @media (max-width: 744px) {
+    grid-template-columns: 1fr 1fr; // 태블릿은 2열
+  }
+
+  @media (max-width: 375px) {
+    grid-template-columns: 1fr; // 모바일은 1열
+    gap: 16px;
+  }
 `;
 
 // 라벨 (이름, 연락처, 선호지역, 소개)
@@ -85,7 +110,7 @@ export const TextAreaField = styled.textarea`
   margin-bottom: 80px;
   ${({ theme }) => theme.fonts.body1Regular};
 `;
-
+// 등록하기 버튼
 export const SubmitButton = styled.button`
   background-color: #ea3c12;
   color: ${({ theme }) => theme.colors.white};
@@ -93,6 +118,12 @@ export const SubmitButton = styled.button`
   border-radius: 6px;
   text-align: center;
   ${({ theme }) => theme.fonts.body1Bold};
+
+  white-space: nowrap; // 자동 줄바꿈 막음
+  /* 모바일 (375px) */
+  @media (max-width: 375px) {
+    width: 100%;
+  }
 `;
 
 export const ErrorMessage = styled.span`

@@ -1,72 +1,24 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CloseIcon from '@/assets/icons/close_icon.svg?react';
 import * as S from '@/pages/ProfilePage.style';
 import Dropdown from '@/components/user/Dropdown/Dropdown';
 import { SEOUL_DISTRICTS } from '@/constants/locations';
-interface ProfileFormData {
-  name: string;
-  phone: string;
-  bio: string;
-}
-
-interface ProfileErrors {
-  name: string;
-  phone: string;
-}
+import Modal from '@/components/common/Modal/Modal';
+import { useProfileForm } from '@/hooks/useProfileForm';
 
 function ProfileEditPage() {
   const navigate = useNavigate();
-  const [selectLocation, setSelectLocation] = useState('');
-  const [formData, setFormData] = useState<ProfileFormData>({
-    name: '',
-    phone: '',
-    bio: '',
-  });
-  const [errors, setErrors] = useState<ProfileErrors>({ name: '', phone: '' });
 
-  const phoneRegex = /^010-\d{4}-\d{4}$/; // 연락처 정규식
-
-  const validate = () => {
-    const newErrors = { name: '', phone: '' };
-    let isValid = true;
-
-    if (!formData.name.trim()) {
-      newErrors.name = '이름을 입력해 주세요.';
-      isValid = false;
-    }
-    // 연락처 체크
-    if (!formData.phone.trim()) {
-      newErrors.phone = '연락처를 입력해 주세요.';
-      isValid = false;
-    } else if (!phoneRegex.test(formData.phone)) {
-      newErrors.phone = '올바른 연락처 형식을 입력해 주세요.';
-      isValid = false;
-    }
-    setErrors(newErrors);
-    return isValid; // 성공 여부 반환
-  };
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault(); // 새로고침 막기
-
-    // 2. 제출 시 유효성 검사 실행
-    if (!validate()) return;
-
-    console.log('등록 데이터:', formData, selectLocation);
-    navigate('/profile');
-  };
-  // 3. Input값 변경 핸들러
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-
-    // : 프로필 등록 API 호출 넣어야함
-    console.log('선택된 지역:', selectLocation);
-    // 임시: 등록 완료 후 프로필 목록으로
-    //navigate('/profile');
-  };
+  const {
+    formData, // name,bio,phone
+    errors, //유효성 검사 에러 문구
+    modal,
+    setSelectLocation,
+    handleChange,
+    handleSubmit,
+    handleCloseModal,
+    checkError,
+  } = useProfileForm();
 
   return (
     <S.PageContainer>
@@ -84,7 +36,8 @@ function ProfileEditPage() {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              onBlur={validate} // 입력창 벗어날 떄 체크
+              // 포커스 나갔을 시 에러 체크
+              onBlur={() => checkError('name', formData.name)}
             />
             {errors.name && <S.ErrorMessage>{errors.name}</S.ErrorMessage>}
           </S.InputWrapper>
@@ -96,7 +49,7 @@ function ProfileEditPage() {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              onBlur={validate} // 입력창 벗어날 떄 체크
+              onBlur={() => checkError('phone', formData.phone)}
             />
             {errors.phone && <S.ErrorMessage>{errors.phone}</S.ErrorMessage>}
           </S.InputWrapper>
@@ -113,12 +66,20 @@ function ProfileEditPage() {
 
         <S.InputWrapper>
           <S.Label>소개</S.Label>
-          <S.TextAreaField placeholder="입력" />
+          <S.TextAreaField
+            placeholder="입력"
+            name="bio"
+            value={formData.bio}
+            onChange={handleChange}
+          />
           <div style={{ textAlign: 'center' }}>
             <S.SubmitButton type="submit">등록하기</S.SubmitButton>
           </div>
         </S.InputWrapper>
       </S.FormContainer>
+      {modal.isOpen && (
+        <Modal message={modal.message} onClose={handleCloseModal} />
+      )}
     </S.PageContainer>
   );
 }

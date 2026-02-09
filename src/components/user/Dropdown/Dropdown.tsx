@@ -7,6 +7,7 @@ interface DropdownProps {
   options: string[];
   placeholder?: string;
   onSelect: (item: string) => void;
+  isBlack?: boolean;
 }
 
 const Dropdown = ({

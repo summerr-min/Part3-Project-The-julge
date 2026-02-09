@@ -14,8 +14,8 @@ instance.interceptors.request.use(
     // 테스트 로그 (추후 삭제)
     console.log('현재 로컬스토리지 토큰:', token);
 
-    // 토큰 존재 시 모든 요청 헤더에 Authorization 항목 추가
-    if (token && config.headers) {
+    // 토큰이 유효할 때만 헤더에 추가
+    if (token && token !== 'undefined' && config.headers) {
       config.headers.Authorization = `Bearer ${token}`; // API 명세서 - Bearer 토큰값
       // 테스트 로그 (추후 삭제)
       console.log('최종 요청 헤더:', config.headers.Authorization);
