@@ -17,7 +17,7 @@ function ProfilePage() {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    navigate('/'); // 모달 확인 버튼을 누르면 메인으로 이동 (메인 추후 변경해야함!!)
+    navigate('/'); // 메인으로 이동 (추후 경로 변경해야함!!)
   };
 
   return (

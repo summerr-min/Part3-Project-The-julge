@@ -1,6 +1,5 @@
 // import { Outlet, useNavigate } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
-import Footer from '@/components/Footer/Footer';
 
 export function AuthLayout() {
   return (
@@ -34,7 +33,6 @@ export function UserLayout() {
           <Outlet />
         </div>
       </main>
-      <Footer />
     </div>
   );
 }
