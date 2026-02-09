@@ -41,10 +41,12 @@ export function FullLayout() {
   // const navigate = useNavigate();
 
   return (
-    <main>
-      <div>
-        <Outlet />
-      </div>
-    </main>
+    <>
+      <main>
+        <div>
+          <Outlet />
+        </div>
+      </main>
+    </>
   );
 }
