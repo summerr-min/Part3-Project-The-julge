@@ -9,7 +9,7 @@ export const Wrapper = styled.div<{ isClosed: boolean }>`
     ${({ theme, isClosed }) =>
       isClosed ? theme.colors.gray30 : theme.colors.gray20};
   width: 17.1rem;
-  background-color: ${({ theme }) => theme.colors.white}
+  background-color: ${({ theme }) => theme.colors.white};
   border-radius: 1.2rem;
 
   @media (min-width: 768px) {
