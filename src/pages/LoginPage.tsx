@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { signIn } from '@/api/auth';
+import { useAuth } from '@/hooks/useAuth';
 
 import AuthLayout, {
   ErrorText,
@@ -96,6 +97,9 @@ const Login = () => {
     validate();
   };
 
+  // 로그인 성공 후 전역 인증 상태를 갱신
+  const { login, refreshCurrentUser } = useAuth();
+
   // 로그인 제출 처리
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -106,10 +110,17 @@ const Login = () => {
     setIsSubmitting(true);
 
     try {
-      await signIn({
+      const res = await signIn({
         email: email.trim(),
-        password,
+        password: password.trim(),
       });
+
+      const token = res.item.token;
+      const userId = res.item.user.item.id;
+
+      // 로그인 이후 페이지에서 Navbar가 즉시 반응하도록 context에 저장
+      login({ token, userId });
+      await refreshCurrentUser();
 
       navigate('/noticeList');
     } catch (err: unknown) {
@@ -119,7 +130,6 @@ const Login = () => {
       setIsSubmitting(false);
     }
   };
-
   return (
     <AuthLayout>
       <Form onSubmit={handleSubmit}>
