@@ -8,6 +8,8 @@ import { DefaultTheme } from 'styled-components';
 export const theme: DefaultTheme = {
   // 색상, 폰트 규격
   colors: {
+    // 메인 컬러
+    primary: '#EA3C12',
     // Gray Scale
     black: '#111322',
     gray50: '#7D7986',
