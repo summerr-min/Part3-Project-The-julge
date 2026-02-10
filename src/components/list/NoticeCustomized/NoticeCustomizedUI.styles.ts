@@ -33,9 +33,10 @@ export const SectionName = styled.h2`
 
 export const CardsContainer = styled.div`
   margin: 0 auto;
-  overflow: auto;
+  overflow-x: auto;
   width: 100%;
   max-width: 96.4rem;
+  scroll-behavior: smooth;
 
   &::-webkit-scrollbar {
     display: none;
