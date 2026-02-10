@@ -1,5 +1,6 @@
 // import { Outlet, useNavigate } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
+import NavBar from '@/components/common/NavBar/NavBar';
 
 export function AuthLayout() {
   return (
@@ -16,6 +17,7 @@ export function AuthLayout() {
 export function EmployerLayout() {
   return (
     <div>
+      <NavBar />
       <main>
         <div>
           <Outlet />
@@ -28,6 +30,7 @@ export function EmployerLayout() {
 export function UserLayout() {
   return (
     <div>
+      <NavBar />
       <main>
         <div>
           <Outlet />
@@ -41,10 +44,13 @@ export function FullLayout() {
   // const navigate = useNavigate();
 
   return (
-    <main>
-      <div>
-        <Outlet />
-      </div>
-    </main>
+    <>
+      <NavBar />
+      <main>
+        <div>
+          <Outlet />
+        </div>
+      </main>
+    </>
   );
 }
