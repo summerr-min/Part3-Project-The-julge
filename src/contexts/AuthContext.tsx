@@ -9,6 +9,7 @@ type AuthUser = {
 
 type AuthContextValue = {
   isLoggedIn: boolean;
+
   token: string | null;
   currentUser: AuthUser | null;
   login: (args: {
