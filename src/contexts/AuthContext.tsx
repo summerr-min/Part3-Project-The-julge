@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import { fetchCurrentUser, UserType } from '@/api/user';
+import { fetchCurrentUser, UserType } from '@/api/authUser';
 
 type AuthUser = {
   id: string;
