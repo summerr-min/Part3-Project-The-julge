@@ -5,6 +5,7 @@ import { fetchCurrentUser, UserType } from '@/api/authUser';
 type AuthUser = {
   id: string;
   type: UserType;
+  shopId?: string;
 };
 
 type AuthContextValue = {
@@ -102,7 +103,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         localStorage.setItem(STORAGE_KEYS.userId, me.id);
         localStorage.setItem(STORAGE_KEYS.userType, me.type);
 
-        setCurrentUser({ id: me.id, type: me.type });
+        setCurrentUser({
+          id: me.id,
+          type: me.type,
+          shopId: me.shop?.id ?? undefined,
+        });
         setToken(savedToken);
       } catch (error) {
         if (isAuthError(error)) {
