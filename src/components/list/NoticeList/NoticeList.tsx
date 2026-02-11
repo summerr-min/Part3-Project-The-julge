@@ -5,14 +5,14 @@ import { Wrapper } from './NoticeList.styles';
 
 interface Props {
   type: 'customized' | 'entire';
-  items: Notice[];
+  items?: Notice[];
   count: number;
 }
 
 function NoticeList({ type, items, count }: Props) {
   return (
     <Wrapper type={type}>
-      {items.slice(0, count).map((notice) => {
+      {items?.slice(0, count).map((notice) => {
         const { id, wage, startsAt, workHour, closed, shop } = notice.item;
         const { name, address1, imageUrl, originalWage } = shop.item;
 
