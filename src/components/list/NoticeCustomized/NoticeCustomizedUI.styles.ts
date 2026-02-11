@@ -5,16 +5,19 @@ export const Wrapper = styled.div`
   gap: 1.6rem;
   flex-direction: column;
   padding: 4rem 1.2rem;
+  min-height: 40.5rem;
   background-color: ${({ theme }) => theme.colors.red10};
 
   @media (min-width: 768px) {
     gap: 3.2rem;
     padding: 6rem 3.2rem;
+    min-height: 53.2rem;
   }
 
   @media (min-width: 1200px) {
     gap: 3.2rem;
     padding: 6rem 0;
+    min-height: 53.2rem;
   }
 `;
 
