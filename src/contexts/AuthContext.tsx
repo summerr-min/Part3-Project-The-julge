@@ -9,6 +9,7 @@ type AuthUser = {
 
 type AuthContextValue = {
   isLoggedIn: boolean;
+
   token: string | null;
   currentUser: AuthUser | null;
   login: (args: {
@@ -24,6 +25,7 @@ type AuthContextValue = {
 export const AuthContext = createContext<AuthContextValue | null>(null);
 
 // 로컬 스토리지 키 정리
+
 const STORAGE_KEYS = {
   token: 'accessToken',
   userId: 'userId',
@@ -42,14 +44,15 @@ function isAuthError(error: unknown) {
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [token, setToken] = useState<string | null>(() =>
-    localStorage.getItem(STORAGE_KEYS.token)
-  );
+  const [token, setToken] = useState<string | null>(() => {
+    return localStorage.getItem(STORAGE_KEYS.token);
+  });
 
   const [currentUser, setCurrentUser] = useState<AuthUser | null>(() => {
     const id = localStorage.getItem(STORAGE_KEYS.userId);
     const savedType = localStorage.getItem(STORAGE_KEYS.userType);
     const type = isUserType(savedType) ? savedType : null;
+
     return id && type ? { id, type } : null;
   });
 

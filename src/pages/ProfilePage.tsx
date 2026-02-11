@@ -19,7 +19,6 @@ function ProfilePage() {
     setIsModalOpen(false);
     navigate('/'); // 메인으로 이동 (추후 경로 변경해야함!!)
   };
-
   return (
     <S.PageContainer>
       <S.Title>내 프로필</S.Title>
