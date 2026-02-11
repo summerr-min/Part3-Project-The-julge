@@ -1,3 +1,5 @@
+import { Address } from './address.types';
+
 export interface Shop {
   id: string;
   name: string;
@@ -32,4 +34,14 @@ export interface Item {
 export interface Notice {
   item: Item;
   links: Link[];
+}
+
+export interface NoticeData {
+  address: Address[];
+  count: number;
+  hasNext: boolean;
+  items: Notice[];
+  limit: number;
+  links: Link[];
+  offset: number;
 }
