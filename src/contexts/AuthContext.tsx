@@ -23,8 +23,8 @@ type AuthContextValue = {
 
 export const AuthContext = createContext<AuthContextValue | null>(null);
 
+// 로컬 스토리지 키 정리
 
-// localStorage 모음
 const STORAGE_KEYS = {
   token: 'accessToken',
   userId: 'userId',
@@ -54,18 +54,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return id && type ? { id, type } : null;
   });
 
-
   // 토큰과 유저 정보가 둘 다 있을 때만 로그인 상태
   const isLoggedIn = !!token && !!currentUser;
 
   const login: AuthContextValue['login'] = ({ token, userId, userType }) => {
-
     localStorage.setItem(STORAGE_KEYS.token, token);
     setToken(token);
 
     if (userId) localStorage.setItem(STORAGE_KEYS.userId, userId);
     if (userType) localStorage.setItem(STORAGE_KEYS.userType, userType);
-
 
     const id = userId ?? localStorage.getItem(STORAGE_KEYS.userId);
     const savedType = userType ?? localStorage.getItem(STORAGE_KEYS.userType);
