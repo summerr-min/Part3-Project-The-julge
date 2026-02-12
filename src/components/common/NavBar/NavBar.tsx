@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 
 import LogoIcon from '@/assets/icons/logo_icon.svg?react';
@@ -10,6 +11,7 @@ import { getMyShopId, hasUnreadAlerts } from '@/api/common';
 import * as S from './NavBar.styles';
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const { currentUser, logout } = useAuth();
 
   const isLoggedIn = !!currentUser;
@@ -50,6 +52,11 @@ const Navbar = () => {
       ? `/shops/${shopId}`
       : '/shops/register';
 
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
   return (
     <S.Header>
       <S.Nav>
@@ -71,7 +78,7 @@ const Navbar = () => {
             <>
               <S.MenuLink to={menuLink}>{accountLabel}</S.MenuLink>
 
-              <S.TextButton type="button" onClick={logout}>
+              <S.TextButton type="button" onClick={handleLogout}>
                 로그아웃
               </S.TextButton>
 
