@@ -2,6 +2,7 @@ import NoticeCard from '@/components/list/NoticeCard/NoticeCard';
 import formatWorkTime from '@/utils/formatWorkTime';
 import { Notice } from '@/types/notice.types';
 import { Wrapper } from './NoticeList.styles';
+import NotFoundNotice from '../NotFoundNotice/NotFoundNotice';
 
 interface Props {
   type: 'customized' | 'entire';
@@ -12,29 +13,39 @@ interface Props {
 function NoticeList({ type, items, count }: Props) {
   return (
     <Wrapper type={type}>
+<<<<<<< HEAD
       {items?.slice(0, count).map((notice) => {
         const { id, wage, startsAt, workHour, closed, shop } = notice.item;
         const { name, address1, imageUrl, originalWage } = shop.item;
+=======
+      {items && items?.length > 0 ? (
+        items.slice(0, count).map((notice: Notice) => {
+          const { id, wage, startsAt, workHour, closed, shop } = notice.item;
+          const { name, address1, imageUrl, originalWage } = shop.item;
+>>>>>>> 33f716660a58d2cceb0c4b96e3dff562e65f933e
 
-        const formattedWorkTime = formatWorkTime({
-          startsAt,
-          workHour: workHour,
-        });
+          const formattedWorkTime = formatWorkTime({
+            startsAt,
+            workHour: workHour,
+          });
 
-        return (
-          <li key={id}>
-            <NoticeCard
-              cardImageUrl={imageUrl}
-              restaurantName={name}
-              duration={formattedWorkTime}
-              address={address1}
-              defaultWage={originalWage}
-              currentWage={wage}
-              isClosed={closed}
-            />
-          </li>
-        );
-      })}
+          return (
+            <li key={id}>
+              <NoticeCard
+                cardImageUrl={imageUrl}
+                restaurantName={name}
+                duration={formattedWorkTime}
+                address={address1}
+                defaultWage={originalWage}
+                currentWage={wage}
+                isClosed={closed}
+              />
+            </li>
+          );
+        })
+      ) : (
+        <NotFoundNotice />
+      )}
     </Wrapper>
   );
 }

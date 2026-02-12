@@ -5,6 +5,10 @@ import { fetchCurrentUser, UserType } from '@/api/authUser';
 type AuthUser = {
   id: string;
   type: UserType;
+<<<<<<< HEAD
+=======
+  shopId?: string;
+>>>>>>> 33f716660a58d2cceb0c4b96e3dff562e65f933e
 };
 
 type AuthContextValue = {
