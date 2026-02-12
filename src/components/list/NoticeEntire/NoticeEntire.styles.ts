@@ -3,11 +3,7 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
   display: flex;
   gap: 1.5rem;
-<<<<<<< HEAD
   align-items: flex-start;
-=======
-  align-items: center;
->>>>>>> 33f716660a58d2cceb0c4b96e3dff562e65f933e
   flex-direction: column;
   min-width: 35.1rem;
 
@@ -24,10 +20,6 @@ export const Wrapper = styled.div`
 
 export const SectionContainer = styled.div`
   display: flex;
-<<<<<<< HEAD
-=======
-  gap: 1.6rem;
->>>>>>> 33f716660a58d2cceb0c4b96e3dff562e65f933e
   align-items: flex-start;
   flex-direction: column;
   width: 100%;
