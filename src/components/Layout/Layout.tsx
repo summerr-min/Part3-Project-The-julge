@@ -45,7 +45,6 @@ export function FullLayout() {
 
   return (
     <>
-      <NavBar />
       <main>
         <div>
           <Outlet />

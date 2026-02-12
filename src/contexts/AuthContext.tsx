@@ -9,7 +9,6 @@ type AuthUser = {
 
 type AuthContextValue = {
   isLoggedIn: boolean;
-
   token: string | null;
   currentUser: AuthUser | null;
   login: (args: {
@@ -44,15 +43,14 @@ function isAuthError(error: unknown) {
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [token, setToken] = useState<string | null>(() => {
-    return localStorage.getItem(STORAGE_KEYS.token);
-  });
+  const [token, setToken] = useState<string | null>(() =>
+    localStorage.getItem(STORAGE_KEYS.token)
+  );
 
   const [currentUser, setCurrentUser] = useState<AuthUser | null>(() => {
     const id = localStorage.getItem(STORAGE_KEYS.userId);
     const savedType = localStorage.getItem(STORAGE_KEYS.userType);
     const type = isUserType(savedType) ? savedType : null;
-
     return id && type ? { id, type } : null;
   });
 
