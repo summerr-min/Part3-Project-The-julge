@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { signUp } from '@/api/auth';
@@ -12,6 +12,46 @@ import AuthModal from '@/components/common/Modal/Modal';
 
 type UserType = 'employee' | 'employer';
 
+type FieldProps = {
+  id: string;
+  label: string;
+  type: string;
+  value: string;
+  error: string | null;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur: () => void;
+};
+
+const Field = React.memo(function Field({
+  id,
+  label,
+  type,
+  value,
+  error,
+  onChange,
+  onBlur,
+}: FieldProps) {
+  return (
+    <A.FieldStyles>
+      <A.LabelStyles htmlFor={id}>{label}</A.LabelStyles>
+      <A.InputStyles
+        id={id}
+        type={type}
+        placeholder="입력"
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+        $error={!!error}
+      />
+      {error && <A.ErrorTextStyles>{error}</A.ErrorTextStyles>}
+    </A.FieldStyles>
+  );
+});
+
+function isValidEmail(value: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
 const Signup = () => {
   const navigate = useNavigate();
 
@@ -24,9 +64,9 @@ const Signup = () => {
   // 에러 상태
   const [emailError, setEmailError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
-  const [passwordConfirmError, setPasswordConfirmError] = useState<string | null>(
-    null
-  );
+  const [passwordConfirmError, setPasswordConfirmError] = useState<
+    string | null
+  >(null);
 
   // 제출 상태
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -38,167 +78,189 @@ const Signup = () => {
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [successModalMessage, setSuccessModalMessage] = useState('');
 
-  // 유효성 검사
-  const isValidEmail = (value: string) =>
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  const validateEmail = useCallback((raw: string) => {
+    const v = raw.trim();
+    if (v.length === 0) return '이메일을 입력해주세요.';
+    if (!isValidEmail(v)) return '이메일 형식으로 작성해주세요.';
+    return null;
+  }, []);
 
-  const validate = () => {
-    let hasError = false;
+  const validatePassword = useCallback((raw: string) => {
+    const v = raw.trim();
+    if (v.length === 0) return '비밀번호를 입력해주세요.';
+    if (v.length < 8) return '8자 이상 입력해주세요.';
+    return null;
+  }, []);
 
-    const trimmedEmail = email.trim();
-    const trimmedPassword = password.trim();
-    const trimmedPasswordConfirm = passwordConfirm.trim();
+  const validatePasswordConfirm = useCallback(
+    (pwRaw: string, confirmRaw: string) => {
+      const pw = pwRaw.trim();
+      const confirm = confirmRaw.trim();
 
-    if (trimmedEmail.length === 0) {
-      setEmailError(null);
-      hasError = true;
-    } else if (!isValidEmail(trimmedEmail)) {
-      setEmailError('이메일 형식으로 작성해주세요.');
-      hasError = true;
-    } else {
-      setEmailError(null);
-    }
-
-    if (trimmedPassword.length === 0) {
-      setPasswordError(null);
-      hasError = true;
-    } else if (trimmedPassword.length < 8) {
-      setPasswordError('8자 이상 입력해주세요.');
-      hasError = true;
-    } else {
-      setPasswordError(null);
-    }
-
-    if (trimmedPasswordConfirm.length === 0) {
-      setPasswordConfirmError(null);
-      hasError = true;
-    } else if (trimmedPassword !== trimmedPasswordConfirm) {
-      setPasswordConfirmError('비밀번호가 일치하지 않습니다.');
-      hasError = true;
-    } else {
-      setPasswordConfirmError(null);
-    }
-
-    return !hasError;
-  };
+      if (confirm.length === 0) return '비밀번호 확인을 입력해주세요.';
+      if (pw !== confirm) return '비밀번호가 일치하지 않습니다.';
+      return null;
+    },
+    []
+  );
 
   // 버튼 활성화 조건
-  const canSubmit =
-    email.trim().length > 0 &&
-    password.trim().length > 0 &&
-    passwordConfirm.trim().length > 0 &&
-    !emailError &&
-    !passwordError &&
-    !passwordConfirmError;
+  const canSubmit = useMemo(() => {
+    return (
+      email.trim().length > 0 &&
+      password.trim().length > 0 &&
+      passwordConfirm.trim().length > 0 &&
+      !emailError &&
+      !passwordError &&
+      !passwordConfirmError
+    );
+  }, [
+    email,
+    password,
+    passwordConfirm,
+    emailError,
+    passwordError,
+    passwordConfirmError,
+  ]);
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-    if (emailError) setEmailError(null);
-  };
+  const handleEmailChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setEmail(e.target.value);
+      if (emailError) setEmailError(null);
+    },
+    [emailError]
+  );
 
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-    if (passwordError) setPasswordError(null);
-    if (passwordConfirmError) setPasswordConfirmError(null);
-  };
+  const handlePasswordChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const next = e.target.value;
+      setPassword(next);
 
-  const handlePasswordConfirmChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPasswordConfirm(e.target.value);
-    if (passwordConfirmError) setPasswordConfirmError(null);
-  };
+      if (passwordError) setPasswordError(null);
+      if (passwordConfirmError) setPasswordConfirmError(null);
+    },
+    [passwordError, passwordConfirmError]
+  );
 
-  const handleEmailBlur = () => validate();
-  const handlePasswordBlur = () => validate();
-  const handlePasswordConfirmBlur = () => validate();
+  const handlePasswordConfirmChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setPasswordConfirm(e.target.value);
+      if (passwordConfirmError) setPasswordConfirmError(null);
+    },
+    [passwordConfirmError]
+  );
 
-  const handleEmployeeClick = () => setUserType('employee');
-  const handleEmployerClick = () => setUserType('employer');
+  const handleEmailBlur = useCallback(() => {
+    setEmailError(validateEmail(email));
+  }, [email, validateEmail]);
 
-  const handleCloseErrorModal = () => {
+  const handlePasswordBlur = useCallback(() => {
+    setPasswordError(validatePassword(password));
+  }, [password, validatePassword]);
+
+  const handlePasswordConfirmBlur = useCallback(() => {
+    setPasswordConfirmError(validatePasswordConfirm(password, passwordConfirm));
+  }, [password, passwordConfirm, validatePasswordConfirm]);
+
+  const handleEmployeeClick = useCallback(() => setUserType('employee'), []);
+  const handleEmployerClick = useCallback(() => setUserType('employer'), []);
+
+  const handleCloseErrorModal = useCallback(() => {
     setIsErrorModalOpen(false);
     setErrorModalMessage('');
-  };
+  }, []);
 
-  const handleCloseSuccessModal = () => {
+  const handleCloseSuccessModal = useCallback(() => {
     setIsSuccessModalOpen(false);
     setSuccessModalMessage('');
     navigate('/login');
-  };
+  }, [navigate]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (isSubmitting) return;
-    if (!validate()) return;
+  const validateAll = useCallback(() => {
+    const nextEmailError = validateEmail(email);
+    const nextPasswordError = validatePassword(password);
+    const nextPasswordConfirmError = validatePasswordConfirm(
+      password,
+      passwordConfirm
+    );
 
-    setIsSubmitting(true);
+    setEmailError(nextEmailError);
+    setPasswordError(nextPasswordError);
+    setPasswordConfirmError(nextPasswordConfirmError);
 
-    try {
-      await signUp({
-        email: email.trim(),
-        password,
-        type: userType,
-      });
+    return !nextEmailError && !nextPasswordError && !nextPasswordConfirmError;
+  }, [
+    email,
+    password,
+    passwordConfirm,
+    validateEmail,
+    validatePassword,
+    validatePasswordConfirm,
+  ]);
 
-      setSuccessModalMessage('가입이 완료되었습니다!');
-      setIsSuccessModalOpen(true);
-    } catch (err: unknown) {
-      if (axios.isAxiosError(err) && err.response?.status === 409) {
-        setErrorModalMessage('이미 사용중인 이메일입니다.');
-      } else {
-        setErrorModalMessage('회원가입에 실패했습니다.');
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      if (isSubmitting) return;
+      if (!validateAll()) return;
+
+      setIsSubmitting(true);
+
+      try {
+        await signUp({
+          email: email.trim(),
+          password,
+          type: userType,
+        });
+
+        setSuccessModalMessage('가입이 완료되었습니다!');
+        setIsSuccessModalOpen(true);
+      } catch (err: unknown) {
+        if (axios.isAxiosError(err) && err.response?.status === 409) {
+          setErrorModalMessage('이미 사용중인 이메일입니다.');
+        } else {
+          setErrorModalMessage('회원가입에 실패했습니다.');
+        }
+        setIsErrorModalOpen(true);
+      } finally {
+        setIsSubmitting(false);
       }
-      setIsErrorModalOpen(true);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+    },
+    [email, password, userType, isSubmitting, validateAll]
+  );
 
   return (
     <AuthLayout>
       <A.FormStyles onSubmit={handleSubmit}>
-        <A.FieldStyles>
-          <A.LabelStyles htmlFor="email">이메일</A.LabelStyles>
-          <A.InputStyles
-            id="email"
-            type="email"
-            placeholder="입력"
-            value={email}
-            onChange={handleEmailChange}
-            onBlur={handleEmailBlur}
-            $error={!!emailError}
-          />
-          {emailError && <A.ErrorTextStyles>{emailError}</A.ErrorTextStyles>}
-        </A.FieldStyles>
+        <Field
+          id="email"
+          label="이메일"
+          type="email"
+          value={email}
+          error={emailError}
+          onChange={handleEmailChange}
+          onBlur={handleEmailBlur}
+        />
 
-        <A.FieldStyles>
-          <A.LabelStyles htmlFor="password">비밀번호</A.LabelStyles>
-          <A.InputStyles
-            id="password"
-            type="password"
-            placeholder="입력"
-            value={password}
-            onChange={handlePasswordChange}
-            onBlur={handlePasswordBlur}
-            $error={!!passwordError}
-          />
-          {passwordError && <A.ErrorTextStyles>{passwordError}</A.ErrorTextStyles>}
-        </A.FieldStyles>
+        <Field
+          id="password"
+          label="비밀번호"
+          type="password"
+          value={password}
+          error={passwordError}
+          onChange={handlePasswordChange}
+          onBlur={handlePasswordBlur}
+        />
 
-        <A.FieldStyles>
-          <A.LabelStyles htmlFor="passwordConfirm">비밀번호 확인</A.LabelStyles>
-          <A.InputStyles
-            id="passwordConfirm"
-            type="password"
-            placeholder="입력"
-            value={passwordConfirm}
-            onChange={handlePasswordConfirmChange}
-            onBlur={handlePasswordConfirmBlur}
-            $error={!!passwordConfirmError}
-          />
-          {passwordConfirmError && (
-            <A.ErrorTextStyles>{passwordConfirmError}</A.ErrorTextStyles>
-          )}
-        </A.FieldStyles>
+        <Field
+          id="passwordConfirm"
+          label="비밀번호 확인"
+          type="password"
+          value={passwordConfirm}
+          error={passwordConfirmError}
+          onChange={handlePasswordConfirmChange}
+          onBlur={handlePasswordConfirmBlur}
+        />
 
         <A.ToggleWrapStyles>
           <A.LabelStyles as="div">회원 유형</A.LabelStyles>
@@ -246,11 +308,17 @@ const Signup = () => {
       </A.FooterStyles>
 
       {isErrorModalOpen && (
-        <AuthModal message={errorModalMessage} onClose={handleCloseErrorModal} />
+        <AuthModal
+          message={errorModalMessage}
+          onClose={handleCloseErrorModal}
+        />
       )}
 
       {isSuccessModalOpen && (
-        <AuthModal message={successModalMessage} onClose={handleCloseSuccessModal} />
+        <AuthModal
+          message={successModalMessage}
+          onClose={handleCloseSuccessModal}
+        />
       )}
     </AuthLayout>
   );
