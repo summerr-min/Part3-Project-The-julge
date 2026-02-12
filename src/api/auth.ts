@@ -15,6 +15,8 @@ export async function signUp(body: {
 export async function signIn(body: { email: string; password: string }) {
   const res = await instance.post('/token', body);
 
+  console.log('로그인 userProfile:', res.data.item.user.item);
+
   localStorage.setItem('accessToken', res.data.item.token);
 
   localStorage.setItem('userId', res.data.item.user.item.id);

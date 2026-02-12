@@ -25,6 +25,7 @@ type AuthContextValue = {
 
 export const AuthContext = createContext<AuthContextValue | null>(null);
 
+
 // localStorage 모음
 const STORAGE_KEYS = {
   token: 'accessToken',
@@ -56,28 +57,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return id && type ? { id, type } : null;
   });
 
-  const isLoggedIn = !!token;
+
+  // 토큰과 유저 정보가 둘 다 있을 때만 로그인 상태
+  const isLoggedIn = !!token && !!currentUser;
 
   const login: AuthContextValue['login'] = ({ token, userId, userType }) => {
-    // 로그인하면 토큰 저장
+
     localStorage.setItem(STORAGE_KEYS.token, token);
     setToken(token);
 
     if (userId) localStorage.setItem(STORAGE_KEYS.userId, userId);
     if (userType) localStorage.setItem(STORAGE_KEYS.userType, userType);
 
-    // Navbar 바로 바뀌게
-    const id = userId ?? localStorage.getItem(STORAGE_KEYS.userId);
-    const type =
-      userType ??
-      (() => {
-        const saved = localStorage.getItem(STORAGE_KEYS.userType);
-        return isUserType(saved) ? saved : null;
-      })();
 
-    if (id && type) {
-      setCurrentUser({ id, type });
-    }
+    const id = userId ?? localStorage.getItem(STORAGE_KEYS.userId);
+    const savedType = userType ?? localStorage.getItem(STORAGE_KEYS.userType);
+    const type = isUserType(savedType) ? savedType : null;
+
+    if (id && type) setCurrentUser({ id, type });
   };
 
   const logout: AuthContextValue['logout'] = () => {
@@ -91,36 +88,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const refreshCurrentUser: AuthContextValue['refreshCurrentUser'] =
     async () => {
-      const savedToken = localStorage.getItem(STORAGE_KEYS.token);
-      const userId = localStorage.getItem(STORAGE_KEYS.userId);
-
-      if (!savedToken || !userId) return;
+      if (!token || currentUser) return;
 
       try {
+        const userId = localStorage.getItem(STORAGE_KEYS.userId);
+        if (!userId) return;
+
         const res = await fetchCurrentUser(userId);
-        const me = res.item;
+        const me = res?.item;
+        if (!me?.id || !me?.type) return;
 
         localStorage.setItem(STORAGE_KEYS.userId, me.id);
         localStorage.setItem(STORAGE_KEYS.userType, me.type);
 
-        setCurrentUser({
-          id: me.id,
-          type: me.type,
-          shopId: me.shop?.id ?? undefined,
-        });
-        setToken(savedToken);
+        setCurrentUser({ id: me.id, type: me.type });
       } catch (error) {
-        if (isAuthError(error)) {
-          logout();
-        }
+        if (isAuthError(error)) logout();
       }
     };
 
   useEffect(() => {
-    // 토큰은 있는데 유저 정보가 없으면 한번 불러옴
-    if (token && !currentUser) {
-      refreshCurrentUser();
-    }
+    if (token && !currentUser) refreshCurrentUser();
+    // deps 경고 무시
   }, [token, currentUser]);
 
   const value: AuthContextValue = {
