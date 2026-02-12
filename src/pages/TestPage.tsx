@@ -111,24 +111,24 @@ export default function TableSplitTestPage() {
             ))}
           </>
         }
-  rightChildren={
-  <>
-    {pagedRows.map((r) => (
-      <tr key={r.id}>
-        <S.StatusTdStyles>
-          {r.status === '대기중' ? (
-            <ButtonRowStyles>
-              <OutlineButtonStyles>수정</OutlineButtonStyles>
-              <OutlineButtonStyles>완료</OutlineButtonStyles>
-            </ButtonRowStyles>
-          ) : (
-            <span>{r.status}</span>
-          )}
-        </S.StatusTdStyles>
-      </tr>
-    ))}
-  </>
-}
+        rightChildren={
+          <>
+            {pagedRows.map((r) => (
+              <tr key={r.id}>
+                <S.StatusTdStyles>
+                  {r.status === '대기중' ? (
+                    <ButtonRowStyles>
+                      <OutlineButtonStyles>수정</OutlineButtonStyles>
+                      <OutlineButtonStyles>완료</OutlineButtonStyles>
+                    </ButtonRowStyles>
+                  ) : (
+                    <span>{r.status}</span>
+                  )}
+                </S.StatusTdStyles>
+              </tr>
+            ))}
+          </>
+        }
       />
     </div>
   );
