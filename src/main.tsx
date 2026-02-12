@@ -8,13 +8,16 @@ import App from './App';
 import 'spoqa-han-sans/css/SpoqaHanSansNeo.css';
 
 import { AuthProvider } from './contexts/AuthContext';
+import { ToastProvider } from './components/common/Toast/Toast';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <AuthProvider>
-        <App />
+        <ToastProvider>
+          <App />
+        </ToastProvider>
       </AuthProvider>
     </ThemeProvider>
   </StrictMode>
