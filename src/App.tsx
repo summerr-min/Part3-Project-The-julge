@@ -10,6 +10,7 @@ import ShopDetailPage from './pages/ShopDetailPage';
 import ShopCreatePage from './pages/ShopCreatePage';
 import ProfilePage from './pages/ProfilePage';
 import ProfileEditPage from './pages/ProfileEditPage';
+import ProfileDetailsPage from './pages/ProfileDetailsPage';
 
 import Signup from './pages/SignupPage';
 import Login from './pages/LoginPage';
@@ -40,6 +41,7 @@ function App() {
           <Route element={<UserLayout />}>
             <Route path="profile" element={<ProfilePage />} />
             <Route path="profile/edit" element={<ProfileEditPage />} />
+            <Route path="profile/details" element={<ProfileDetailsPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

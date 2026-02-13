@@ -1,6 +1,7 @@
 // import { Outlet, useNavigate } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
 import NavBar from '@/components/common/NavBar/NavBar';
+import { ProfileStorage } from '@/contexts/ProfileContext';
 
 export function AuthLayout() {
   return (
@@ -33,7 +34,9 @@ export function UserLayout() {
       <NavBar />
       <main>
         <div>
-          <Outlet />
+          <ProfileStorage>
+            <Outlet />
+          </ProfileStorage>
         </div>
       </main>
     </div>
