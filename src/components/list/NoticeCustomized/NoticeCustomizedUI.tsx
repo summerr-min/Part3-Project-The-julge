@@ -4,7 +4,7 @@ import {
   SectionContainer,
   SectionName,
   CardsContainer,
-} from './CustomizedNoticeUI.styles';
+} from './NoticeCustomizedUI.styles';
 
 interface Props {
   containerRef: React.RefObject<HTMLDivElement>;
@@ -12,15 +12,17 @@ interface Props {
   onMouseLeave: () => void;
   onMouseUp: () => void;
   onMouseMove: (e: MouseEvent<HTMLDivElement>) => void;
+  onMouseEnter: () => void;
   children: ReactNode;
 }
 
-function CustomizedNoticeUI({
+function NoticeCustomizedUI({
   containerRef,
   onMouseDown,
   onMouseLeave,
   onMouseUp,
   onMouseMove,
+  onMouseEnter,
   children,
 }: Props) {
   return (
@@ -34,6 +36,7 @@ function CustomizedNoticeUI({
         onMouseLeave={onMouseLeave}
         onMouseUp={onMouseUp}
         onMouseMove={onMouseMove}
+        onMouseEnter={onMouseEnter}
       >
         {children}
       </CardsContainer>
@@ -41,4 +44,4 @@ function CustomizedNoticeUI({
   );
 }
 
-export default CustomizedNoticeUI;
+export default NoticeCustomizedUI;

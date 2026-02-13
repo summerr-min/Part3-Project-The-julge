@@ -2,42 +2,42 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   display: flex;
-  gap: 1.6rem;
+  gap: 1.5rem;
+  align-items: flex-start;
   flex-direction: column;
-  padding: 4rem 1.2rem;
-  background-color: ${({ theme }) => theme.colors.red10};
+  min-width: 35.1rem;
 
   @media (min-width: 768px) {
     gap: 3.2rem;
-    padding: 6rem 3.2rem;
+    min-width: 68rem;
   }
 
   @media (min-width: 1200px) {
     gap: 3.2rem;
-    padding: 6rem 0;
+    min-width: 96.4rem;
   }
 `;
 
 export const SectionContainer = styled.div`
-  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
   width: 100%;
-  max-width: 96.4rem;
+
+  @media (min-width: 768px) {
+    justify-content: space-between;
+    flex-direction: row;
+  }
+
+  @media (min-width: 1200px) {
+    justify-content: space-between;
+    flex-direction: row;
+  }
 `;
 
 export const SectionName = styled.h2`
   font-size: 2.8rem;
   font-weight: 700;
-  color: ${({ theme }) => theme.colors.black};
+  color: var(--black);
   letter-spacing: 0.056rem;
-`;
-
-export const CardsContainer = styled.div`
-  margin: 0 auto;
-  overflow: auto;
-  width: 100%;
-  max-width: 96.4rem;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
 `;

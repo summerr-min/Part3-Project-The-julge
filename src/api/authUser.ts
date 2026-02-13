@@ -1,8 +1,3 @@
-import instance from './axios';
-
+import { getMyProfile as fetchCurrentUser } from './user';
+export { fetchCurrentUser };
 export type UserType = 'employee' | 'employer';
-
-export async function fetchCurrentUser(userId: string) {
-  const res = await instance.get(`/users/${userId}`);
-  return res.data;
-}

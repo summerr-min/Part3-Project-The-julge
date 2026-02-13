@@ -26,9 +26,15 @@ export const ModalStyles = styled.div`
 export const MessageStyles = styled.p`
   font-weight: 500;
   font-size: 18px;
-  line-height: 100%;
+  line-height: 26px;
   color: #333236;
   text-align: center;
+
+  max-width: 350px;
+
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  white-space: normal;
 `;
 
 export const ButtonWrapperStyles = styled.div`

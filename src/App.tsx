@@ -12,6 +12,7 @@ import ProfilePage from './pages/ProfilePage';
 import ProfileEditPage from './pages/ProfileEditPage';
 import ProfileDetailsPage from './pages/ProfileDetailsPage';
 
+import TestPage from './pages/TestPage';
 import Signup from './pages/SignupPage';
 import Login from './pages/LoginPage';
 
@@ -32,6 +33,7 @@ function App() {
           <Route element={<AuthLayout />}>
             <Route path="signup" element={<Signup />} />
             <Route path="login" element={<Login />} />
+            <Route path="/test" element={<TestPage />} />
           </Route>
 
           <Route element={<EmployerLayout />}>

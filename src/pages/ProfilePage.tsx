@@ -53,6 +53,7 @@ function ProfilePage() {
   };
 
   if (profile?.isLoading) return null;
+
   return (
     <S.PageContainer>
       <S.Title>내 프로필</S.Title>
