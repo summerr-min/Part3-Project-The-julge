@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
+import { useState } from 'react';
 import * as S from './Table.styles';
+import Pagination from '@/components/common/Pagination/Pagination';
 
-// 각 페이지에서 headers 배열로 만들어서 넘겨줌
 export type TableHeader = {
   key: string;
   label: string;
@@ -9,52 +10,112 @@ export type TableHeader = {
 
 type TableProps = {
   headers: TableHeader[];
-  children: ReactNode;
+  leftChildren: ReactNode;
+  rightChildren: ReactNode;
   dataLength: number;
   fixedRowCount?: number;
+
+  totalPages: number;
+  currentPage?: number;
+  onChangePage?: (page: number) => void;
 };
 
 export default function Table({
   headers,
-  children,
+  leftChildren,
+  rightChildren,
   dataLength,
-  fixedRowCount = 5, // 기본 5줄 고정
+  fixedRowCount = 5,
+  totalPages,
+  currentPage,
+  onChangePage,
 }: TableProps) {
-  // 5줄이 안될 때 빈 줄 채우기
-  let emptyRowCount = 0;
+  const [innerPage, setInnerPage] = useState(1);
+  const page = currentPage ?? innerPage;
 
-  if (dataLength < fixedRowCount) {
-    emptyRowCount = fixedRowCount - dataLength;
+  const handleChangePage = (nextPage: number) => {
+    if (onChangePage) {
+      onChangePage(nextPage);
+      return;
+    }
+    setInnerPage(nextPage);
+  };
+
+  // status 컬럼 분리
+  const leftHeaders: TableHeader[] = [];
+  let statusHeader: TableHeader | undefined;
+
+  for (const h of headers) {
+    if (h.key === 'status') statusHeader = h;
+    else leftHeaders.push(h);
   }
 
-  const emptyRows: number[] = [];
+  // 빈 줄 계산
+  const emptyRowCount =
+    dataLength < fixedRowCount ? fixedRowCount - dataLength : 0;
+
+  const emptyRowIndexes: number[] = [];
   for (let i = 0; i < emptyRowCount; i++) {
-    emptyRows.push(i);
+    emptyRowIndexes.push(i);
   }
 
   return (
     <S.WrapperStyles>
-      <S.TableStyles>
-        <S.TheadStyles>
-          <tr>
-            {headers.map((header) => (
-              <S.ThStyles key={header.key}>{header.label}</S.ThStyles>
-            ))}
-          </tr>
-        </S.TheadStyles>
+      <S.LayoutStyles>
+        <S.ScrollAreaStyles>
+          <S.TableStyles>
+            <S.TheadStyles>
+              <tr>
+                {leftHeaders.map((h) => (
+                  <S.ThStyles key={h.key}>{h.label}</S.ThStyles>
+                ))}
+              </tr>
+            </S.TheadStyles>
 
-        <tbody>
-          {children}
+            <tbody>
+              {leftChildren}
 
-          {emptyRows.map((index) => (
-            <tr key={`empty-row-${index}`}>
-              {headers.map((header) => (
-                <S.TdStyles key={`empty-${index}-${header.key}`} />
+              {emptyRowIndexes.map((i) => (
+                <tr key={`empty-left-${i}`}>
+                  {leftHeaders.map((h) => (
+                    <S.TdStyles key={`empty-left-${i}-${h.key}`} />
+                  ))}
+                </tr>
               ))}
-            </tr>
-          ))}
-        </tbody>
-      </S.TableStyles>
+            </tbody>
+          </S.TableStyles>
+        </S.ScrollAreaStyles>
+
+        <S.FixedAreaStyles>
+          <S.FixedTableStyles>
+            <S.FixedTheadStyles>
+              <tr>
+                <S.StatusThStyles>
+                  {statusHeader ? statusHeader.label : ''}
+                </S.StatusThStyles>
+              </tr>
+            </S.FixedTheadStyles>
+
+            <tbody>
+              {rightChildren}
+
+              {emptyRowIndexes.map((i) => (
+                <tr key={`empty-right-${i}`}>
+                  <S.StatusTdStyles />
+                </tr>
+              ))}
+            </tbody>
+          </S.FixedTableStyles>
+        </S.FixedAreaStyles>
+      </S.LayoutStyles>
+
+      <S.PaginationWrapperStyles>
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          onPageClick={handleChangePage}
+        />
+      </S.PaginationWrapperStyles>
     </S.WrapperStyles>
   );
 }
