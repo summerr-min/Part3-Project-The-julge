@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -8,6 +8,7 @@ import NotiOffIcon from '@/assets/icons/noti_icon_off.svg?react';
 import SearchIcon from '@/assets/icons/search_icon.svg?react';
 
 import { getMyShopId, hasUnreadAlerts } from '@/api/common';
+import Noti from '@/components/common/Noti/Noti';
 import * as S from './NavBar.styles';
 
 const Navbar = () => {
@@ -16,32 +17,54 @@ const Navbar = () => {
 
   const isLoggedIn = !!currentUser;
   const isEmployer = currentUser?.type === 'employer';
+  const isEmployee = currentUser?.type === 'employee';
 
   const [shopId, setShopId] = useState<string | null>(null);
   const [hasUnread, setHasUnread] = useState(false);
+  const [isNotiOpen, setIsNotiOpen] = useState(false);
+
+  const notiButtonRef = useRef<HTMLButtonElement | null>(null);
+  const notiId = useId();
 
   useEffect(() => {
-    if (!currentUser?.id) {
+    const userId = currentUser?.id;
+
+    if (!userId) {
       setHasUnread(false);
       setShopId(null);
+      setIsNotiOpen(false);
       return;
     }
 
-    const userId = currentUser.id;
+    const fetchData = async () => {
+      // 알바생만 unread 체크
+      if (isEmployee) {
+        const unread = await hasUnreadAlerts(userId).catch(() => false);
+        setHasUnread(unread);
+      } else {
+        setHasUnread(false);
+      }
 
-    // 알림 여부, 사장님이면 shopId를 동시에 조회
-    (async () => {
-      const [unread, shop] = await Promise.all([
-        hasUnreadAlerts(userId).catch(() => false),
-        isEmployer
-          ? getMyShopId(userId).catch(() => null)
-          : Promise.resolve(null),
-      ]);
+      // 사장님만 shopId 체크
+      if (isEmployer) {
+        const shop = await getMyShopId(userId).catch(() => null);
+        setShopId(shop);
+      } else {
+        setShopId(null);
+      }
+    };
 
-      setHasUnread(unread);
-      setShopId(shop);
-    })();
-  }, [currentUser?.id, isEmployer]);
+    fetchData();
+  }, [currentUser?.id, isEmployer, isEmployee]);
+
+  const handleNotiClick = () => {
+    if (!isEmployee) return;
+    setIsNotiOpen((prev) => !prev);
+  };
+
+  const handleNotiClose = () => {
+    setIsNotiOpen(false);
+  };
 
   const accountLabel = isEmployer ? '내 가게' : '내 프로필';
 
@@ -82,9 +105,24 @@ const Navbar = () => {
                 로그아웃
               </S.TextButton>
 
-              <S.IconButton type="button" aria-label="알림">
-                {hasUnread ? <NotiOnIcon /> : <NotiOffIcon />}
-              </S.IconButton>
+              <S.NotiWrapperStyles>
+                <S.IconButton
+                  ref={notiButtonRef}
+                  type="button"
+                  onClick={handleNotiClick}
+                  disabled={!isEmployee}
+                >
+                  {hasUnread ? <NotiOnIcon /> : <NotiOffIcon />}
+                </S.IconButton>
+
+                {isNotiOpen && (
+                  <Noti
+                    id={notiId}
+                    buttonRef={notiButtonRef}
+                    onClose={handleNotiClose}
+                  />
+                )}
+              </S.NotiWrapperStyles>
             </>
           ) : (
             <S.AuthFrame>

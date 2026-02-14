@@ -228,3 +228,9 @@ export const AuthLink = styled(Link)`
     text-decoration: underline;
   }
 `;
+
+export const NotiWrapperStyles = styled.div`
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+`;
