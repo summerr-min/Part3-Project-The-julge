@@ -24,4 +24,31 @@ export const SEOUL_DISTRICTS = [
   '서울시 강남구',
   '서울시 송파구',
   '서울시 강동구',
-] as const; // 읽기 전용
+] as const;
+
+export type SeoulAddress = (typeof SEOUL_DISTRICTS)[number];
+
+// 사용자 기본 정보 타입 (내 정보 조회 및 수정 )
+export interface UserInfo {
+  id: string;
+  email: string;
+  type: 'employee';
+  name?: string;
+  phone?: string;
+  address?: SeoulAddress | string;
+  bio?: string;
+}
+
+// 프로필 수정 요청 시
+export interface UpdateProfileRequest {
+  name: string;
+  phone: string;
+  address: SeoulAddress | string;
+  bio: string;
+}
+
+//공통 API 응답 타입
+export interface ApiResponse<T> {
+  item: T;
+  links?: any[]; // api 명세서에 정의된 내용이 없음.
+}

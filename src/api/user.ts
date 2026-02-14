@@ -14,7 +14,7 @@ export async function updataMyProfile(
     name: string;
     phone: string;
     address: string;
-    bio: string; // 내소개
+    bio: string;
   }
 ) {
   const res = await instance.put(`users/${userId}`, body);

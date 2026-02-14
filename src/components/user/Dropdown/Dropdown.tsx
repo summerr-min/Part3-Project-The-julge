@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import Dropdown_up_icon from '@/assets/icons/dropdown_up_icon.svg?react';
 import Dropdown_down_icon from '@/assets/icons/dropdown_down_icon.svg?react';
 import * as S from '@/components/user/Dropdown/Dropdown.style';
@@ -10,6 +10,7 @@ interface DropdownProps {
   placeholder?: string;
   onSelect: (item: string) => void;
   isBlack?: boolean;
+  value?: string;
 }
 /**
  **
@@ -23,7 +24,7 @@ interface DropdownProps {
  * @param {string} [placeholder='선택'] - 아무것도 선택하지 않았을 때 표시할 텍스트
  * @param {(item: string) => void} onSelect - 항목 선택 시 호출되는 콜백 함수
  * @param {boolean} [isBlack=false] - true면 다크(회색) 배경 스타일 적용
- *
+ *@param {string} [props.value] -  외부에서 주입받는 현재 선택된 값 (기존 데이터 로드용)
  */
 const Dropdown = ({
   id,
@@ -31,42 +32,29 @@ const Dropdown = ({
   placeholder = '선택',
   onSelect,
   isBlack = false, // 기본값 설정
+  value,
 }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false); // 드롭다운 열려있는지 상태관리
-  const [selected, setSelected] = useState(''); // 선택 옵션
+  //const [selected, setSelected] = useState(''); // 선택 옵션
   const dropdownRef = useRef<HTMLDivElement>(null);
-  console.log(dropdownRef.current);
-  useEffect(() => {
-    const handleOutSideClick = (e: MouseEvent) => {
-      // 클릭한 곳이 드롭다운 내부가 아니라면 닫음
 
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleOutSideClick);
-    console.log(dropdownRef.current);
-    return () => document.removeEventListener('mousedown', handleOutSideClick);
-  }, []);
-
+  // 클릭 시 외부로 값을 전달
   const handleItemClick = (item: string) => {
-    setSelected(item);
-    onSelect(item); // 선택된값
-    setIsOpen(false); // 선택 후 닫기
+    onSelect(item);
+    setIsOpen(false);
   };
+
   return (
     <S.dropdownWrapper ref={dropdownRef}>
       <S.selectBox
         id={id}
         onClick={() => setIsOpen(!isOpen)}
-        $hasValue={selected !== ''} // 선택값 있으면 true > 글씨값 변경
+        $hasValue={!!value} // value가 있으면 true
         $isBlack={isBlack}
         type="button"
       >
-        {selected || placeholder}
+        {/* 내부 state인 selected 대신 외부 props인 value 사용 */}
+        {value || placeholder}
         <S.ArrowIcon>
           {isOpen ? <Dropdown_up_icon /> : <Dropdown_down_icon />}
         </S.ArrowIcon>

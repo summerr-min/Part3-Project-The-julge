@@ -2,26 +2,23 @@ import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { updataMyProfile } from '@/api/user';
 import { ProfileContext } from '@/contexts/ProfileContext';
-
-// 폼 데이터 타입 정의
-interface ProfileFormData {
-  name: string;
-  phone: string;
-  bio: string;
-}
+import { UserInfo, SeoulAddress } from '@/types/user.types';
 
 export const useProfileForm = () => {
   const navigate = useNavigate();
   const profile = useContext(ProfileContext);
+  const data = profile?.profileData as UserInfo | undefined; // 기존 프로필 데이터 가져오기
 
-  // 입력 상태 관리
-  const [formData, setFormData] = useState<ProfileFormData>({
-    name: '',
-    phone: '',
-    bio: '',
+  // 입력 상태 관리 기존데이터 있으면 data false=> 빈값
+  const [formData, setFormData] = useState({
+    name: data?.name || '',
+    phone: data?.phone || '',
+    bio: data?.bio || '',
   });
 
-  const [selectLocation, setSelectLocation] = useState('');
+  const [selectLocation, setSelectLocation] = useState<SeoulAddress | string>(
+    data?.address || ''
+  );
   const [errors, setErrors] = useState({ name: '', phone: '' });
   const [modal, setModal] = useState({ isOpen: false, message: '' });
 
@@ -76,13 +73,11 @@ export const useProfileForm = () => {
       const userId = localStorage.getItem('userId');
       if (!userId) return false;
 
-      // API 호출 시 가공된 데이터 전달
       const response = await updataMyProfile(userId, {
         ...formData,
         address: selectLocation,
       });
 
-      // 서버 응답 로그 확인
       console.log('서버 응답 결과:', response);
 
       if (profile?.checkProfileFromServer) {
@@ -113,6 +108,7 @@ export const useProfileForm = () => {
     formData,
     errors,
     modal,
+    selectLocation,
     setSelectLocation,
     handleChange,
     handleSubmit,

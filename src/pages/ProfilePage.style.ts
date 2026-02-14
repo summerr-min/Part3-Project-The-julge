@@ -62,7 +62,7 @@ export const CloseButton = styled.button`
   align-items: center;
   justify-content: center;
 `;
-// == 입력창 감싸는 래퍼
+
 export const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;

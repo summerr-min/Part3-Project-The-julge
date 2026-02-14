@@ -20,6 +20,7 @@ function ProfileEditPage() {
     formData, // name,bio,phone
     errors, //유효성 검사 에러 문구
     modal: formModal, //객체 구조 분해 할당 별칭
+    selectLocation,
     setSelectLocation,
     handleChange,
     handleSubmit, // 훅 전송 함수
@@ -55,7 +56,6 @@ function ProfileEditPage() {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              // 포커스 나갔을 시 에러 체크
               onBlur={() => checkError('name', formData.name)}
             />
             {errors.name && <S.ErrorMessage>{errors.name}</S.ErrorMessage>}
@@ -79,6 +79,7 @@ function ProfileEditPage() {
               id="location-dropdown" // label이랑 연결
               options={[...SEOUL_DISTRICTS]}
               placeholder="선택"
+              value={selectLocation}
               onSelect={(item) => setSelectLocation(item)}
             />
           </S.InputWrapper>
