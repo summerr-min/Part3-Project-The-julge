@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.div<{ isClosed: boolean }>`
+export const Wrapper = styled.div<{ $isClosed: boolean }>`
   display: flex;
   gap: 1.2rem;
   flex-direction: column;
   padding: 1.2rem;
   border: 0.1rem solid
-    ${({ theme, isClosed }) =>
-      isClosed ? theme.colors.gray30 : theme.colors.gray20};
+    ${({ theme, $isClosed }) =>
+      $isClosed ? theme.colors.gray30 : theme.colors.gray20};
   width: 17.1rem;
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: 1.2rem;
@@ -40,7 +40,7 @@ export const ImageContainer = styled.div`
   }
 `;
 
-export const CardImage = styled.img<{ isClosed: boolean }>`
+export const CardImage = styled.img<{ $isClosed: boolean }>`
   position: absolute;
   top: 0;
   left: 0;
@@ -48,11 +48,11 @@ export const CardImage = styled.img<{ isClosed: boolean }>`
   height: 100%;
   object-fit: cover;
   object-position: center;
-  opacity: ${({ isClosed }) => (isClosed ? 0.3 : 1)};
+  opacity: ${({ $isClosed }) => ($isClosed ? 0.3 : 1)};
 `;
 
-export const LastNoticeText = styled.p<{ isClosed: boolean }>`
-  display: ${({ isClosed }) => (isClosed ? 'block' : 'none')};
+export const LastNoticeText = styled.p<{ $isClosed: boolean }>`
+  display: ${({ $isClosed }) => ($isClosed ? 'block' : 'none')};
   position: absolute;
   top: 50%;
   left: 50%;
@@ -80,13 +80,13 @@ export const DescriptionContainer = styled.div`
   flex-direction: column;
 `;
 
-export const RestaurantName = styled.h2<{ isClosed: boolean }>`
+export const RestaurantName = styled.h2<{ $isClosed: boolean }>`
   font-size: 1.6rem;
   font-weight: 700;
   line-height: 2rem;
-  color: ${({ theme, isClosed }) =>
-    isClosed ? theme.colors.gray30 : theme.colors.black};
-  opacity: ${({ isClosed }) => (isClosed ? 0.3 : 1)};
+  color: ${({ theme, $isClosed }) =>
+    $isClosed ? theme.colors.gray30 : theme.colors.black};
+  opacity: ${({ $isClosed }) => ($isClosed ? 0.3 : 1)};
 `;
 
 export const WageContainer = styled.div`
@@ -108,12 +108,12 @@ export const WageContainer = styled.div`
   }
 `;
 
-export const Wage = styled.h2<{ isClosed: boolean }>`
+export const Wage = styled.h2<{ $isClosed: boolean }>`
   font-size: 1.8rem;
   font-weight: 700;
-  color: ${({ theme, isClosed }) =>
-    isClosed ? theme.colors.gray30 : theme.colors.black};
-  opacity: ${({ isClosed }) => (isClosed ? 0.3 : 1)};
+  color: ${({ theme, $isClosed }) =>
+    $isClosed ? theme.colors.gray30 : theme.colors.black};
+  opacity: ${({ $isClosed }) => ($isClosed ? 0.3 : 1)};
 
   @media (min-width: 768px) {
     font-size: 2.4rem;
