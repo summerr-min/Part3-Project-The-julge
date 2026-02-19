@@ -80,6 +80,7 @@ const Navbar = () => {
     navigate('/');
   };
 
+
   return (
     <S.Header>
       <S.Nav>
