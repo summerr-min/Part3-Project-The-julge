@@ -79,11 +79,7 @@ const Navbar = () => {
     logout();
     navigate('/');
   };
-  useEffect(() => {
-  console.log('[Navbar] userId:', currentUser?.id);
-  console.log('[Navbar] isEmployer:', isEmployer);
-  console.log('[Navbar] shopId state:', shopId);
-}, [currentUser?.id, isEmployer, shopId]);
+
 
   return (
     <S.Header>
