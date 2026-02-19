@@ -35,10 +35,10 @@ export const ScrollAreaStyles = styled.div`
 `;
 
 export const FixedAreaStyles = styled.div`
-  flex: 0 0 110px;
-  width: 110px;
-  min-width: 110px;
-  max-width: 110px;
+  flex: 0 0 236px;
+  width: 236px;
+  min-width: 236px;
+  max-width: 236px;
 
   ${mobile} {
     flex: 0 0 50%;
@@ -52,6 +52,25 @@ export const TableStyles = styled.table`
   width: 100%;
   border-collapse: collapse;
   white-space: normal;
+  table-layout: fixed;
+
+  th:nth-child(1),
+  td:nth-child(1) {
+    width: 228px;
+  }
+
+  th:nth-child(2),
+  td:nth-child(2) {
+    width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  th:nth-child(3),
+  td:nth-child(3) {
+    width: 200px;
+  }
 
   ${tablet} {
     width: max-content;
@@ -61,9 +80,9 @@ export const TableStyles = styled.table`
 `;
 
 export const FixedTableStyles = styled.table`
-  width: 110px;
-  min-width: 110px;
-  max-width: 110px;
+  width: 236px;
+  min-width: 236px;
+  max-width: 236px;
   table-layout: fixed;
   border-collapse: collapse;
 
@@ -105,9 +124,9 @@ export const TdStyles = styled.td`
 `;
 
 export const StatusThStyles = styled.th`
-  width: 110px;
-  min-width: 110px;
-  max-width: 110px;
+  width: 236px;
+  min-width: 236px;
+  max-width: 236px;
 
   height: 50px;
   padding: 14px 12px;
@@ -128,9 +147,9 @@ export const StatusThStyles = styled.th`
 `;
 
 export const StatusTdStyles = styled.td`
-  width: 110px;
-  min-width: 110px;
-  max-width: 110px;
+  width: 236px;
+  min-width: 236px;
+  max-width: 236px;
 
   height: 64px;
   padding: 20px 12px;

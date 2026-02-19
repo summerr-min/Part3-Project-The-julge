@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+const mobile = `@media (max-width: 743px)`;
+
 export const FormStyles = styled.form`
   display: flex;
   flex-direction: column;
@@ -13,9 +15,8 @@ export const FieldStyles = styled.div`
 `;
 
 export const LabelStyles = styled.label`
-  font-size: 16px;
-  font-weight: 400;
-  color: #111322;
+  ${({ theme }) => theme.fonts.body1Regular};
+  color: ${({ theme }) => theme.colors.black};
 `;
 
 export const InputStyles = styled.input<{ $error?: boolean }>`
@@ -25,15 +26,21 @@ export const InputStyles = styled.input<{ $error?: boolean }>`
   padding: 16px 20px;
   box-sizing: border-box;
 
-  border: 1px solid ${({ $error }) => ($error ? '#ff4040' : '#c8c9cf')};
+  border: 1px solid
+    ${({ theme, $error }) => ($error ? theme.colors.red40 : theme.colors.gray30)};
+  background: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.black};
+
+  transition: border-color 0.15s ease;
 
   &:focus {
     outline: none;
-    border-color: ${({ $error }) => ($error ? '#ff4040' : '#111322')};
+    border-color: ${({ theme, $error }) =>
+      $error ? theme.colors.red40 : theme.colors.black};
   }
 
   &::placeholder {
-    color: #a4a1aa;
+    color: ${({ theme }) => theme.colors.gray40};
     font-size: 16px;
   }
 `;
@@ -43,42 +50,21 @@ export const ErrorTextStyles = styled.p`
   width: 152px;
   height: 16px;
 
-  font-size: 12px;
-  line-height: 16px;
-  font-weight: 400;
+  ${({ theme }) => theme.fonts.caption};
   text-align: center;
-
-  color: #ff4040;
-`;
-
-export const PrimaryButtonStyles = styled.button`
-  width: 100%;
-  height: 48px;
-  border-radius: 6px;
-  padding: 14px 136px;
-  background: #ea3c12;
-  color: white;
-  font-weight: 700;
-  font-size: 16px;
-  cursor: pointer;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &:disabled {
-    background: #a4a1aa;
-    cursor: not-allowed;
-  }
+  color: ${({ theme }) => theme.colors.red40};
 `;
 
 export const FooterStyles = styled.div`
   display: flex;
   justify-content: center;
   gap: 10px;
-  font-size: 16px;
+
+  ${({ theme }) => theme.fonts.body1Regular};
+  color: ${({ theme }) => theme.colors.black};
 
   a {
+    color: inherit;
     text-decoration: underline;
     text-decoration-style: solid;
   }
@@ -99,8 +85,12 @@ export const ToggleButtonStyles = styled.button<{ $active: boolean }>`
   width: 167px;
   height: 50px;
   border-radius: 30px;
-  border: 1px solid ${({ $active }) => ($active ? '#ea3c12' : '#c8c9cf')};
   padding: 13px 41px;
+
+  border: 1px solid
+    ${({ theme, $active }) => ($active ? theme.colors.primary : theme.colors.gray30)};
+  background: ${({ theme }) => theme.colors.white};
+
   cursor: pointer;
 
   display: flex;
@@ -108,21 +98,23 @@ export const ToggleButtonStyles = styled.button<{ $active: boolean }>`
   align-items: center;
   gap: 9px;
 
-  font-size: 14px;
-  color: #111322;
+  ${({ theme }) => theme.fonts.body2Regular};
+  color: ${({ theme }) => theme.colors.black};
 `;
 
 export const IconStyles = styled.span<{ $active: boolean }>`
   width: 20px;
   height: 20px;
   border-radius: 50%;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex: 0 0 20px;
 
-  border: 2px solid ${({ $active }) => ($active ? '#ea3c12' : '#d9d9d9')};
-  background: ${({ $active }) => ($active ? '#ea3c12' : 'transparent')};
+  border: 2px solid
+    ${({ theme, $active }) => ($active ? theme.colors.primary : theme.colors.gray30)};
+  background: ${({ theme, $active }) => ($active ? theme.colors.primary : 'transparent')};
 
   svg {
     width: 12px;
@@ -159,11 +151,16 @@ export const LogoAreaStyles = styled.div`
     height: 45px;
   }
 
-  /* 모바일 */
-  @media (max-width: 743px) {
+  ${mobile} {
     svg {
       width: 208px;
       height: 38px;
     }
   }
+`;
+
+export const ButtonRowStyles = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
 `;

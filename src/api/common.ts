@@ -3,8 +3,9 @@ import instance from '@/api/axios';
 export async function getMyShopId(userId: string): Promise<string | null> {
   const res = await instance.get(`/users/${userId}`);
 
-  return res.data?.item?.shop?.id ?? null;
+  return res.data?.item?.shop?.item?.id ?? null;
 }
+
 
 export async function hasUnreadAlerts(userId: string): Promise<boolean> {
   const res = await instance.get(`/users/${userId}/alerts`, {

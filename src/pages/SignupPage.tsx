@@ -1,23 +1,13 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { signUp } from '@/api/auth';
 import CheckIcon from '@/assets/icons/check_icon.svg?react';
-import axios from 'axios';
 
-import AuthLayout, {
-  ErrorText,
-  Field,
-  Footer,
-  Form,
-  Icon,
-  Input,
-  Label,
-  PrimaryButton,
-  ToggleButton,
-  ToggleRow,
-  ToggleWrap,
-} from '@/components/Auth/AuthLayout';
+import AuthLayout from '@/components/Auth/AuthLayout';
+import * as A from '@/components/Auth/AuthLayout.styles';
 
+import Button from '@/components/common/Button/Button';
 import AuthModal from '@/components/common/Modal/Modal';
 
 type UserType = 'employee' | 'employer';
@@ -34,9 +24,9 @@ const Signup = () => {
   // 에러 상태
   const [emailError, setEmailError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
-  const [passwordConfirmError, setPasswordConfirmError] = useState<
-    string | null
-  >(null);
+  const [passwordConfirmError, setPasswordConfirmError] = useState<string | null>(
+    null
+  );
 
   // 제출 상태
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -52,7 +42,6 @@ const Signup = () => {
   const isValidEmail = (value: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
-  //  전체 입력값 검증(빈 값은 버튼 비활성화, submit 차단)
   const validate = () => {
     let hasError = false;
 
@@ -60,7 +49,6 @@ const Signup = () => {
     const trimmedPassword = password.trim();
     const trimmedPasswordConfirm = passwordConfirm.trim();
 
-    // 이메일 검증
     if (trimmedEmail.length === 0) {
       setEmailError(null);
       hasError = true;
@@ -71,7 +59,6 @@ const Signup = () => {
       setEmailError(null);
     }
 
-    // 비밀번호 검증
     if (trimmedPassword.length === 0) {
       setPasswordError(null);
       hasError = true;
@@ -82,7 +69,6 @@ const Signup = () => {
       setPasswordError(null);
     }
 
-    // 비밀번호 확인 검증
     if (trimmedPasswordConfirm.length === 0) {
       setPasswordConfirmError(null);
       hasError = true;
@@ -105,7 +91,6 @@ const Signup = () => {
     !passwordError &&
     !passwordConfirmError;
 
-  // input change 핸들러
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     if (emailError) setEmailError(null);
@@ -117,23 +102,18 @@ const Signup = () => {
     if (passwordConfirmError) setPasswordConfirmError(null);
   };
 
-  const handlePasswordConfirmChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handlePasswordConfirmChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordConfirm(e.target.value);
     if (passwordConfirmError) setPasswordConfirmError(null);
   };
 
-  // blur에서 전체 검증(제출 전 바로 피드백)
   const handleEmailBlur = () => validate();
   const handlePasswordBlur = () => validate();
   const handlePasswordConfirmBlur = () => validate();
 
-  // 회원 유형 선택
   const handleEmployeeClick = () => setUserType('employee');
   const handleEmployerClick = () => setUserType('employer');
 
-  // 모달
   const handleCloseErrorModal = () => {
     setIsErrorModalOpen(false);
     setErrorModalMessage('');
@@ -145,11 +125,9 @@ const Signup = () => {
     navigate('/login');
   };
 
-  // 회원가입 제출
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isSubmitting) return;
-
     if (!validate()) return;
 
     setIsSubmitting(true);
@@ -166,8 +144,10 @@ const Signup = () => {
     } catch (err: unknown) {
       if (axios.isAxiosError(err) && err.response?.status === 409) {
         setErrorModalMessage('이미 사용중인 이메일입니다.');
-        setIsErrorModalOpen(true);
+      } else {
+        setErrorModalMessage('회원가입에 실패했습니다.');
       }
+      setIsErrorModalOpen(true);
     } finally {
       setIsSubmitting(false);
     }
@@ -175,10 +155,10 @@ const Signup = () => {
 
   return (
     <AuthLayout>
-      <Form onSubmit={handleSubmit}>
-        <Field>
-          <Label htmlFor="email">이메일</Label>
-          <Input
+      <A.FormStyles onSubmit={handleSubmit}>
+        <A.FieldStyles>
+          <A.LabelStyles htmlFor="email">이메일</A.LabelStyles>
+          <A.InputStyles
             id="email"
             type="email"
             placeholder="입력"
@@ -187,12 +167,12 @@ const Signup = () => {
             onBlur={handleEmailBlur}
             $error={!!emailError}
           />
-          {emailError && <ErrorText>{emailError}</ErrorText>}
-        </Field>
+          {emailError && <A.ErrorTextStyles>{emailError}</A.ErrorTextStyles>}
+        </A.FieldStyles>
 
-        <Field>
-          <Label htmlFor="password">비밀번호</Label>
-          <Input
+        <A.FieldStyles>
+          <A.LabelStyles htmlFor="password">비밀번호</A.LabelStyles>
+          <A.InputStyles
             id="password"
             type="password"
             placeholder="입력"
@@ -201,12 +181,12 @@ const Signup = () => {
             onBlur={handlePasswordBlur}
             $error={!!passwordError}
           />
-          {passwordError && <ErrorText>{passwordError}</ErrorText>}
-        </Field>
+          {passwordError && <A.ErrorTextStyles>{passwordError}</A.ErrorTextStyles>}
+        </A.FieldStyles>
 
-        <Field>
-          <Label htmlFor="passwordConfirm">비밀번호 확인</Label>
-          <Input
+        <A.FieldStyles>
+          <A.LabelStyles htmlFor="passwordConfirm">비밀번호 확인</A.LabelStyles>
+          <A.InputStyles
             id="passwordConfirm"
             type="password"
             placeholder="입력"
@@ -216,59 +196,61 @@ const Signup = () => {
             $error={!!passwordConfirmError}
           />
           {passwordConfirmError && (
-            <ErrorText>{passwordConfirmError}</ErrorText>
+            <A.ErrorTextStyles>{passwordConfirmError}</A.ErrorTextStyles>
           )}
-        </Field>
+        </A.FieldStyles>
 
-        <ToggleWrap>
-          <Label as="div">회원 유형</Label>
-          <ToggleRow>
-            <ToggleButton
+        <A.ToggleWrapStyles>
+          <A.LabelStyles as="div">회원 유형</A.LabelStyles>
+
+          <A.ToggleRowStyles>
+            <A.ToggleButtonStyles
               type="button"
               $active={userType === 'employee'}
               onClick={handleEmployeeClick}
             >
-              <Icon $active={userType === 'employee'}>
+              <A.IconStyles $active={userType === 'employee'}>
                 {userType === 'employee' && <CheckIcon />}
-              </Icon>
+              </A.IconStyles>
               알바님
-            </ToggleButton>
+            </A.ToggleButtonStyles>
 
-            <ToggleButton
+            <A.ToggleButtonStyles
               type="button"
               $active={userType === 'employer'}
               onClick={handleEmployerClick}
             >
-              <Icon $active={userType === 'employer'}>
+              <A.IconStyles $active={userType === 'employer'}>
                 {userType === 'employer' && <CheckIcon />}
-              </Icon>
+              </A.IconStyles>
               사장님
-            </ToggleButton>
-          </ToggleRow>
-        </ToggleWrap>
+            </A.ToggleButtonStyles>
+          </A.ToggleRowStyles>
+        </A.ToggleWrapStyles>
 
-        <PrimaryButton type="submit" disabled={!canSubmit || isSubmitting}>
-          가입하기
-        </PrimaryButton>
-      </Form>
+        <A.ButtonRowStyles>
+          <Button
+            preset="default"
+            variant="primary"
+            type="submit"
+            disabled={!canSubmit || isSubmitting}
+          >
+            가입하기
+          </Button>
+        </A.ButtonRowStyles>
+      </A.FormStyles>
 
-      <Footer>
+      <A.FooterStyles>
         <span>이미 가입하셨나요?</span>
         <Link to="/login">로그인하기</Link>
-      </Footer>
+      </A.FooterStyles>
 
       {isErrorModalOpen && (
-        <AuthModal
-          message={errorModalMessage}
-          onClose={handleCloseErrorModal}
-        />
+        <AuthModal message={errorModalMessage} onClose={handleCloseErrorModal} />
       )}
 
       {isSuccessModalOpen && (
-        <AuthModal
-          message={successModalMessage}
-          onClose={handleCloseSuccessModal}
-        />
+        <AuthModal message={successModalMessage} onClose={handleCloseSuccessModal} />
       )}
     </AuthLayout>
   );

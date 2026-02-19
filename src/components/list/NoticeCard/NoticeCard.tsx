@@ -33,19 +33,19 @@ function NoticeCard({
   isClosed,
 }: Props) {
   return (
-    <Wrapper isClosed={isClosed}>
+    <Wrapper $isClosed={isClosed}>
       <ImageContainer>
         <CardImage
           src={cardImageUrl}
           alt={restaurantName}
-          isClosed={isClosed}
+          $isClosed={isClosed}
         />
-        <LastNoticeText isClosed={isClosed}>지난 공고</LastNoticeText>
+        <LastNoticeText $isClosed={isClosed}>지난 공고</LastNoticeText>
       </ImageContainer>
 
       <ContentContainer>
         <DescriptionContainer>
-          <RestaurantName isClosed={isClosed}>{restaurantName}</RestaurantName>
+          <RestaurantName $isClosed={isClosed}>{restaurantName}</RestaurantName>
           <NoticeCardDescription
             type="duration"
             description={duration}
@@ -58,7 +58,7 @@ function NoticeCard({
           />
         </DescriptionContainer>
         <WageContainer>
-          <Wage isClosed={isClosed}>{separatorWage(currentWage)}원</Wage>
+          <Wage $isClosed={isClosed}>{separatorWage(currentWage)}원</Wage>
           <WageBadge
             defaultWage={defaultWage}
             currentWage={currentWage}

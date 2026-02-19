@@ -6,7 +6,7 @@ const mobile = `@media (max-width: 743px)`;
 
 export const Header = styled.header`
   width: 100%;
-  background: #ffffff;
+  background: ${({ theme }) => theme.colors.white};
   margin-top: 16px;
 `;
 
@@ -23,14 +23,16 @@ export const Nav = styled.nav`
 
   ${tablet} {
     max-width: 744px;
-    padding: 0 24px 0 24px;
+    padding: 0 24px;
     gap: 16px;
   }
+
   ${mobile} {
     max-width: 375px;
     height: 102px;
+
     flex-wrap: wrap;
-    row-rap: 12px;
+    row-gap: 12px;
     padding: 12px 16px;
     align-items: flex-start;
   }
@@ -64,7 +66,7 @@ export const SearchBar = styled.div`
 
   padding: 10px;
   border-radius: 10px;
-  background: #f2f2f3;
+  background: ${({ theme }) => theme.colors.gray10};
 
   ${tablet} {
     width: 344px;
@@ -95,13 +97,11 @@ export const SearchInput = styled.input`
   background: transparent;
   outline: none;
 
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 22px;
-  letter-spacing: 0;
+  ${({ theme }) => theme.fonts.body2Regular};
+  color: ${({ theme }) => theme.colors.black};
 
   &::placeholder {
-    color: #a4a1aa;
+    color: ${({ theme }) => theme.colors.gray40};
   }
 `;
 
@@ -145,11 +145,8 @@ export const Right = styled.div`
 `;
 
 export const MenuLink = styled(Link)`
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 20px;
-  letter-spacing: 0;
-  color: #111322;
+  ${({ theme }) => theme.fonts.body1Bold};
+  color: ${({ theme }) => theme.colors.black};
   text-decoration: none;
 
   display: inline-flex;
@@ -157,11 +154,8 @@ export const MenuLink = styled(Link)`
 `;
 
 export const TextButton = styled.button`
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 20px;
-  letter-spacing: 0;
-  color: #111322;
+  ${({ theme }) => theme.fonts.body1Bold};
+  color: ${({ theme }) => theme.colors.black};
 
   border: 0;
   background: transparent;
@@ -171,6 +165,7 @@ export const TextButton = styled.button`
   display: inline-flex;
   align-items: center;
 `;
+
 export const IconButton = styled.button`
   width: 24px;
   height: 24px;
@@ -187,7 +182,7 @@ export const IconButton = styled.button`
   svg {
     width: 20.4px;
     height: 20.4px;
-    fill: #000000;
+    fill: ${({ theme }) => theme.colors.black};
   }
 
   ${mobile} {
@@ -216,12 +211,8 @@ export const AuthFrame = styled.div`
 `;
 
 export const AuthLink = styled(Link)`
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 20px;
-  letter-spacing: 0;
-  color: #111322;
-
+  ${({ theme }) => theme.fonts.body1Bold};
+  color: ${({ theme }) => theme.colors.black};
   text-decoration: none;
 
   &:hover {

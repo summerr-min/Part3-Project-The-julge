@@ -1,5 +1,8 @@
-function separatorWage(wage: number) {
-  return wage.toLocaleString('ko-KR');
+function separatorWage(wage?: number | null) {
+  if (typeof wage !== 'number') {
+    return '';
+  }
+  return wage.toLocaleString();
 }
 
 export default separatorWage;
