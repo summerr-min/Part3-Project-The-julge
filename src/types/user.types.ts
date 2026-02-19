@@ -52,3 +52,38 @@ export interface ApiResponse<T> {
   item: T;
   links?: any[]; // api 명세서에 정의된 내용이 없음.
 }
+// 공고 상세 페이지에 필요한 사용자 정보 타입
+export type UserType = 'employee' | 'employer';
+
+export interface Item {
+  id: string;
+  email: string;
+  type: UserType;
+  name: string;
+  phone: string;
+  address: string;
+  bio: string;
+  shop: string | null;
+}
+
+export interface Link {
+  rel: string;
+  description: string;
+  method: string;
+  href: string;
+  body?: {
+    name: string;
+    phone: string;
+    address: string;
+    bio: string;
+  };
+  query?: {
+    offset: number | 'undefined';
+    limit: number | 'undefined';
+  };
+}
+
+export interface UserData {
+  item: Item;
+  links: Link[];
+}
