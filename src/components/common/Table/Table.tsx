@@ -9,18 +9,19 @@ export type TableHeader = {
 };
 
 type TableProps = {
+  className?: string;
   headers: TableHeader[];
   leftChildren: ReactNode;
   rightChildren: ReactNode;
   dataLength: number;
   fixedRowCount?: number;
-
   totalPages: number;
   currentPage?: number;
   onChangePage?: (page: number) => void;
 };
 
 export default function Table({
+  className,
   headers,
   leftChildren,
   rightChildren,
@@ -41,7 +42,6 @@ export default function Table({
     setInnerPage(nextPage);
   };
 
-  // status 컬럼 분리
   const leftHeaders: TableHeader[] = [];
   let statusHeader: TableHeader | undefined;
 
@@ -50,7 +50,6 @@ export default function Table({
     else leftHeaders.push(h);
   }
 
-  // 빈 줄 계산
   const emptyRowCount =
     dataLength < fixedRowCount ? fixedRowCount - dataLength : 0;
 
@@ -60,7 +59,7 @@ export default function Table({
   }
 
   return (
-    <S.WrapperStyles>
+    <S.WrapperStyles className={className}>
       <S.LayoutStyles>
         <S.ScrollAreaStyles>
           <S.TableStyles>
