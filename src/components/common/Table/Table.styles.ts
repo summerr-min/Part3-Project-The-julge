@@ -62,6 +62,9 @@ export const TableStyles = styled.table`
   th:nth-child(2),
   td:nth-child(2) {
     width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   th:nth-child(3),
