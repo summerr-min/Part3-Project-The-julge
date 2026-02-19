@@ -1,5 +1,5 @@
 import Wrapper from './Wrapper';
-import CloseIcon from '@/assets/icons/close.svg?react';
+import CloseIcon from '@/assets/icons/close_icon.svg?react';
 import Button from './Button';
 import DetailFilterAddress from '@/components/list/DetailFilterDropdown/DetailFilterAddress/DetailFilterAddress';
 import { Address } from '@/types/address.types';
