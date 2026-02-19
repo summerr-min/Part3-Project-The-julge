@@ -1,5 +1,8 @@
 import styled from 'styled-components';
+import Button from '@/components/common/Button/Button';
 import { EmptyCard as SharedEmptyCard } from '@/pages/ProfilePage.style'; // 기존 컴포넌트 가져오기
+import { breakpoints } from '@/pages/profileCommom.style';
+import * as T from '@/components/common/Table/Table.styles';
 
 export const DetailPageWrapper = styled.div`
   width: 100%;
@@ -10,12 +13,21 @@ export const DetailPageWrapper = styled.div`
 export const UpperSection = styled.section`
   background-color: ${({ theme }) => theme.colors.white};
   padding: 60px 238px;
+  margin: 0 auto;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    padding: 60px 32px;
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    padding: 40px 12px;
+  }
 `;
+
 export const ProfileHeaderWrapper = styled.div`
   display: flex;
-  lign-items: flex-start;
+  align-items: flex-start;
   margin: 0 auto;
-  margin-bottom: 60px;
   width: 100%;
 
   > h2,
@@ -24,21 +36,21 @@ export const ProfileHeaderWrapper = styled.div`
     flex-shrink: 0; /*flex컨테이너에서 공간 부족해도 크기 안 줄어듬 */
   }
 
-  @media (max-width: 1024px) {
+  @media (max-width: ${breakpoints.tablet}) {
     flex-direction: column;
-    gap: 32px;
+    gap: 24px;
   }
 
-  @media (max-width: 375px) {
-    gap: 24px;
-    margin-top: 40px;
+  @media (max-width: ${breakpoints.mobile}) {
+    gap: 16px;
+    margin-bottom: 0;
   }
 `;
 
 // 카드 내부
 export const ProfileCard = styled.div`
   position: relative;
-  background-color: #ffebe7;
+  background-color: ${({ theme }) => theme.colors.red10};
   border-radius: 12px;
   width: 665px;
   min-height: 256px;
@@ -46,16 +58,19 @@ export const ProfileCard = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  margin-left: 180px;
 
-  margin-left: auto;
-
-  @media (max-width: 1024px) {
-    width: 100%;
-    max-width: none;
+  @media (max-width: ${breakpoints.tablet}) {
+    //width: 100%;
+    width: 680px;
+    margin-left: 0;
+    margin: 0 auto;
   }
 
-  @media (max-width: 375px) {
+  @media (max-width: ${breakpoints.mobile}) {
     padding: 24px 20px;
+    width: 351px;
+    margin: 0 auto;
   }
 `;
 
@@ -123,33 +138,71 @@ export const Bio = styled.p<{ $hasData: boolean }>`
     $hasData ? theme.colors.black : theme.colors.gray50};
 `;
 
-export const EditButton = styled.button`
+// 편집하기 버튼 (공통 버튼 outline )
+export const EditButton = styled(Button)`
+  width: fit-content;
   position: absolute;
   top: 32px;
   right: 32px;
   padding: 14px 55px;
-  border: 1px solid ${({ theme }) => theme.colors.primary};
-  background-color: white;
-  color: ${({ theme }) => theme.colors.primary};
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
+  ${({ theme }) => theme.fonts.body1Bold};
 
-  @media (max-width: 375px) {
+  @media (max-width: ${breakpoints.mobile}) {
     top: 24px;
     right: 20px;
-    padding: 8px 16px;
+    width: 108px;
+    height: 37px;
+    padding: 10px 20px;
   }
 `;
 
-// 신청 내역 카드 스타일 정의
+// 공고 보러가기 버튼 (공통 Button)
+export const ActionButton = styled(Button)`
+  width: fit-content;
+  padding: 13.5px 110.5px;
+
+  @media (max-width: ${breakpoints.mobile}) {
+    width: 110px;
+    height: 37px;
+    padding: 10px 13.5px;
+    ${({ theme }) => theme.fonts.body2Bold};
+  }
+`;
+
+export const HistorySection = styled.div`
+  margin-top: 60px;
+  background-color: ${({ theme }) => theme.colors.gray5};
+  padding: 60px 0; /* 좌우 패딩 제거 */
+  width: 100%;
+  min-height: 463px;
+`;
+
+export const HistoryContent = styled.div`
+  max-width: 964px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    padding: 0 32px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    padding: 0 12px;
+    margin: 0 auto;
+  }
+`;
+
 export const DetailsEmptyCard = styled(SharedEmptyCard)`
   width: 100%;
   max-width: 964px;
   margin: 0 auto;
+
   padding: 60px 24px;
   background-color: ${({ theme }) => theme.colors.gray5};
   border: 1px solid ${({ theme }) => theme.colors.gray20};
+
   p {
     margin-bottom: 24px;
   }
@@ -158,16 +211,76 @@ export const DetailsEmptyCard = styled(SharedEmptyCard)`
     max-width: 100%;
   }
 `;
+/** 테이블 스타일 */
+export const TableWrapper = styled.div`
+  width: 100%;
+  max-width: 966px;
+  background: ${({ theme }) => theme.colors.white};
+  border: 1px solid ${({ theme }) => theme.colors.gray20};
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 32px;
+`;
 
-export const HistorySection = styled.div`
-  margin-top: 60px;
-  background-color: ${({ theme }) => theme.colors.gray5};
-  padding: 60px 238px;
-  min-height: 463px;
+export const Thead = styled(T.TheadStyles)``;
+export const Table = styled(T.TableStyles)``;
 
-  @media (max-width: 1024px) {
-  }
+export const Th = styled(T.ThStyles)`
+  // 각 헤더 열의 너비 지정
+  &:nth-of-type(1) {
+    width: 228px;
+  } // 가게
+  &:nth-of-type(2) {
+    width: 300px;
+  } // 일자
+  &:nth-of-type(3) {
+    width: 200px;
+  } // 시급
+  &:nth-of-type(4) {
+    width: 238px;
+  } // 상태
+`;
 
-  @media (max-width: 375px) {
-  }
+export const Td = styled(T.TdStyles)`
+  height: 64px;
+  max-height: 64px; /* 높이 고정 */
+  padding: 12px;
+  vertical-align: middle;
+  /* 글자가 길어도 행 높이가 늘어나지 않게 설정 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+export const StatusTd = styled(T.StatusTdStyles)`
+  height: 64px;
+  max-height: 64px;
+  padding: 12px;
+  vertical-align: middle;
+  box-sizing: border-box;
+`;
+
+export const PaginationWrapper = styled(T.PaginationWrapperStyles)`
+  justify-content: center;
+`;
+
+/** 상태별 배지 스타일*/
+export const StatusBadge = styled.span<{ $status: string }>`
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 400;
+
+  ${({ $status, theme }) => {
+    switch ($status) {
+      case 'accepted':
+        return `color: #0080ff; background: #CCE6FF;`; // 승인됨
+      case 'rejected':
+        return `color: #ff4d4d; background: #FFEBE7;`; // 거절됨
+      case 'canceled':
+        return `color: ${theme.colors.gray40}; background: ${theme.colors.gray10};`; // 취소
+      default:
+        return `color: #20A81E; background: #D4F7D4;`; // 대기중
+    }
+  }}
 `;

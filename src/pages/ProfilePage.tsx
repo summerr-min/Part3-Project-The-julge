@@ -60,9 +60,12 @@ function ProfilePage() {
       {!profile?.isProfileExist && (
         <S.EmptyCard>
           <p>내 프로필을 등록하고 원하는 가게에 지원해 보세요.</p>
-          <S.SubmitButton onClick={() => navigate('/profile/edit')}>
-            내 프로필 등록하기
-          </S.SubmitButton>
+          <S.ProfileButton
+            preset="default"
+            variant="primary"
+            onClick={() => navigate('/profile/edit')}
+            children="내 프로필 등록하기"
+          />
         </S.EmptyCard>
       )}
       {isModalOpen && (

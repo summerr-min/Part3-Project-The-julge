@@ -11,7 +11,6 @@ import ShopCreatePage from './pages/ShopCreatePage';
 import ProfilePage from './pages/ProfilePage';
 import ProfileEditPage from './pages/ProfileEditPage';
 import ProfileDetailsPage from './pages/ProfileDetailsPage';
-
 import TestPage from './pages/TestPage';
 import Signup from './pages/SignupPage';
 import Login from './pages/LoginPage';
