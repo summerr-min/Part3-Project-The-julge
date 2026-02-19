@@ -3,20 +3,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import { signIn } from '@/api/auth';
 import { useAuth } from '@/hooks/useAuth';
 
-import AuthLayout, {
-  ErrorText,
-  Field,
-  Footer,
-  Form,
-  Input,
-  Label,
-  PrimaryButton,
-} from '@/components/Auth/AuthLayout';
+import AuthLayout from '@/components/Auth/AuthLayout';
+import * as A from '@/components/Auth/AuthLayout.styles';
+import Button from '@/components/common/Button/Button';
 
 import AlertModal from '@/components/common/Modal/Modal';
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login, refreshCurrentUser } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -32,7 +27,6 @@ const Login = () => {
   const isValidEmail = (value: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
-  // 회원가입 입력 폼 입력값 검증
   const validate = () => {
     let hasError = false;
 
@@ -62,45 +56,35 @@ const Login = () => {
     return !hasError;
   };
 
-  // 로그인 버튼 활성화 조건
   const canSubmit =
     email.trim().length > 0 &&
     password.trim().length > 0 &&
     !emailError &&
     !passwordError;
 
-  // 로그인 실패 시 알림 모달 닫기
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setModalMessage('');
   };
 
-  // 이메일 입력 변경 처리
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     if (emailError) setEmailError(null);
   };
 
-  // 비밀번호 입력 변경 처리
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
     if (passwordError) setPasswordError(null);
   };
 
-  // 이메일 입력값 blur 시 유효성 검사
   const handleEmailBlur = () => {
     validate();
   };
 
-  // 비밀번호 입력값 blur 시 유효성 검사
   const handlePasswordBlur = () => {
     validate();
   };
 
-  // 로그인 성공 후 전역 인증 상태를 갱신
-  const { login, refreshCurrentUser } = useAuth();
-
-  // 로그인 제출 처리
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isSubmitting) return;
@@ -118,7 +102,6 @@ const Login = () => {
       const token = res.item.token;
       const userId = res.item.user.item.id;
 
-      // 로그인 이후 페이지에서 Navbar가 즉시 반응하도록 context에 저장
       login({ token, userId });
       await refreshCurrentUser();
 
@@ -130,12 +113,13 @@ const Login = () => {
       setIsSubmitting(false);
     }
   };
+
   return (
     <AuthLayout>
-      <Form onSubmit={handleSubmit}>
-        <Field>
-          <Label htmlFor="email">이메일</Label>
-          <Input
+      <A.FormStyles onSubmit={handleSubmit}>
+        <A.FieldStyles>
+          <A.LabelStyles htmlFor="email">이메일</A.LabelStyles>
+          <A.InputStyles
             id="email"
             type="email"
             placeholder="입력"
@@ -144,12 +128,12 @@ const Login = () => {
             onBlur={handleEmailBlur}
             $error={!!emailError}
           />
-          {emailError && <ErrorText>{emailError}</ErrorText>}
-        </Field>
+          {emailError && <A.ErrorTextStyles>{emailError}</A.ErrorTextStyles>}
+        </A.FieldStyles>
 
-        <Field>
-          <Label htmlFor="password">비밀번호</Label>
-          <Input
+        <A.FieldStyles>
+          <A.LabelStyles htmlFor="password">비밀번호</A.LabelStyles>
+          <A.InputStyles
             id="password"
             type="password"
             placeholder="입력"
@@ -158,18 +142,22 @@ const Login = () => {
             onBlur={handlePasswordBlur}
             $error={!!passwordError}
           />
-          {passwordError && <ErrorText>{passwordError}</ErrorText>}
-        </Field>
+          {passwordError && (
+            <A.ErrorTextStyles>{passwordError}</A.ErrorTextStyles>
+          )}
+        </A.FieldStyles>
 
-        <PrimaryButton type="submit" disabled={!canSubmit || isSubmitting}>
-          로그인 하기
-        </PrimaryButton>
-      </Form>
+        <A.ButtonRowStyles>
+          <Button preset="default" variant="primary" type="submit" disabled={!canSubmit || isSubmitting}>
+            로그인 하기
+          </Button>
+        </A.ButtonRowStyles>
+      </A.FormStyles>
 
-      <Footer>
+      <A.FooterStyles>
         <span>회원이 아니신가요?</span>
         <Link to="/signup">회원가입하기</Link>
-      </Footer>
+      </A.FooterStyles>
 
       {isModalOpen && (
         <AlertModal message={modalMessage} onClose={handleCloseModal} />
