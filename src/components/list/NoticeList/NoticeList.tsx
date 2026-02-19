@@ -35,7 +35,7 @@ function NoticeList({ type, items, count }: Props) {
             />
           </li>
         );
-      })}{' '}
+      })}
       : (
       <NotFoundNotice />)
     </Wrapper>
