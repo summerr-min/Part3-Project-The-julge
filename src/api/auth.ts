@@ -20,9 +20,8 @@ export async function signIn(body: { email: string; password: string }) {
   localStorage.setItem('accessToken', res.data.item.token);
 
   localStorage.setItem('userId', res.data.item.user.item.id);
-
-  // 유저 전체 정보를 객체 형태로 저장 (type 정보 포함)
-  localStorage.setItem('userProfile', JSON.stringify(res.data.item.user.item));
+  // type
+  localStorage.setItem('userType', res.data.item.user.item.type);
 
   return res.data;
 }

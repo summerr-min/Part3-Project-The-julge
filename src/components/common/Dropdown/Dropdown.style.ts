@@ -1,9 +1,30 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import React from 'react';
 
-export const dropdownWrapper = styled.div`
-  width: 100%;
+const breakpoints = {
+  mobile: '375px',
+  tablet: '774px',
+};
+
+export const dropdownWrapper = styled.div<{ $isBlack?: boolean }>`
   position: relative;
+
+  /* 다크모드 isBlack=true 모든 기기 105px 고정 */
+  width: ${({ $isBlack }) => ($isBlack ? '105px' : '100%')};
+
+  /* 일반모드 isBlack=false */
+  ${({ $isBlack }) =>
+    !$isBlack &&
+    css`
+      /* 태블릿 (774px 이하일 때) */
+      @media (max-width: ${breakpoints.tablet}) {
+        width: 330px;
+      }
+      /* 모바일 (375px 이하일 때) */
+      @media (max-width: ${breakpoints.mobile}) {
+        width: 351px;
+      }
+    `}
 `;
 
 export const selectBox = styled.button<
@@ -13,14 +34,13 @@ export const selectBox = styled.button<
   } & React.ButtonHTMLAttributes<HTMLButtonElement> //htmlFor와 id 연결 타입 붙이기 위해
 >`
   width: 100%;
-
   border: 1px solid ${({ theme }) => theme.colors.gray30};
   align-items: center;
-  border-radius: 6px;
+  border-radius: ${({ $isBlack }) => ($isBlack ? '5px' : '6px')};
   cursor: pointer;
   display: flex;
   justify-content: space-between;
-  padding: 16px;
+  padding: ${({ $isBlack }) => ($isBlack ? '0 12px' : '16px')};
   ${({ theme, $isBlack }) =>
     $isBlack ? theme.fonts.body2Bold : theme.fonts.body1Regular};
 
@@ -29,6 +49,10 @@ export const selectBox = styled.button<
 
   color: ${({ theme, $hasValue, $isBlack }) =>
     $isBlack || $hasValue ? theme.colors.black : theme.colors.gray30};
+  /* 높이는 모든 기기 58px 동일 다크모드만 30px */
+  height: ${({ $isBlack }) => ($isBlack ? '30px' : '58px')};
+  margin-bottom: 0;
+  line-height: 1;
 `;
 // 목록  전체
 export const MenuList = styled.ul`
@@ -89,7 +113,17 @@ export const MenuItem = styled.li`
     color: ${({ theme }) => theme.colors.primary};
   }
 `;
-export const ArrowIcon = styled.div`
-  width: 16px;
-  height: 16px;
+export const ArrowIcon = styled.div<{ $isBlack?: boolean; $isOpen?: boolean }>`
+  width: ${({ $isBlack }) => ($isBlack ? '10px' : '16px')};
+  height: ${({ $isBlack }) => ($isBlack ? '10px' : '16px')};
+  display: flex;
+  align-items: center;
+  svg {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.2s ease;
+    /* 열려있을 때 180도 회전(svg up down 크기가 달라서 회전으로 변경))*/
+    transform: ${({ $isOpen }) =>
+      $isOpen ? 'rotate(180deg)' : 'rotate(0deg)'};
+  }
 `;

@@ -1,9 +1,7 @@
 import { useRef, useState } from 'react';
-import Dropdown_up_icon from '@/assets/icons/dropdown_up_icon.svg?react';
 import Dropdown_down_icon from '@/assets/icons/dropdown_down_icon.svg?react';
-import * as S from '@/components/user/Dropdown/Dropdown.style';
+import * as S from '@/components/common/Dropdown/Dropdown.style';
 
-//props 타입정의
 interface DropdownProps {
   id?: string;
   options: string[];
@@ -31,11 +29,10 @@ const Dropdown = ({
   options,
   placeholder = '선택',
   onSelect,
-  isBlack = false, // 기본값 설정
+  isBlack = false,
   value,
 }: DropdownProps) => {
-  const [isOpen, setIsOpen] = useState(false); // 드롭다운 열려있는지 상태관리
-  //const [selected, setSelected] = useState(''); // 선택 옵션
+  const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // 클릭 시 외부로 값을 전달
@@ -45,18 +42,17 @@ const Dropdown = ({
   };
 
   return (
-    <S.dropdownWrapper ref={dropdownRef}>
+    <S.dropdownWrapper ref={dropdownRef} $isBlack={isBlack}>
       <S.selectBox
         id={id}
         onClick={() => setIsOpen(!isOpen)}
-        $hasValue={!!value} // value가 있으면 true
+        $hasValue={!!value}
         $isBlack={isBlack}
         type="button"
       >
-        {/* 내부 state인 selected 대신 외부 props인 value 사용 */}
         {value || placeholder}
-        <S.ArrowIcon>
-          {isOpen ? <Dropdown_up_icon /> : <Dropdown_down_icon />}
+        <S.ArrowIcon $isBlack={isBlack} $isOpen={isOpen}>
+          <Dropdown_down_icon />
         </S.ArrowIcon>
       </S.selectBox>
 
