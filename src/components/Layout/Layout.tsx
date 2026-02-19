@@ -2,6 +2,7 @@
 import { Outlet } from 'react-router-dom';
 import NavBar from '@/components/common/NavBar/NavBar';
 import { ProfileStorage } from '@/contexts/ProfileContext';
+import Footer from '../common/Footer/Footer';
 
 export function AuthLayout() {
   return (
@@ -24,6 +25,7 @@ export function EmployerLayout() {
           <Outlet />
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
@@ -39,6 +41,7 @@ export function UserLayout() {
           </ProfileStorage>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
@@ -47,12 +50,14 @@ export function FullLayout() {
   // const navigate = useNavigate();
 
   return (
-    <>
+    <div>
+      <NavBar />
       <main>
         <div>
           <Outlet />
         </div>
       </main>
-    </>
+      <Footer />
+    </div>
   );
 }

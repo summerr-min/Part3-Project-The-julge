@@ -11,6 +11,7 @@ import ShopCreatePage from './pages/ShopCreatePage';
 import ProfilePage from './pages/ProfilePage';
 import ProfileEditPage from './pages/ProfileEditPage';
 import ProfileDetailsPage from './pages/ProfileDetailsPage';
+import NoticeListPage from './pages/NoticeListPage';
 
 import TestPage from './pages/TestPage';
 import Signup from './pages/SignupPage';
@@ -27,6 +28,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<FullLayout />}>
+            <Route path="/" element={<NoticeListPage />} />
             <Route path="shop/create" element={<ShopCreatePage />} />
           </Route>
 

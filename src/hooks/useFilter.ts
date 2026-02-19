@@ -1,75 +1,104 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Address } from '@/types/address.types';
 import convertDate from '@/utils/convertDate';
 
 type SortType = 'time' | 'pay' | 'hour' | 'shop';
 
+interface Filter {
+  offset: number;
+  limit: number;
+  address: Address[];
+  startsAtGte: string;
+  wageGte: number;
+  sort: SortType;
+}
+
+interface FilterData {
+  filter: Filter;
+  count: number;
+}
+
 function useFilter(
   initialFilter = {
     offset: 0,
     limit: 0,
-    address: [] as Address[],
+    address: [],
     startsAtGte: convertDate(new Date()),
-    hourlyPayGte: 0,
+    wageGte: 0,
     sort: 'time' as SortType,
   }
 ) {
-  const [filter, setFilter] = useState(initialFilter);
+  const [filterData, setFilterData] = useState<FilterData>({
+    filter: initialFilter,
+    count: 0,
+  });
+
+  const updateFilter = (updatedFilter: Partial<Filter>) => {
+    setFilterData((prevFilterData) => ({
+      ...prevFilterData,
+      filter: {
+        ...prevFilterData.filter,
+        ...updatedFilter,
+      },
+    }));
+  };
+
+  useEffect(() => {
+    let count = 0;
+
+    if (filterData.filter.wageGte !== initialFilter.wageGte) {
+      count += 1;
+    }
+
+    if (
+      JSON.stringify(filterData.filter.address) !==
+      JSON.stringify(initialFilter.address)
+    ) {
+      count += 1;
+    }
+
+    setFilterData((prevFilterData) => ({
+      ...prevFilterData,
+      count,
+    }));
+  }, [filterData.filter]);
 
   const setOffset = (offset: number) => {
-    setFilter((prevFilter) => ({ ...prevFilter, offset }));
+    updateFilter({ offset });
   };
 
   const setLimit = (limit: number) => {
-    setFilter((prevFilter) => ({ ...prevFilter, limit }));
+    updateFilter({ limit });
   };
 
   const setSort = (sort: SortType) => {
-    setFilter((prevFilter) => ({ ...prevFilter, sort }));
+    updateFilter({ sort });
   };
 
   const addAddress = (address: Address) => {
-    setFilter((prevFilter) => {
-      const isDuplicate = prevFilter.address.includes(address);
-
-      if (!isDuplicate) {
-        return {
-          ...prevFilter,
-          address: [...prevFilter.address, address],
-        };
-      }
-
-      return prevFilter;
-    });
+    updateFilter({ address: [...filterData.filter.address, address] });
   };
 
   const deleteAddress = (address: Address) => {
-    setFilter((prevFilter) => {
-      const updatedAddress = prevFilter.address.filter(
-        (item) => item !== address
-      );
-
-      return {
-        ...prevFilter,
-        address: updatedAddress,
-      };
+    updateFilter({
+      address: filterData.filter.address.filter((item) => item !== address),
     });
   };
 
   const setWage = (wage: number) => {
-    setFilter((prevFilter) => ({ ...prevFilter, wageGte: wage }));
+    updateFilter({ wageGte: wage });
   };
 
   const setStartsAt = (startsAt: string) => {
-    setFilter((prevFilter) => ({ ...prevFilter, startsAtGte: startsAt }));
+    updateFilter({ startsAtGte: startsAt });
   };
 
   const resetFilter = () => {
-    setFilter(initialFilter);
+    setFilterData({ filter: initialFilter, count: 0 });
   };
 
   return {
-    filter,
+    filterData,
     setOffset,
     setLimit,
     setSort,
