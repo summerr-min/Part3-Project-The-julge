@@ -14,7 +14,7 @@ function NoticeCardDescription({ type, description, isClosed }: Props) {
   }) as React.ComponentType;
 
   return (
-    <Wrapper isClosed={isClosed}>
+    <Wrapper $isClosed={isClosed}>
       <IconComponent />
       {description}
     </Wrapper>
