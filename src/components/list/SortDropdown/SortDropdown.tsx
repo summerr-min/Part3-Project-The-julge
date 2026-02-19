@@ -1,15 +1,27 @@
-import { useEffect, useRef, useState } from 'react';
-import useSortDropdown from '@/hooks/useSortDropdown';
+import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 import SortDropdownUI from './SortDropdownUI';
+
+type Category = 'time' | 'pay' | 'hour' | 'shop';
 
 interface Prop {
   item: string[];
+  toggleDropdown: () => void;
+  isOpenDropdown: boolean;
+  closeDropdown: () => void;
+  setCategory: Dispatch<SetStateAction<Category>>;
+  selectedLocation: string;
+  setSelectedLocation: Dispatch<SetStateAction<string>>;
 }
 
-function SortDropdown({ item }: Prop) {
-  const { isOpenDropdown, toggleDropdown, closeDropdown, setCategory } =
-    useSortDropdown();
-  const [selectedLocation, setSelectedLocation] = useState('마감임박순');
+function SortDropdown({
+  item,
+  isOpenDropdown,
+  toggleDropdown,
+  closeDropdown,
+  setCategory,
+  selectedLocation,
+  setSelectedLocation,
+}: Prop) {
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {

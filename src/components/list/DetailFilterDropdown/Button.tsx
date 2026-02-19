@@ -11,10 +11,6 @@ function Button({ onReset, onClose, onClick }: Props) {
     if (onReset) {
       onReset();
     }
-
-    if (onClose) {
-      onClose();
-    }
   };
 
   const handleConfirm = () => {
