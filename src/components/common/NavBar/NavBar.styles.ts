@@ -22,7 +22,7 @@ export const Nav = styled.nav`
   gap: 30px;
 
   ${tablet} {
-    max-width: 744px;
+    max-width: 767px;
     padding: 0 24px;
     gap: 16px;
   }
@@ -43,6 +43,7 @@ export const LogoLink = styled(Link)`
   align-items: center;
   width: 112px;
   height: 40px;
+  flex-shirnk: 0;
 
   svg {
     width: 100%;
@@ -57,7 +58,9 @@ export const LogoLink = styled(Link)`
 `;
 
 export const SearchBar = styled.div`
-  width: 450px;
+  flex: 1;
+  min-width: 0;
+  max-width: 450px;
   height: 40px;
 
   display: flex;
@@ -69,14 +72,16 @@ export const SearchBar = styled.div`
   background: ${({ theme }) => theme.colors.gray10};
 
   ${tablet} {
-    width: 344px;
+    max-width: 344px;
   }
 
   ${mobile} {
-    width: 335px;
+    max-width: 335px;
+    width: 100%;
     height: 36px;
     padding: 8px;
     gap: 8px;
+    box-sizing: border-box;
   }
 `;
 
@@ -134,6 +139,7 @@ export const Right = styled.div`
     gap: 12px;
     width: fit-content;
     min-height: 24px;
+    flex-shrink: 0;
   }
 
   ${mobile} {
@@ -151,6 +157,9 @@ export const MenuLink = styled(Link)`
 
   display: inline-flex;
   align-items: center;
+  white-space: nowrap;
+  word-break: keep-all;
+  overflow-wrap: normal;
 `;
 
 export const TextButton = styled.button`
@@ -164,6 +173,10 @@ export const TextButton = styled.button`
 
   display: inline-flex;
   align-items: center;
+
+  white-space: nowrap;
+  word-break: keep-all;
+  overflow-wrap: normal;
 `;
 
 export const IconButton = styled.button`
@@ -204,6 +217,8 @@ export const AuthFrame = styled.div`
   width: fit-content;
   min-height: 20px;
 
+  flex-shrink: 0;
+
   ${mobile} {
     gap: 16px;
     min-height: 17px;
@@ -214,6 +229,10 @@ export const AuthLink = styled(Link)`
   ${({ theme }) => theme.fonts.body1Bold};
   color: ${({ theme }) => theme.colors.black};
   text-decoration: none;
+
+  white-space: nowrap;
+  word-break: keep-all;
+  overflow-wrap: normal;
 
   &:hover {
     text-decoration: underline;
