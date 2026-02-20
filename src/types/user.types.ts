@@ -52,6 +52,7 @@ export interface ApiResponse<T> {
   item: T;
   links?: any[]; // api 명세서에 정의된 내용이 없음.
 }
+
 // 공고 상세 페이지에 필요한 사용자 정보 타입
 export type UserType = 'employee' | 'employer';
 
