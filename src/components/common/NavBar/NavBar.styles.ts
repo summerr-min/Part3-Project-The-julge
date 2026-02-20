@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-const tablet = `@media (max-width: 1024px)`;
-const mobile = `@media (max-width: 743px)`;
+const tablet = `@media (max-width: 767px)`;
+const mobile = `@media (max-width: 375px)`;
 
 export const Header = styled.header`
   width: 100%;
@@ -73,7 +73,7 @@ export const SearchBar = styled.div`
   }
 
   ${mobile} {
-    width: 355px;
+    width: 335px;
     height: 36px;
     padding: 8px;
     gap: 8px;
