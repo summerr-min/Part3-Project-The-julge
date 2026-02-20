@@ -1,3 +1,5 @@
+import { Shop } from './notice.types';
+
 export const SEOUL_DISTRICTS = [
   '서울시 종로구',
   '서울시 중구',
@@ -28,7 +30,7 @@ export const SEOUL_DISTRICTS = [
 
 export type SeoulAddress = (typeof SEOUL_DISTRICTS)[number];
 
-// 사용자 기본 정보 타입 (내 정보 조회 및 수정 )
+// 사용자 기본 정보 타입 (내 정보 조회 및 수정)
 export interface UserInfo {
   id: string;
   email: string;
@@ -86,4 +88,38 @@ export interface Link {
 export interface UserData {
   item: Item;
   links: Link[];
+
+/**
+ * 유저의 개별 지원 내역 타입
+ * GET /users/{user_id}/applications 응답 구조
+ */
+export interface UserApplicationItem {
+  item: {
+    id: string;
+    status: 'pending' | 'accepted' | 'rejected' | 'canceled';
+    createdAt: string;
+    shop: {
+      item: Shop;
+      href: string;
+    };
+    notice: {
+      item: {
+        id: string;
+        hourlyPay: number;
+        description: string;
+        startsAt: string;
+        workhour: number;
+        closed: boolean;
+      };
+    };
+  };
+}
+
+// 지원 목록 API 전체 응답 타입
+export interface UserApplicationResponse {
+  offset: number;
+  limit: number;
+  count: number;
+  hasNext: boolean;
+  items: UserApplicationItem[];
 }
