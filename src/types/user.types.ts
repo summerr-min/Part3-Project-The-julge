@@ -125,3 +125,38 @@ export interface UserData {
   item: Item;
   links: Link[];
 }
+
+// API 명세서 기준 알림 아이템 타입
+export interface AlertItem {
+  item: {
+    id: string;
+    createdAt: string;
+    result: 'accepted' | 'rejected';
+    read: boolean;
+    application: {
+      item: {
+        id: string;
+        status: 'pending' | 'accepted' | 'rejected';
+      };
+      href: string;
+    };
+    shop: {
+      item: {
+        id: string;
+        name: string;
+      };
+      href: string;
+    };
+    notice: {
+      item: {
+        id: string;
+        hourlyPay: number;
+        description: string;
+        startsAt: string; // 예: "2026-02-13T15:00:00Z"
+        workhour: number;
+        closed: boolean;
+      };
+      href: string;
+    };
+  };
+}

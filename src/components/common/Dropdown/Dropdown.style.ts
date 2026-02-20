@@ -22,11 +22,13 @@ export const dropdownWrapper = styled.div<{
     css`
       /* 태블릿 (774px 이하일 때) */
       @media (max-width: ${breakpoints.tablet}) {
-        width: 330px;
+        /*width: 330px;*/
+        width: 100%;
       }
       /* 모바일 (375px 이하일 때) */
       @media (max-width: ${breakpoints.mobile}) {
-        width: 351px;
+        /*width: 351px;*/
+        width: 100%;
       }
     `}
 `;
