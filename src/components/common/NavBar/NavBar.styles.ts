@@ -234,10 +234,6 @@ export const AuthLink = styled(Link)`
   white-space: nowrap;
   word-break: keep-all;
   overflow-wrap: normal;
-
-  &:hover {
-    text-decoration: underline;
-  }
 `;
 
 export const NotiWrapperStyles = styled.div`
