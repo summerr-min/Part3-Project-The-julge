@@ -10,6 +10,7 @@ import usePagination from '@/hooks/usePagination';
 import SortDropdown from '@/components/list/SortDropdown/SortDropdown';
 import { SORT } from '@/constants/sort';
 import useSortDropdown from '@/hooks/useSortDropdown';
+import useDetailFilterDropdown from '@/hooks/useDetailFilterDropdown';
 import DetailFilterDropdown from '@/components/list/DetailFilterDropdown/DetailFilterDropdown';
 import useFilter from '@/hooks/useFilter';
 import DetailFilterButton from '@/components/list/DetailFilterButton/DetailFilterButton';
@@ -33,19 +34,24 @@ function NoticeListPage() {
     setSort,
     addAddress,
     deleteAddress,
-    setWage,
+    setHourlyPay,
     setStartsAt,
     resetFilter,
   } = useFilter();
   const {
-    toggleDropdown,
-    isOpenDropdown,
-    closeDropdown,
+    toggleSortDropdown,
+    isOpenSortDropdown,
+    closeSortDropdown,
     selectedLocation,
     setSelectedLocation,
     category,
     setCategory,
   } = useSortDropdown();
+  const {
+    toggleDetailFilterDropdown,
+    isOpenDetailFilterDropdown,
+    closeDetailFilterDropdown,
+  } = useDetailFilterDropdown();
 
   const Props = {
     params: {
@@ -57,7 +63,9 @@ function NoticeListPage() {
       startsAGte: filterData.filter.startsAtGte
         ? filterData.filter.startsAtGte
         : convertDate(currentDate),
-      wageGte: filterData.filter.wageGte ? filterData.filter.wageGte : 0,
+      hourlyPayGte: filterData.filter.hourlyPayGte
+        ? filterData.filter.hourlyPayGte
+        : 0,
       sort: category,
     },
   };
@@ -89,9 +97,9 @@ function NoticeListPage() {
           <FilterContainer>
             <SortDropdown
               item={SORT}
-              toggleDropdown={toggleDropdown}
-              isOpenDropdown={isOpenDropdown}
-              closeDropdown={closeDropdown}
+              toggleSortDropdown={toggleSortDropdown}
+              isOpenSortDropdown={isOpenSortDropdown}
+              closeSortDropdown={closeSortDropdown}
               selectedLocation={selectedLocation}
               setSelectedLocation={setSelectedLocation}
               setCategory={setCategory}
@@ -99,20 +107,20 @@ function NoticeListPage() {
             <FilterDropdownContainer>
               <DetailFilterButton
                 count={filterData.count}
-                onClick={toggleDropdown}
+                onClick={toggleDetailFilterDropdown}
               />
-              {isOpenDropdown && (
+              {isOpenDetailFilterDropdown && (
                 <DetailFilterDropdown
                   addressList={filterData.filter.address}
                   onAddressClick={addAddress}
                   onBadgeClick={deleteAddress}
-                  wage={filterData.filter.wageGte}
-                  setWage={setWage}
+                  hourlyPay={filterData.filter.hourlyPayGte}
+                  setHourlyPay={setHourlyPay}
                   startsAt={filterData.filter.startsAtGte}
                   setStartsAt={setStartsAt}
                   resetFilter={resetFilter}
                   onClick={fetch}
-                  onClose={closeDropdown}
+                  onClose={closeDetailFilterDropdown}
                 />
               )}
             </FilterDropdownContainer>

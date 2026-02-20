@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import WageBadge from '@/components/list/WageBadge/WageBadge';
-import separatorWage from '@/utils/separatorWage';
+import HourlyPayBadge from '@/components/list/HourlyPayBadge/HourlyPayBadge';
+import separatorHourlyPay from '@/utils/separatorHourlyPay';
 import NoticeCardDescription from '@/components/list/NoticeCard/NoticeCardDescription';
 import { Address } from '@/types/address.types';
 import formatWorkTime from '@/utils/formatWorkTime';
@@ -21,10 +21,10 @@ import {
   LastNotice,
   StyledImage,
   ContentContainer,
-  WageContainer,
-  WageName,
-  WageDescriptionContainer,
-  WageDescription,
+  HourlyPayContainer,
+  HourlyPayName,
+  HourlyPayDescriptionContainer,
+  HourlyPayDescription,
   Description,
   ButtonContainer,
 } from './NoticeInfo.styles';
@@ -38,12 +38,12 @@ interface Props {
   shopName: string;
   address: Address;
   imageUrl: string;
-  defaultWage: number;
-  currentWage: number;
+  defaultHourlyPay: number;
+  currentHourlyPay: number;
   shopDescription: string;
   noticeDescription: string;
   startsAt: string;
-  workHour: number;
+  workhour: number;
   onApply: () => void;
 }
 
@@ -56,15 +56,15 @@ function NoticeInfo({
   shopName,
   address,
   imageUrl,
-  defaultWage,
-  currentWage,
+  defaultHourlyPay,
+  currentHourlyPay,
   shopDescription,
   noticeDescription,
   startsAt,
-  workHour,
+  workhour,
   onApply,
 }: Props) {
-  const formattedWorkTime = formatWorkTime({ startsAt, workHour });
+  const formattedWorkTime = formatWorkTime({ startsAt, workhour });
   const { execute } = useAsync(postApply);
   const [token, setToken] = useState<string>('');
 
@@ -126,17 +126,19 @@ function NoticeInfo({
           {isClosed && <LastNotice>마감 완료</LastNotice>}
         </ImageContainer>
         <ContentContainer>
-          <WageContainer>
-            <WageName>시급</WageName>
-            <WageDescriptionContainer>
-              <WageDescription>{separatorWage(currentWage)}원</WageDescription>
-              <WageBadge
-                defaultWage={defaultWage}
-                currentWage={currentWage}
+          <HourlyPayContainer>
+            <HourlyPayName>시급</HourlyPayName>
+            <HourlyPayDescriptionContainer>
+              <HourlyPayDescription>
+                {separatorHourlyPay(currentHourlyPay)}원
+              </HourlyPayDescription>
+              <HourlyPayBadge
+                defaultHourlyPay={defaultHourlyPay}
+                currentHourlyPay={currentHourlyPay}
                 isClosed={isClosed}
               />
-            </WageDescriptionContainer>
-          </WageContainer>
+            </HourlyPayDescriptionContainer>
+          </HourlyPayContainer>
           <NoticeCardDescription
             type="duration"
             description={formattedWorkTime}

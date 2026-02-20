@@ -5,15 +5,15 @@ import DetailFilterAddress from '@/components/list/DetailFilterDropdown/DetailFi
 import { Address } from '@/types/address.types';
 import DetailFilterStartsAt from '@/components/list/DetailFilterDropdown/DetailFilterStartsAt/DetailFilterStartsAt';
 import HorizontalLine from '@/components/list/DetailFilterDropdown/HorizontalLine/HorizontalLine';
-import DetailFilterWage from '@/components/list/DetailFilterDropdown/DetailFilterWage/DetailFilterWage';
+import DetailFilterHourlyPay from '@/components/list/DetailFilterDropdown/DetailFilterHourlyPay/DetailFilterHourlyPay';
 import { Container, TopContainer, Title } from './DetailFilterDropdown.styles';
 
 interface Props {
   addressList: Address[];
   onAddressClick: (address: Address) => void;
   onBadgeClick: (address: Address) => void;
-  wage: number;
-  setWage: (wage: number) => void;
+  hourlyPay: number;
+  setHourlyPay: (hourlyPay: number) => void;
   startsAt: string;
   setStartsAt: (startsAt: string) => void;
   resetFilter: () => void;
@@ -25,8 +25,8 @@ function DetailFilterDropdown({
   addressList,
   onAddressClick,
   onBadgeClick,
-  wage,
-  setWage,
+  hourlyPay,
+  setHourlyPay,
   startsAt,
   setStartsAt,
   resetFilter,
@@ -50,7 +50,10 @@ function DetailFilterDropdown({
         <HorizontalLine />
         <DetailFilterStartsAt startsAt={startsAt} setStartsAt={setStartsAt} />
         <HorizontalLine />
-        <DetailFilterWage wage={wage} setWage={setWage} />
+        <DetailFilterHourlyPay
+          hourlyPay={hourlyPay}
+          setHourlyPay={setHourlyPay}
+        />
         <Button onClick={onClick} onClose={onClose} onReset={resetFilter} />
       </Container>
     </Wrapper>

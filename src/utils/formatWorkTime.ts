@@ -1,6 +1,6 @@
 interface Props {
   startsAt: string;
-  workHour: number;
+  workhour: number;
 }
 
 function formatDate(date: Date): string {
@@ -20,17 +20,17 @@ function formatTime(date: Date): string {
   return `${hours}:${minutes}`;
 }
 
-function formatWorkTime({ startsAt, workHour }: Props) {
+function formatWorkTime({ startsAt, workhour }: Props) {
   const startDate: Date = new Date(startsAt);
   startDate.setHours(startDate.getHours() - 9);
   const endDate: Date = new Date(
-    startDate.getTime() + workHour * 60 * 60 * 1000
+    startDate.getTime() + workhour * 60 * 60 * 1000
   );
 
   const formattedStartDate: string = formatDate(startDate);
   const formattedEndDate: string = formatTime(endDate);
 
-  return `${formattedStartDate}~${formattedEndDate} (${workHour}시간)`;
+  return `${formattedStartDate}~${formattedEndDate} (${workhour}시간)`;
 }
 
 export default formatWorkTime;

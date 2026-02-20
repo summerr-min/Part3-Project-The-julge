@@ -20,8 +20,8 @@ export const LayoutStyles = styled.div`
 export const ScrollAreaStyles = styled.div`
   flex: 1 1 0;
   min-width: 0;
-  overflow-x: visible;
-  overflow-y: visible;
+  
+  overflow: hidden;
 
   ${tablet} {
     overflow-x: auto;
@@ -39,6 +39,12 @@ export const FixedAreaStyles = styled.div`
   width: 236px;
   min-width: 236px;
   max-width: 236px;
+
+  position: relative;
+  z-index: 2;
+  
+  background: ${({ theme }) => theme.colors.white};
+
 
   ${mobile} {
     flex: 0 0 50%;

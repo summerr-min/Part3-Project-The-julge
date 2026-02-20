@@ -9,7 +9,7 @@ interface NoticeSearch {
   address?: Address[];
   keyword?: string;
   startsAtGte?: string;
-  wageGte?: number;
+  hourlyPayGte?: number;
   sort?: SortType;
 }
 

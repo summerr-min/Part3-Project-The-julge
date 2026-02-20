@@ -1,33 +1,32 @@
 import { useState } from 'react';
-
-type Category = 'time' | 'pay' | 'hour' | 'shop';
+import Category from '@/types/category.types';
 
 interface Props {
   initialValue?: boolean;
 }
 
 function useSortDropdown({ initialValue = false }: Props = {}) {
-  const [isOpenDropdown, setIsOpenDropdown] = useState(initialValue);
+  const [isOpenSortDropdown, setIsOpenSortDropdown] = useState(initialValue);
   const [category, setCategory] = useState<Category>('time');
   const [selectedLocation, setSelectedLocation] = useState('마감임박순');
 
-  const toggleDropdown = () => {
-    setIsOpenDropdown(!isOpenDropdown);
+  const toggleSortDropdown = () => {
+    setIsOpenSortDropdown(!isOpenSortDropdown);
   };
 
-  const openDropdown = () => {
-    setIsOpenDropdown(true);
+  const openSortDropdown = () => {
+    setIsOpenSortDropdown(true);
   };
 
-  const closeDropdown = () => {
-    setIsOpenDropdown(false);
+  const closeSortDropdown = () => {
+    setIsOpenSortDropdown(false);
   };
 
   return {
-    isOpenDropdown,
-    toggleDropdown,
-    openDropdown,
-    closeDropdown,
+    isOpenSortDropdown,
+    toggleSortDropdown,
+    openSortDropdown,
+    closeSortDropdown,
     category,
     setCategory,
     selectedLocation,
