@@ -32,7 +32,7 @@ function App() {
             <Route path="/" element={<Navigate to="/notices" replace />} />
             <Route path="/notices" element={<NoticeListPage />} />
             <Route
-              path="/shops/:shopId/notices/:noticeId"
+              path="/shops/:shopId/notices/:noticeId/detail"
               element={<NoticeDetailPage />}
             />
             <Route path="shop/create" element={<ShopCreatePage />} />
