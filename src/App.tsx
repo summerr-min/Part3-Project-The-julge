@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import {
   EmployerLayout,
   FullLayout,
@@ -12,6 +12,7 @@ import ProfilePage from './pages/ProfilePage';
 import ProfileEditPage from './pages/ProfileEditPage';
 import ProfileDetailsPage from './pages/ProfileDetailsPage';
 import NoticeListPage from './pages/NoticeListPage';
+import NoticeDetailPage from './pages/NoticeDetailPage';
 
 import TestPage from './pages/TestPage';
 import Signup from './pages/SignupPage';
@@ -28,7 +29,12 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<FullLayout />}>
-            <Route path="/" element={<NoticeListPage />} />
+            <Route path="/" element={<Navigate to="/notices" replace />} />
+            <Route path="/notices" element={<NoticeListPage />} />
+            <Route
+              path="/shops/:shopId/notices/:noticeId"
+              element={<NoticeDetailPage />}
+            />
             <Route path="shop/create" element={<ShopCreatePage />} />
           </Route>
 

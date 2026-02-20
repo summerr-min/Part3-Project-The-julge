@@ -2,7 +2,7 @@ import NoticeCard from '@/components/list/NoticeCard/NoticeCard';
 import formatWorkTime from '@/utils/formatWorkTime';
 import { Notice } from '@/types/notice.types';
 import { Wrapper } from './NoticeList.styles';
-import NotFoundNotice from '../NotFoundNotice/NotFoundNotice';
+import NotFoundNotice from '@/components/list/NotFoundNotice/NotFoundNotice';
 
 interface Props {
   type: 'customized' | 'entire';

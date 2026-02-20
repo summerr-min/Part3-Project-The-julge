@@ -13,11 +13,11 @@ interface NoticeSearch {
   sort?: SortType;
 }
 
-interface Props {
+interface GetNoticeListProps {
   params: NoticeSearch;
 }
 
-export async function getNoticeList(Props: Props) {
+export async function getNoticeList(Props: GetNoticeListProps) {
   try {
     const response = await instance.get('/notices', {
       ...Props,
@@ -38,6 +38,64 @@ export async function getNoticeList(Props: Props) {
         return params.toString();
       },
     });
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+interface ShopId {
+  shopId: string;
+}
+
+interface NoticeId {
+  noticeId: string;
+}
+
+interface ApplyData extends ShopId, NoticeId {}
+
+interface PostApplyProps {
+  authorization?: { token: string };
+  data: ApplyData;
+}
+
+export async function postApply(Props: PostApplyProps) {
+  try {
+    const response = await instance.post(
+      `/shops/${Props?.data?.shopId}/notices/${Props?.data?.noticeId}/applications`,
+      null,
+      {
+        headers: { Authorization: `Bearer ${Props.authorization?.token}` },
+      }
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+interface GetShopNoticeProps {
+  url: ApplyData;
+}
+
+export async function getShopNotice(Props: GetShopNoticeProps) {
+  try {
+    const response = await instance.get(
+      `/shops/${Props.url.shopId}/notices/${Props.url.noticeId}`
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+interface GetUserProps {
+  userId: string;
+}
+
+export async function getUser(Props: GetUserProps) {
+  try {
+    const response = await instance.get(`/users/${Props.userId}`);
     return response;
   } catch (error) {
     return error;
