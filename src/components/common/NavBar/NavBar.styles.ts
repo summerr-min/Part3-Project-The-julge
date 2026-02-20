@@ -196,6 +196,7 @@ export const IconButton = styled.button`
     width: 20.4px;
     height: 20.4px;
     fill: ${({ theme }) => theme.colors.black};
+    margin-bottom: 5.5px;
   }
 
   ${mobile} {
@@ -233,10 +234,6 @@ export const AuthLink = styled(Link)`
   white-space: nowrap;
   word-break: keep-all;
   overflow-wrap: normal;
-
-  &:hover {
-    text-decoration: underline;
-  }
 `;
 
 export const NotiWrapperStyles = styled.div`

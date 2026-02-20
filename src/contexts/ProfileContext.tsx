@@ -50,6 +50,9 @@ export function ProfileStorage({ children }: { children: ReactNode }) {
 
   // 알림 상태
   const [alerts, setAlerts] = useState<any[]>([]);
+  useEffect(() => {
+    (window as any).alerts = alerts;
+  }, [alerts]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [isAlertLoading, setIsAlertLoading] = useState(false);
 
@@ -90,13 +93,12 @@ export function ProfileStorage({ children }: { children: ReactNode }) {
       if (!userId) return;
       try {
         setIsAppLoading(true);
-        // 한페이지 5개씩 보여줄때
+        // 한페이지 5개
         const offset = (page - 1) * LIMIT;
 
         // API 호출
         const response = await getUserApplications(userId, offset, LIMIT);
-        // 명세서 구조 - response 안에 items목록 count전체개수가 있음
-
+        // 명세서 구조 - response 안에 items목록 count전체개수 있음
         setApplications(response.items);
         setTotalCount(response.count);
       } catch (error) {
@@ -135,13 +137,16 @@ export function ProfileStorage({ children }: { children: ReactNode }) {
     if (!userId) return;
 
     try {
-      await readAlert(userId, alertId); // API 호출
+      const response = await readAlert(userId, alertId);
+
+      console.log('알람 읽음 처리 API 응답: ', response);
       await fetchAlerts(); // 목록 새로고침 개수/상태 동기화
     } catch (error) {
       console.error('읽음 처리 실패:', error);
     }
   };
-
+  // 테스트
+  (window as any).testMarkAsRead = markAsRead;
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     if (token && !auth?.currentUser) return;

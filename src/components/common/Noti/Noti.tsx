@@ -1,54 +1,24 @@
 import { useEffect, useRef } from 'react';
 import * as S from './Noti.styles';
 import CloseIcon from '@/assets/icons/close_icon.svg?react';
+import { getTimeAgo } from '@/utils/timeAgo'; // 시간계산
+import { AlertItem } from '@/types/user.types';
+import { formatNotiDate } from '@/utils/userDate';
 
 export type NoticeResult = 'approved' | 'rejected';
-
-export type NoticeItem = {
-  id: string;
-  message: string;
-  timeText: string;
-  result?: NoticeResult;
-  readAt?: string | null;
-};
-
-// mockData, api 연결하면 삭제 부탁드려요
-const mockNoticeList: NoticeItem[] = [
-  {
-    id: '1',
-    message:
-      '에이바우트 첨단점 (2026-02-13 15:00~18:00) 공고 지원이 승인되었어요.',
-    timeText: '1분 전',
-    result: 'approved',
-    readAt: null,
-  },
-  {
-    id: '2',
-    message:
-      '투썸플레이스 제대병원점 (2026-02-12 15:00~18:00) 공고 지원이 승인되었어요.',
-    timeText: '3분 전',
-    result: 'approved',
-    readAt: '2026-02-10T12:00:00',
-  },
-  {
-    id: '3',
-    message: '오멘(2026-02-11 15:00~18:00) 공고 지원이 거절되었어요.',
-    timeText: '7분 전',
-    result: 'rejected',
-    readAt: null,
-  },
-];
 
 type NotiProps = {
   id: string;
   buttonRef: React.RefObject<HTMLButtonElement | null>;
   onClose: () => void;
+  alerts: AlertItem[]; // user.types
+  onRead?: (alertId: string) => void;
 };
 
-const Noti = ({ id, buttonRef, onClose }: NotiProps) => {
+const Noti = ({ id, buttonRef, onClose, alerts, onRead }: NotiProps) => {
   const panelRef = useRef<HTMLDivElement>(null);
 
-  const countText = `알림 ${mockNoticeList.length}개`;
+  const countText = `알림 ${alerts.length}개`;
 
   useEffect(() => {
     // 패널 바깥 클릭하거나 ESC 누르면 닫힘
@@ -78,10 +48,11 @@ const Noti = ({ id, buttonRef, onClose }: NotiProps) => {
   }, [onClose, buttonRef]);
 
   // 승인/거절만 색 다르게
-  const renderMessage = (message: string, result?: NoticeResult) => {
+  const renderMessage = (message: string, result: 'accepted' | 'rejected') => {
     if (!result) return message;
 
-    const keyword = result === 'approved' ? '승인' : '거절';
+    const keyword = result === 'accepted' ? '승인' : '거절';
+    const resultStatus = result === 'accepted' ? 'approved' : 'rejected';
     const index = message.indexOf(keyword);
 
     if (index === -1) return message;
@@ -92,7 +63,7 @@ const Noti = ({ id, buttonRef, onClose }: NotiProps) => {
     return (
       <>
         {before}
-        <S.StatusText $status={result}>{keyword}</S.StatusText>
+        <S.StatusText $status={resultStatus}>{keyword}</S.StatusText>
         {after}
       </>
     );
@@ -109,25 +80,46 @@ const Noti = ({ id, buttonRef, onClose }: NotiProps) => {
       </S.HeaderStyles>
 
       <S.ListStyles>
-        {mockNoticeList.map((item) => {
-          const isUnread = !item.readAt;
+        {alerts.length === 0 ? (
+          <S.MessageStyles style={{ textAlign: 'center', padding: '20px 0' }}>
+            새로운 알림이 없습니다.
+          </S.MessageStyles>
+        ) : (
+          alerts.map((alert) => {
+            const data = alert.item;
+            const isUnread = !data.read;
+            const resultStatus =
+              data.result === 'accepted' ? 'approved' : 'rejected';
 
-          return (
-            <S.ItemStyles key={item.id}>
-              <S.MessageRowStyles>
-                {isUnread && item.result && (
-                  <S.DotStyles $status={item.result} />
-                )}
+            const timeText = getTimeAgo(data.createdAt);
+            const shopName = data.shop.item.name;
+            // 공고 시작 시간, 근무시간 가져와서 텍스트로 변경
+            const { startsAt, workhour } = data.notice.item;
+            const workDateText = formatNotiDate(startsAt, workhour);
 
-                <S.MessageStyles>
-                  {renderMessage(item.message, item.result)}
-                </S.MessageStyles>
+            const message = `${shopName} ${workDateText} 공고 지원이 ${data.result === 'accepted' ? '승인' : '거절'} 되었어요.`;
 
-                <S.TimeTextStyles>{item.timeText}</S.TimeTextStyles>
-              </S.MessageRowStyles>
-            </S.ItemStyles>
-          );
-        })}
+            return (
+              <S.ItemStyles
+                key={data.id}
+                onClick={() => {
+                  if (isUnread && onRead) onRead(data.id);
+                }}
+                style={{ cursor: isUnread ? 'pointer' : 'default' }}
+              >
+                <S.MessageRowStyles>
+                  {/*resultStatus가 존재하면(승인 || 거절) 무조건 점 표시 */}
+                  {resultStatus && <S.DotStyles $status={resultStatus} />}
+                  <S.MessageStyles>
+                    {renderMessage(message, data.result)}
+                  </S.MessageStyles>
+
+                  <S.TimeTextStyles>{timeText}</S.TimeTextStyles>
+                </S.MessageRowStyles>
+              </S.ItemStyles>
+            );
+          })
+        )}
       </S.ListStyles>
     </S.PanelStyles>
   );

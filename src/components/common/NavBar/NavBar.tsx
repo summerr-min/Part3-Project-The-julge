@@ -1,13 +1,14 @@
-import { useEffect, useId, useRef, useState } from 'react';
+import { useContext, useEffect, useId, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
+import { ProfileContext } from '@/contexts/ProfileContext';
 
 import LogoIcon from '@/assets/icons/logo_icon.svg?react';
 import NotiOnIcon from '@/assets/icons/noti_icon_on.svg?react';
 import NotiOffIcon from '@/assets/icons/noti_icon_off.svg?react';
 import SearchIcon from '@/assets/icons/search_icon.svg?react';
 
-import { getMyShopId, hasUnreadAlerts } from '@/api/common';
+import { getMyShopId } from '@/api/common';
 import Noti from '@/components/common/Noti/Noti';
 import * as S from './NavBar.styles';
 
@@ -15,14 +16,21 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { currentUser, logout } = useAuth();
 
+  const profileContext = useContext(ProfileContext);
+
   const isLoggedIn = !!currentUser;
   const isEmployer = currentUser?.type === 'employer';
   const isEmployee = currentUser?.type === 'employee';
 
   const [shopId, setShopId] = useState<string | null>(null);
-  const [hasUnread, setHasUnread] = useState(false);
   const [isNotiOpen, setIsNotiOpen] = useState(false);
   const [keyword, setKeyword] = useState('');
+
+  // profileContext에서 알림 데이터
+  const alerts = profileContext?.alerts || [];
+  const unreadCount = profileContext?.unreadCount || 0;
+
+  const hasUnread = unreadCount > 0; // 안 읽은 알람이 1개라도 있으면 true
 
   const notiButtonRef = useRef<HTMLButtonElement | null>(null);
   const notiId = useId();
@@ -31,20 +39,13 @@ const Navbar = () => {
     const userId = currentUser?.id;
 
     if (!userId) {
-      setHasUnread(false);
       setShopId(null);
       setIsNotiOpen(false);
       return;
     }
 
     const fetchData = async () => {
-      if (isEmployee) {
-        const unread = await hasUnreadAlerts(userId).catch(() => false);
-        setHasUnread(unread);
-      } else {
-        setHasUnread(false);
-      }
-
+      // 사장님만 shopId 체크
       if (isEmployer) {
         const shop = await getMyShopId(userId).catch(() => null);
         setShopId(shop);
@@ -54,7 +55,7 @@ const Navbar = () => {
     };
 
     fetchData();
-  }, [currentUser?.id, isEmployer, isEmployee]);
+  }, [currentUser?.id, isEmployer]);
 
   const handleNotiClick = () => {
     if (!isEmployee) return;
@@ -132,6 +133,9 @@ const Navbar = () => {
                     id={notiId}
                     buttonRef={notiButtonRef}
                     onClose={handleNotiClose}
+                    // Noti 컴포넌트로 데이터와 함수 넘겨줌
+                    alerts={alerts}
+                    onRead={profileContext?.markAsRead}
                   />
                 )}
               </S.NotiWrapperStyles>
