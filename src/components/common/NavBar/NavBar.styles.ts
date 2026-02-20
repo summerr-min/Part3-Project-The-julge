@@ -196,6 +196,7 @@ export const IconButton = styled.button`
     width: 20.4px;
     height: 20.4px;
     fill: ${({ theme }) => theme.colors.black};
+    margin-bottom: 5.5px;
   }
 
   ${mobile} {

@@ -8,7 +8,6 @@ import NotiOnIcon from '@/assets/icons/noti_icon_on.svg?react';
 import NotiOffIcon from '@/assets/icons/noti_icon_off.svg?react';
 import SearchIcon from '@/assets/icons/search_icon.svg?react';
 
-//import { AlertItem } from '@/types/user.types';
 import { getMyShopId } from '@/api/common';
 import Noti from '@/components/common/Noti/Noti';
 import * as S from './NavBar.styles';
@@ -29,11 +28,6 @@ const Navbar = () => {
   // profileContext에서 알림 데이터
   const alerts = profileContext?.alerts || [];
   const unreadCount = profileContext?.unreadCount || 0;
-  // test 데이터 확인용
-
-  ///
-  //const alerts = mockAlerts;
-  //const unreadCount = alerts.filter((a) => !a.item.read).length;
 
   const hasUnread = unreadCount > 0; // 안 읽은 알람이 1개라도 있으면 true
 

@@ -108,8 +108,8 @@ const Noti = ({ id, buttonRef, onClose, alerts, onRead }: NotiProps) => {
                 style={{ cursor: isUnread ? 'pointer' : 'default' }}
               >
                 <S.MessageRowStyles>
-                  {isUnread && <S.DotStyles $status={resultStatus} />}
-
+                  {/*resultStatus가 존재하면(승인 || 거절) 무조건 점 표시 */}
+                  {resultStatus && <S.DotStyles $status={resultStatus} />}
                   <S.MessageStyles>
                     {renderMessage(message, data.result)}
                   </S.MessageStyles>
