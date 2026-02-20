@@ -24,6 +24,7 @@ const Navbar = () => {
 
   const [shopId, setShopId] = useState<string | null>(null);
   const [isNotiOpen, setIsNotiOpen] = useState(false);
+  const [keyword, setKeyword] = useState('');
 
   // profileContext에서 알림 데이터
   const alerts = profileContext?.alerts || [];
@@ -65,19 +66,27 @@ const Navbar = () => {
     setIsNotiOpen(false);
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
+  const handleSearchSubmit = () => {
+    const q = keyword.trim();
+    navigate(q ? `/notices?search=${encodeURIComponent(q)}` : '/notices');
+  };
+
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') handleSearchSubmit();
+  };
+
   const accountLabel = isEmployer ? '내 가게' : '내 프로필';
 
-  // 내 프로필 / 내 가게 이동 경로 (용현님 코드 반영)
   const menuLink = !isEmployer
     ? '/profile'
     : shopId
       ? `/shops/${shopId}`
       : '/shops/register';
-
-  const handleLogout = () => {
-    logout();
-    navigate('/');
-  };
 
   return (
     <S.Header>
@@ -91,7 +100,12 @@ const Navbar = () => {
             <S.SearchIcon aria-hidden="true">
               <SearchIcon />
             </S.SearchIcon>
-            <S.SearchInput placeholder="가게 이름으로 찾아보세요" />
+            <S.SearchInput
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              onKeyDown={handleSearchKeyDown}
+              placeholder="가게 이름으로 찾아보세요"
+            />
           </S.SearchBar>
         </S.Middle>
 
