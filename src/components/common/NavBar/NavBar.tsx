@@ -22,6 +22,7 @@ const Navbar = () => {
   const [shopId, setShopId] = useState<string | null>(null);
   const [hasUnread, setHasUnread] = useState(false);
   const [isNotiOpen, setIsNotiOpen] = useState(false);
+  const [keyword, setKeyword] = useState('');
 
   const notiButtonRef = useRef<HTMLButtonElement | null>(null);
   const notiId = useId();
@@ -37,7 +38,6 @@ const Navbar = () => {
     }
 
     const fetchData = async () => {
-      // 알바생만 unread 체크
       if (isEmployee) {
         const unread = await hasUnreadAlerts(userId).catch(() => false);
         setHasUnread(unread);
@@ -45,7 +45,6 @@ const Navbar = () => {
         setHasUnread(false);
       }
 
-      // 사장님만 shopId 체크
       if (isEmployer) {
         const shop = await getMyShopId(userId).catch(() => null);
         setShopId(shop);
@@ -66,20 +65,27 @@ const Navbar = () => {
     setIsNotiOpen(false);
   };
 
-  const accountLabel = isEmployer ? '내 가게' : '내 프로필';
-
-  // 내 프로필 / 내 가게 이동 경로 (용현님 코드 반영)
-  const menuLink = !isEmployer
-    ? '/profile'
-    : shopId
-      ? `/shops/${shopId}`
-      : '/shops/register';
-
   const handleLogout = () => {
     logout();
     navigate('/');
   };
 
+  const handleSearchSubmit = () => {
+    const q = keyword.trim();
+    navigate(q ? `/notices?search=${encodeURIComponent(q)}` : '/notices');
+  };
+
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') handleSearchSubmit();
+  };
+
+  const accountLabel = isEmployer ? '내 가게' : '내 프로필';
+
+  const menuLink = !isEmployer
+    ? '/profile'
+    : shopId
+      ? `/shops/${shopId}`
+      : '/shops/register';
 
   return (
     <S.Header>
@@ -93,7 +99,12 @@ const Navbar = () => {
             <S.SearchIcon aria-hidden="true">
               <SearchIcon />
             </S.SearchIcon>
-            <S.SearchInput placeholder="가게 이름으로 찾아보세요" />
+            <S.SearchInput
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              onKeyDown={handleSearchKeyDown}
+              placeholder="가게 이름으로 찾아보세요"
+            />
           </S.SearchBar>
         </S.Middle>
 

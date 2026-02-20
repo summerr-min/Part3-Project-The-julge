@@ -12,7 +12,7 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
     <S.PageStyles>
       <S.CardStyles>
         <S.LogoAreaStyles>
-          <Link to="/noticeList">
+          <Link to="/notices">
             <IconLogo />
           </Link>
         </S.LogoAreaStyles>

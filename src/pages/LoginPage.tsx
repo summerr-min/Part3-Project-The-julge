@@ -105,7 +105,7 @@ const Login = () => {
       login({ token, userId });
       await refreshCurrentUser();
 
-      navigate('/notice');
+      navigate('/notices');
     } catch (err: unknown) {
       setModalMessage('비밀번호가 일치하지 않습니다.');
       setIsModalOpen(true);
