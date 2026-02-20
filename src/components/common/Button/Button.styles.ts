@@ -19,6 +19,7 @@ const presetStyles = {
     font-size: 16px;
     font-weight: 700;
     line-height: 20px;
+    white-space: nowrap;
   `,
 
   middle: css`
@@ -32,6 +33,7 @@ const presetStyles = {
     font-size: 14px;
     font-weight: 700;
     line-height: 14px;
+    white-space: nowrap;
   `,
 
   small: css`
@@ -45,6 +47,7 @@ const presetStyles = {
     font-size: 12px;
     font-weight: 400;
     line-height: 16px;
+    white-space: nowrap;
   `,
 };
 

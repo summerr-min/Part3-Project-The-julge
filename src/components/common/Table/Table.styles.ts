@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-const tablet = `@media (max-width: 1024px)`;
-const mobile = `@media (max-width: 767px)`;
+const tablet = `@media (max-width: 767px)`;
+const mobile = `@media (max-width: 375px)`;
 
 export const WrapperStyles = styled.div`
   width: 100%;
@@ -115,6 +115,7 @@ export const ThStyles = styled.th`
 export const TdStyles = styled.td`
   height: 64px;
   padding: 20px 12px;
+  vertical-align: middle;
   text-align: left;
   border-bottom: 1px solid ${({ theme }) => theme.colors.gray20};
   font-size: 16px;
@@ -161,9 +162,9 @@ export const StatusTdStyles = styled.td`
   line-height: 26px;
   color: ${({ theme }) => theme.colors.black};
 
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
 
   ${mobile} {
     width: 50%;
