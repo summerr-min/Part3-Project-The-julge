@@ -158,11 +158,12 @@ export default function Table({
             </S.FixedTableStyles>
           </S.FixedAreaStyles>
         </S.LayoutStyles>
-      </S.WrapperStyles>
-
-      <S.PaginationWrapperStyles>
+          <S.PaginationWrapperStyles>
         <Pagination totalPages={totalPages} currentPage={page} onPageClick={handleChangePage} />
       </S.PaginationWrapperStyles>
+      </S.WrapperStyles>
+
+    
     </>
   );
 }
