@@ -9,6 +9,10 @@ export const Wrapper = styled.div`
   width: 10.5rem;
 `;
 
+export const InputContainer = styled.div`
+  position: relative;
+`;
+
 export const SortButton = styled.button`
   display: flex;
   justify-content: flex-start;

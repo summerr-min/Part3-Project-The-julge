@@ -1,13 +1,12 @@
 import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 import SortDropdownUI from './SortDropdownUI';
-
-type Category = 'time' | 'pay' | 'hour' | 'shop';
+import Category from '@/types/category.types';
 
 interface Prop {
   item: string[];
-  toggleDropdown: () => void;
-  isOpenDropdown: boolean;
-  closeDropdown: () => void;
+  toggleSortDropdown: () => void;
+  isOpenSortDropdown: boolean;
+  closeSortDropdown: () => void;
   setCategory: Dispatch<SetStateAction<Category>>;
   selectedLocation: string;
   setSelectedLocation: Dispatch<SetStateAction<string>>;
@@ -15,9 +14,9 @@ interface Prop {
 
 function SortDropdown({
   item,
-  isOpenDropdown,
-  toggleDropdown,
-  closeDropdown,
+  isOpenSortDropdown,
+  toggleSortDropdown,
+  closeSortDropdown,
   setCategory,
   selectedLocation,
   setSelectedLocation,
@@ -30,7 +29,7 @@ function SortDropdown({
         dropdownRef.current &&
         !dropdownRef.current.contains(e.target as Node)
       ) {
-        closeDropdown();
+        closeSortDropdown();
       }
     };
 
@@ -39,10 +38,10 @@ function SortDropdown({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [closeDropdown]);
+  }, [closeSortDropdown]);
 
   const handleInputClick = () => {
-    toggleDropdown();
+    toggleSortDropdown();
   };
 
   return (
@@ -51,9 +50,9 @@ function SortDropdown({
       item={item}
       selectedLocation={selectedLocation}
       handleInputClick={handleInputClick}
-      isOpenDropdown={isOpenDropdown}
-      toggleDropdown={toggleDropdown}
-      closeDropdown={closeDropdown}
+      isOpenSortDropdown={isOpenSortDropdown}
+      toggleSortDropdown={toggleSortDropdown}
+      closeSortDropdown={closeSortDropdown}
       setSelectedLocation={setSelectedLocation}
       setCategory={setCategory}
     />

@@ -1,7 +1,6 @@
 import { Dispatch, MouseEventHandler, SetStateAction } from 'react';
 import { Wrapper, ButtonContainer, Button } from './SortDropdownList.styles';
-
-type Category = 'time' | 'pay' | 'hour' | 'shop';
+import Category from '@/types/category.types';
 
 interface Props {
   item: string[];
