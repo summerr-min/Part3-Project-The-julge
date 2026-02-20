@@ -6,8 +6,12 @@ const breakpoints = {
   tablet: '774px',
 };
 
-export const dropdownWrapper = styled.div<{ $isBlack?: boolean }>`
+export const dropdownWrapper = styled.div<{
+  $isBlack?: boolean;
+  $zIndex?: number;
+}>`
   position: relative;
+  z-index: ${({ $zIndex }) => $zIndex ?? 100}; // zIndex 추가
 
   /* 다크모드 isBlack=true 모든 기기 105px 고정 */
   width: ${({ $isBlack }) => ($isBlack ? '105px' : '100%')};
@@ -55,7 +59,7 @@ export const selectBox = styled.button<
   line-height: 1;
 `;
 // 목록  전체
-export const MenuList = styled.ul`
+export const MenuList = styled.ul<{ $zIndex?: number }>`
   margin: 0;
   margin-top: 8px;
   padding: 0;
@@ -66,6 +70,7 @@ export const MenuList = styled.ul`
   background-color: ${({ theme }) => theme.colors.white};
   border: 1px solid ${({ theme }) => theme.colors.gray20};
   position: absolute;
+  z-index: ${({ $zIndex }) => ($zIndex ?? 100) + 1};
   box-shadow: 0px 4px 25px 0px #0000001a;
   border-radius: 6px;
 

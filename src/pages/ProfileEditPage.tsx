@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import CloseIcon from '@/assets/icons/close_icon.svg?react';
-import * as S from '@/pages/ProfilePage.style';
-import Dropdown from '@/components/user/Dropdown/Dropdown';
+import * as S from '@/pages/ProfileEditPage.style';
+import Dropdown from '@/components/common/Dropdown/Dropdown';
 import { SEOUL_DISTRICTS } from '@/constants/locations';
 import Modal from '@/components/common/Modal/Modal';
 import { useProfileForm } from '@/hooks/useProfileForm';
@@ -13,7 +13,7 @@ function ProfileEditPage() {
   // 컨텍스트 데이터 가져오기
   const auth = useContext(AuthContext);
 
-  // 사장님 접근 차단을 위한 로컬 모달 상태
+  // 사장님 접근 차단 모달
   const [isEmployerModalOpen, setIsEmployerModalOpen] = useState(false);
 
   const {
@@ -23,7 +23,7 @@ function ProfileEditPage() {
     selectLocation,
     setSelectLocation,
     handleChange,
-    handleSubmit, // 훅 전송 함수
+    handleSubmit,
     handleCloseModal,
     checkError,
   } = useProfileForm();
@@ -42,12 +42,13 @@ function ProfileEditPage() {
 
   return (
     <S.PageContainer>
-      <S.Title>내 프로필</S.Title>
-      <S.FormContainer onSubmit={handleSaveProfile}>
+      <S.TitleRow>
+        <S.Title>내 프로필</S.Title>
         <S.CloseButton type="button" onClick={() => navigate('/profile')}>
           <CloseIcon />
         </S.CloseButton>
-
+      </S.TitleRow>
+      <S.FormContainer onSubmit={handleSaveProfile}>
         <S.InputGroup>
           <S.InputWrapper>
             <S.Label>이름*</S.Label>
@@ -107,7 +108,7 @@ function ProfileEditPage() {
       {isEmployerModalOpen && (
         <Modal
           message="알바님 전용 페이지 입니다. 사장님은 접근하실 수 없습니다."
-          onClose={() => navigate('/')}
+          onClose={() => navigate('/')} // 추후 수정
         />
       )}
     </S.PageContainer>
