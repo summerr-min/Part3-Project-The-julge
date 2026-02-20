@@ -53,15 +53,14 @@ export const ProfileCard = styled.div`
   background-color: ${({ theme }) => theme.colors.red10};
   border-radius: 12px;
   width: 665px;
+  margin-left: 180px;
   min-height: 256px;
   padding: 32px;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  margin-left: 180px;
 
   @media (max-width: ${breakpoints.tablet}) {
-    //width: 100%;
     width: 680px;
     margin-left: 0;
     margin: 0 auto;

@@ -90,13 +90,12 @@ export function ProfileStorage({ children }: { children: ReactNode }) {
       if (!userId) return;
       try {
         setIsAppLoading(true);
-        // 한페이지 5개씩 보여줄때
+        // 한페이지 5개
         const offset = (page - 1) * LIMIT;
 
         // API 호출
         const response = await getUserApplications(userId, offset, LIMIT);
-        // 명세서 구조 - response 안에 items목록 count전체개수가 있음
-
+        // 명세서 구조 - response 안에 items목록 count전체개수 있음
         setApplications(response.items);
         setTotalCount(response.count);
       } catch (error) {
