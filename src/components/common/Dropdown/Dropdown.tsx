@@ -2,13 +2,17 @@ import { useRef, useState } from 'react';
 import Dropdown_down_icon from '@/assets/icons/dropdown_down_icon.svg?react';
 import * as S from '@/components/common/Dropdown/Dropdown.style';
 
-interface DropdownProps {
+interface DropdownProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'onSelect'
+> {
   id?: string;
   options: string[];
   placeholder?: string;
   onSelect: (item: string) => void;
   isBlack?: boolean;
   value?: string;
+  zIndex?: number;
 }
 /**
  **
@@ -22,7 +26,9 @@ interface DropdownProps {
  * @param {string} [placeholder='선택'] - 아무것도 선택하지 않았을 때 표시할 텍스트
  * @param {(item: string) => void} onSelect - 항목 선택 시 호출되는 콜백 함수
  * @param {boolean} [isBlack=false] - true면 다크(회색) 배경 스타일 적용
- *@param {string} [props.value] -  외부에서 주입받는 현재 선택된 값 (기존 데이터 로드용)
+ * @param {string} [props.value] -  외부에서 주입받는 현재 선택된 값 (기존 데이터 로드용)
+ * @param {number} [zIndex=100] - z-index 값
+ * @param {...any} rest
  */
 const Dropdown = ({
   id,
@@ -31,6 +37,8 @@ const Dropdown = ({
   onSelect,
   isBlack = false,
   value,
+  zIndex = 100,
+  ...rest
 }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -42,7 +50,12 @@ const Dropdown = ({
   };
 
   return (
-    <S.dropdownWrapper ref={dropdownRef} $isBlack={isBlack}>
+    <S.dropdownWrapper
+      ref={dropdownRef}
+      $isBlack={isBlack}
+      $zIndex={zIndex}
+      {...rest}
+    >
       <S.selectBox
         id={id}
         onClick={() => setIsOpen(!isOpen)}
@@ -57,7 +70,7 @@ const Dropdown = ({
       </S.selectBox>
 
       {isOpen && (
-        <S.MenuList>
+        <S.MenuList $zIndex={zIndex}>
           {options.map((option, index) => (
             <S.MenuItem key={index} onClick={() => handleItemClick(option)}>
               {option}
@@ -69,3 +82,4 @@ const Dropdown = ({
   );
 };
 export default Dropdown;
+export type { DropdownProps };

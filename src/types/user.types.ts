@@ -30,7 +30,7 @@ export const SEOUL_DISTRICTS = [
 
 export type SeoulAddress = (typeof SEOUL_DISTRICTS)[number];
 
-// 사용자 기본 정보 타입 (내 정보 조회 및 수정 )
+// 사용자 기본 정보 타입 (내 정보 조회 및 수정)
 export interface UserInfo {
   id: string;
   email: string;
@@ -89,6 +89,7 @@ export interface UserApplicationResponse {
   hasNext: boolean;
   items: UserApplicationItem[];
 }
+
 // 공고 상세 페이지에 필요한 사용자 정보 타입
 export type UserType = 'employee' | 'employer';
 
