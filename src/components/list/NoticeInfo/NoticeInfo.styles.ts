@@ -120,22 +120,22 @@ export const ContentContainer = styled.div`
   padding-top: 1.6rem;
 `;
 
-export const WageContainer = styled.div``;
+export const HourlyPayContainer = styled.div``;
 
-export const WageName = styled.p`
+export const HourlyPayName = styled.p`
   font-size: 1.6rem;
   font-weight: 700;
   line-height: 2rem;
   color: ${({ theme }) => theme.colors.primary};
 `;
 
-export const WageDescriptionContainer = styled.div`
+export const HourlyPayDescriptionContainer = styled.div`
   display: flex;
   gap: 0.8rem;
   align-items: center;
 `;
 
-export const WageDescription = styled.p`
+export const HourlyPayDescription = styled.p`
   font-size: 2.8rem;
   font-weight: 700;
   color: ${({ theme }) => theme.colors.black};

@@ -8,7 +8,7 @@ export interface Shop {
   address2: string;
   description: string;
   imageUrl: string;
-  originalWage: number;
+  originalHourlyPay: number;
 }
 
 export interface Link {
@@ -23,9 +23,9 @@ export interface Item {
   currentUserApplication?: {
     item: CurrentUserApplication;
   };
-  wage: number;
+  HourlyPay: number;
   startsAt: string;
-  workHour: number;
+  workhour: number;
   description: string;
   closed: boolean;
   shop: {

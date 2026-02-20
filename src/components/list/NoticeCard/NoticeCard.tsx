@@ -1,6 +1,6 @@
 import NoticeCardDescription from './NoticeCardDescription';
-import WageBadge from '@/components/list/WageBadge/WageBadge';
-import separatorWage from '@/utils/separatorWage';
+import HourlyPayBadge from '@/components/list/HourlyPayBadge/HourlyPayBadge';
+import separatorHourlyPay from '@/utils/separatorHourlyPay';
 import {
   Wrapper,
   ImageContainer,
@@ -9,8 +9,8 @@ import {
   ContentContainer,
   DescriptionContainer,
   RestaurantName,
-  WageContainer,
-  Wage,
+  HourlyPayContainer,
+  HourlyPay,
 } from '@/components/list/NoticeCard/NoticeCard.styles';
 
 interface Props {
@@ -18,8 +18,8 @@ interface Props {
   restaurantName: string;
   duration: string;
   address: string;
-  defaultWage: number;
-  currentWage: number;
+  defaultHourlyPay: number;
+  currentHourlyPay: number;
   isClosed: boolean;
 }
 
@@ -28,8 +28,8 @@ function NoticeCard({
   restaurantName,
   duration,
   address,
-  defaultWage,
-  currentWage,
+  defaultHourlyPay,
+  currentHourlyPay,
   isClosed,
 }: Props) {
   return (
@@ -57,14 +57,16 @@ function NoticeCard({
             isClosed={isClosed}
           />
         </DescriptionContainer>
-        <WageContainer>
-          <Wage $isClosed={isClosed}>{separatorWage(currentWage)}원</Wage>
-          <WageBadge
-            defaultWage={defaultWage}
-            currentWage={currentWage}
+        <HourlyPayContainer>
+          <HourlyPay $isClosed={isClosed}>
+            {separatorHourlyPay(currentHourlyPay)}원
+          </HourlyPay>
+          <HourlyPayBadge
+            defaultHourlyPay={defaultHourlyPay}
+            currentHourlyPay={currentHourlyPay}
             isClosed={isClosed}
           />
-        </WageContainer>
+        </HourlyPayContainer>
       </ContentContainer>
     </Wrapper>
   );

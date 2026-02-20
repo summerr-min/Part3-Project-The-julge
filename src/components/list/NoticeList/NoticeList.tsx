@@ -15,12 +15,13 @@ function NoticeList({ type, items, count }: Props) {
     <Wrapper type={type}>
       {items && items?.length > 0 ? (
         items?.slice(0, count).map((notice) => {
-          const { id, wage, startsAt, workHour, closed, shop } = notice.item;
-          const { name, address1, imageUrl, originalWage } = shop.item;
+          const { id, HourlyPay, startsAt, workhour, closed, shop } =
+            notice.item;
+          const { name, address1, imageUrl, originalHourlyPay } = shop.item;
 
           const formattedWorkTime = formatWorkTime({
             startsAt,
-            workHour: workHour,
+            workhour: workhour,
           });
 
           return (
@@ -30,8 +31,8 @@ function NoticeList({ type, items, count }: Props) {
                 restaurantName={name}
                 duration={formattedWorkTime}
                 address={address1}
-                defaultWage={originalWage}
-                currentWage={wage}
+                defaultHourlyPay={originalHourlyPay}
+                currentHourlyPay={HourlyPay}
                 isClosed={closed}
               />
             </li>

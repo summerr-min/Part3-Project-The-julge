@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 interface BadgeProps {
-  averageWage: number;
+  averageHourlyPay: number;
   isClosed: boolean;
 }
 
@@ -76,13 +76,13 @@ const closedStyles = css`
   }
 `;
 
-export const WageBadge = styled.div<BadgeProps>`
+export const HourlyPayBadge = styled.div<BadgeProps>`
   ${baseStyles}
   ${tabletStyles}
   ${desktopStyles}
   
-  ${({ averageWage, isClosed }) => {
+  ${({ averageHourlyPay, isClosed }) => {
     if (isClosed) return closedStyles;
-    return averageWage >= 50 ? red40Styles : red30Styles;
+    return averageHourlyPay >= 50 ? red40Styles : red30Styles;
   }}
 `;
