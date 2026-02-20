@@ -1,23 +1,23 @@
 import { Dispatch, RefObject, SetStateAction } from 'react';
 import SortDropdownList from './SortDropdownList';
+import Category from '@/types/category.types';
 import {
   Wrapper,
+  InputContainer,
   SortButton,
   ArrowButton,
   UpArrowIcon,
 } from './SortDropdownUI.styles';
 
-type Category = 'time' | 'pay' | 'hour' | 'shop';
-
 interface Props {
   dropdownRef: RefObject<HTMLDivElement | null>;
   item: string[];
   selectedLocation: string;
-  isOpenDropdown: boolean;
+  isOpenSortDropdown: boolean;
   handleInputClick: () => void;
-  toggleDropdown: () => void;
+  toggleSortDropdown: () => void;
   setSelectedLocation: Dispatch<SetStateAction<string>>;
-  closeDropdown: () => void;
+  closeSortDropdown: () => void;
   setCategory: Dispatch<SetStateAction<Category>>;
 }
 
@@ -25,26 +25,28 @@ function SortDropdownUI({
   dropdownRef,
   item,
   selectedLocation,
-  isOpenDropdown,
+  isOpenSortDropdown,
   handleInputClick,
-  toggleDropdown,
+  toggleSortDropdown,
   setSelectedLocation,
-  closeDropdown,
+  closeSortDropdown,
   setCategory,
 }: Props) {
   return (
     <Wrapper ref={dropdownRef}>
-      <SortButton type="button" onClick={handleInputClick}>
-        {selectedLocation}
-      </SortButton>
-      <ArrowButton type="button" onClick={toggleDropdown}>
-        <UpArrowIcon $isOpen={isOpenDropdown} />
-      </ArrowButton>
-      {isOpenDropdown && (
+      <InputContainer>
+        <SortButton type="button" onClick={handleInputClick}>
+          {selectedLocation}
+        </SortButton>
+        <ArrowButton type="button" onClick={toggleSortDropdown}>
+          <UpArrowIcon $isOpen={isOpenSortDropdown} />
+        </ArrowButton>
+      </InputContainer>
+      {isOpenSortDropdown && (
         <SortDropdownList
           item={item}
           onClick={setSelectedLocation}
-          onClose={closeDropdown}
+          onClose={closeSortDropdown}
           setCategory={setCategory}
         />
       )}
