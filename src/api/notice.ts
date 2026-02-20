@@ -17,27 +17,43 @@ interface GetNoticeListProps {
   params: NoticeSearch;
 }
 
+function getSearchFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  return (params.get('search') ?? '').trim();
+}
+
 export async function getNoticeList(Props: GetNoticeListProps) {
   try {
+    const search = getSearchFromUrl();
+    const params = {
+   ...Props.params,
+   keyword: search ? search : undefined,
+};
+
     const response = await instance.get('/notices', {
       ...Props,
+      params,
       paramsSerializer: (paramObj) => {
         const params = new URLSearchParams();
 
         Object.keys(paramObj).forEach((key) => {
           const value = paramObj[key];
+
+          if (value === undefined || value === null || value === '') return;
+
           if (Array.isArray(value) && key === 'address') {
             value.forEach((addressValue) => {
-              params.append(key, addressValue);
+              params.append(key, String(addressValue));
             });
           } else {
-            params.append(key, value);
+            params.append(key, String(value));
           }
         });
 
         return params.toString();
       },
     });
+
     return response;
   } catch (error) {
     return error;
@@ -62,7 +78,7 @@ interface PostApplyProps {
 export async function postApply(Props: PostApplyProps) {
   try {
     const response = await instance.post(
-      `/shops/${Props?.data?.shopId}/notices/${Props?.data?.noticeId}/applications`,
+      `/shops/${Props.data.shopId}/notices/${Props.data.noticeId}/applications`,
       null,
       {
         headers: { Authorization: `Bearer ${Props.authorization?.token}` },

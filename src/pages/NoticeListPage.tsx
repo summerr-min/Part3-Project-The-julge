@@ -20,6 +20,7 @@ import {
   FilterContainer,
   FilterDropdownContainer,
 } from './NoticeListPage.styles';
+import { useLocation } from 'react-router-dom';
 
 function NoticeListPage() {
   const currentDate = new Date();
@@ -27,6 +28,7 @@ function NoticeListPage() {
   const { execute } = useAsync(getNoticeList);
   const { currentPage, totalItems, updateCurrentPage, updateTotalItems } =
     usePagination({});
+    const location = useLocation();
   const {
     filterData,
     setOffset,
@@ -81,7 +83,7 @@ function NoticeListPage() {
     setSort(category);
     setOffset((currentPage - 1) * 6);
     setLimit(6);
-  }, [currentPage, category]);
+  }, [currentPage, category, location.search]);
 
   const handlePageChange = (pageNumber: number) => {
     updateCurrentPage(pageNumber);
