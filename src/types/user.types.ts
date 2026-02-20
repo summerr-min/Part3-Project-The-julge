@@ -83,7 +83,7 @@ export interface Link {
     limit: number | 'undefined';
   };
 }
-
+// 커밋용 주석
 export interface UserData {
   item: Item;
   links: Link[];
