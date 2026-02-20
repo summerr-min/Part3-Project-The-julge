@@ -33,7 +33,7 @@ function NoticeListPage() {
     setSort,
     addAddress,
     deleteAddress,
-    setWage,
+    setHourlyPay,
     setStartsAt,
     resetFilter,
   } = useFilter();
@@ -57,7 +57,9 @@ function NoticeListPage() {
       startsAGte: filterData.filter.startsAtGte
         ? filterData.filter.startsAtGte
         : convertDate(currentDate),
-      wageGte: filterData.filter.wageGte ? filterData.filter.wageGte : 0,
+      hourlyPayGte: filterData.filter.hourlyPayGte
+        ? filterData.filter.hourlyPayGte
+        : 0,
       sort: category,
     },
   };
@@ -106,8 +108,8 @@ function NoticeListPage() {
                   addressList={filterData.filter.address}
                   onAddressClick={addAddress}
                   onBadgeClick={deleteAddress}
-                  wage={filterData.filter.wageGte}
-                  setWage={setWage}
+                  hourlyPay={filterData.filter.hourlyPayGte}
+                  setHourlyPay={setHourlyPay}
                   startsAt={filterData.filter.startsAtGte}
                   setStartsAt={setStartsAt}
                   resetFilter={resetFilter}

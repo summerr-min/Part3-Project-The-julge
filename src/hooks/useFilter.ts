@@ -9,7 +9,7 @@ interface Filter {
   limit: number;
   address: Address[];
   startsAtGte: string;
-  wageGte: number;
+  hourlyPayGte: number;
   sort: SortType;
 }
 
@@ -24,7 +24,7 @@ function useFilter(
     limit: 0,
     address: [],
     startsAtGte: convertDate(new Date()),
-    wageGte: 0,
+    hourlyPayGte: 0,
     sort: 'time' as SortType,
   }
 ) {
@@ -46,7 +46,7 @@ function useFilter(
   useEffect(() => {
     let count = 0;
 
-    if (filterData.filter.wageGte !== initialFilter.wageGte) {
+    if (filterData.filter.hourlyPayGte !== initialFilter.hourlyPayGte) {
       count += 1;
     }
 
@@ -85,8 +85,8 @@ function useFilter(
     });
   };
 
-  const setWage = (wage: number) => {
-    updateFilter({ wageGte: wage });
+  const setHourlyPay = (hourlyPay: number) => {
+    updateFilter({ hourlyPayGte: hourlyPay });
   };
 
   const setStartsAt = (startsAt: string) => {
@@ -104,7 +104,7 @@ function useFilter(
     setSort,
     addAddress,
     deleteAddress,
-    setWage,
+    setHourlyPay,
     setStartsAt,
     resetFilter,
   };

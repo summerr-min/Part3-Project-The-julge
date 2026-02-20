@@ -71,10 +71,10 @@ function NoticeDetailPage() {
     closed,
     currentUserApplication,
     shop: { item: shopItem },
-    wage,
+    HourlyPay,
     description: noticeDescription,
     startsAt,
-    workHour,
+    workhour,
   } = notice.item;
 
   const {
@@ -82,7 +82,7 @@ function NoticeDetailPage() {
     name: shopName,
     address1: address,
     imageUrl,
-    originalWage: defaultWage,
+    originalHourlyPay: defaultHourlyPay,
     description: shopDescription,
   } = shopItem;
 
@@ -97,12 +97,12 @@ function NoticeDetailPage() {
         shopName={shopName}
         address={address as Address}
         imageUrl={imageUrl}
-        defaultWage={defaultWage}
-        currentWage={wage}
+        defaultHourlyPay={defaultHourlyPay}
+        currentHourlyPay={HourlyPay}
         shopDescription={shopDescription}
         noticeDescription={noticeDescription}
         startsAt={startsAt}
-        workHour={workHour}
+        workhour={workhour}
         onApply={fetchNotice}
       />
       <NoticeRecentViewed />

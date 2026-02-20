@@ -89,7 +89,7 @@ export const RestaurantName = styled.h2<{ $isClosed: boolean }>`
   opacity: ${({ $isClosed }) => ($isClosed ? 0.3 : 1)};
 `;
 
-export const WageContainer = styled.div`
+export const HourlyPayContainer = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
@@ -108,7 +108,7 @@ export const WageContainer = styled.div`
   }
 `;
 
-export const Wage = styled.h2<{ $isClosed: boolean }>`
+export const HourlyPay = styled.h2<{ $isClosed: boolean }>`
   font-size: 1.8rem;
   font-weight: 700;
   color: ${({ theme, $isClosed }) =>
