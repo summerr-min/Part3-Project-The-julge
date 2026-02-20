@@ -22,6 +22,7 @@ function formatTime(date: Date): string {
 
 function formatWorkTime({ startsAt, workHour }: Props) {
   const startDate: Date = new Date(startsAt);
+  startDate.setHours(startDate.getHours() - 9);
   const endDate: Date = new Date(
     startDate.getTime() + workHour * 60 * 60 * 1000
   );

@@ -1,13 +1,42 @@
 import { useState } from 'react';
+import styled from 'styled-components';
 import Table, { type TableHeader } from '@/components/common/Table/Table';
 import * as S from '@/components/common/Table/Table.styles';
+
+const ButtonRowStyles = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+
+const OutlineButtonStyles = styled.button`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  width: 92px;
+  height: 38px;
+
+  padding: 10px 20px;
+
+  border-radius: 6px;
+  border: 1px solid ${({ theme }) => theme.colors.primary};
+  background: transparent;
+
+  color: ${({ theme }) => theme.colors.primary};
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 14px;
+
+  cursor: pointer;
+`;
 
 type Row = {
   id: string;
   shop: string;
   date: string;
   pay: string;
-  status: '승인 완료' | '거절' | '대기중' | '승인 완료 승인 완료 승인 완료승인 완료 승인 완료 승인 완료';
+  status: '승인 완료' | '거절' | '대기중';
 };
 
 const headers: TableHeader[] = [
@@ -28,16 +57,16 @@ const rows: Row[] = [
   {
     id: '2',
     shop: '써니 브런치 레스토랑',
-    date: '2023-01-12 10:00 ~ 12:00 (2시간) 2023-01-12 10:00 ~ 12:00 (2시간)',
+    date: '2023-01-12 10:00 ~ 12:00 (2시간)',
     pay: '15,000원',
-    status: '승인 완료 승인 완료 승인 완료승인 완료 승인 완료 승인 완료',
+    status: '거절',
   },
   {
     id: '3',
     shop: '수리 에스프레소 샵',
     date: '2023-01-12 10:00 ~ 12:00 (2시간)',
     pay: '15,000원',
-    status: '거절',
+    status: '대기중',
   },
   {
     id: '4',
@@ -51,41 +80,7 @@ const rows: Row[] = [
     shop: '초가을집',
     date: '2023-01-12 10:00 ~ 12:00 (2시간)',
     pay: '15,000원',
-    status: '대기중',
-  },  {
-    id: '6',
-    shop: 'HS 과일주스',
-    date: '2023-01-12 10:00 ~ 12:00 (2시간)',
-    pay: '15,000원',
     status: '승인 완료',
-  },
-  {
-    id: '7',
-    shop: '써니 브런치 레스토랑',
-    date: '2023-01-12 10:00 ~ 12:00 (2시간)',
-    pay: '15,000원',
-    status: '승인 완료',
-  },
-  {
-    id: '8',
-    shop: '수리 에스프레소 샵',
-    date: '2023-01-12 10:00 ~ 12:00 (2시간)',
-    pay: '15,000원',
-    status: '거절',
-  },
-  {
-    id: '9',
-    shop: '너구리네 라면집',
-    date: '2023-01-12 10:00 ~ 12:00 (2시간)',
-    pay: '15,000원',
-    status: '대기중',
-  },
-  {
-    id: '10',
-    shop: '초가을집',
-    date: '2023-01-12 10:00 ~ 12:00 (2시간)',
-    pay: '15,000원',
-    status: '대기중',
   },
 ];
 
@@ -116,15 +111,24 @@ export default function TableSplitTestPage() {
             ))}
           </>
         }
-        rightChildren={
-          <>
-            {pagedRows.map((r) => (
-              <tr key={r.id}>
-                <S.StatusTdStyles>{r.status}</S.StatusTdStyles>
-              </tr>
-            ))}
-          </>
-        }
+  rightChildren={
+  <>
+    {pagedRows.map((r) => (
+      <tr key={r.id}>
+        <S.StatusTdStyles>
+          {r.status === '대기중' ? (
+            <ButtonRowStyles>
+              <OutlineButtonStyles>수정</OutlineButtonStyles>
+              <OutlineButtonStyles>완료</OutlineButtonStyles>
+            </ButtonRowStyles>
+          ) : (
+            <span>{r.status}</span>
+          )}
+        </S.StatusTdStyles>
+      </tr>
+    ))}
+  </>
+}
       />
     </div>
   );
