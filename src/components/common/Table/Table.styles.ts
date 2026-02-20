@@ -43,7 +43,7 @@ export const FixedAreaStyles = styled.div`
   position: relative;
   z-index: 2;
   
-background: ${({ theme }) => theme.colors.white};
+  background: ${({ theme }) => theme.colors.white};
 
 
   ${mobile} {
