@@ -12,6 +12,7 @@ import NoticeDescription from './NoticeDescription/NoticeDescription';
 import useAsync from '@/hooks/useAsync';
 import { postApply, updateApplication } from '@/api/notice';
 import ConfirmModal from '@/components/common/Modal/ConfirmModal';
+import AlertModal from '@/components/common/Modal/AlertModal';
 import {
   Wrapper,
   Container,
@@ -47,6 +48,9 @@ interface Props {
   workhour: number;
   onApply: () => void;
   applicationId?: string;
+  hasProfile: boolean;
+  profileChecked: boolean;
+  isEmployer?: boolean;
 }
 
 function NoticeInfo({
@@ -66,6 +70,9 @@ function NoticeInfo({
   workhour,
   onApply,
   applicationId,
+  hasProfile,
+  profileChecked,
+  isEmployer,
 }: Props) {
   const formattedWorkTime = formatWorkTime({ startsAt, workhour });
   const { execute } = useAsync(postApply);
@@ -73,12 +80,16 @@ function NoticeInfo({
 
   const [isCancelModal, setIsCancelModal] = useState(false);
   const [isCancel, setIsCancel] = useState(false);
+
+  const [isProfileModal, setIsProfileModal] = useState(false);
+  const [isEmployerModal, setIsEmployerModal] = useState(false);
+
   const [token, setToken] = useState<string>(() => {
     if (typeof window === 'undefined') return '';
     return localStorage.getItem('token') ?? '';
   });
 
-  const Props = {
+  const requestProps = {
     authorization: { token },
     data: {
       shopId: shopId as string,
@@ -88,18 +99,18 @@ function NoticeInfo({
 
   const fetch = async () => {
     if (shopId && noticeId) {
-      await execute(Props);
+      await execute(requestProps);
     }
-  };
-
-  const handleApply = () => {
-    fetch().then(() => {
-      onApply();
-    });
   };
 
   const openCancelModal = () => setIsCancelModal(true);
   const closeCancelModal = () => setIsCancelModal(false);
+
+  const openProfileModal = () => setIsProfileModal(true);
+  const closeProfileModal = () => setIsProfileModal(false);
+
+  const openEmployerModal = () => setIsEmployerModal(true);
+  const closeEmployerModal = () => setIsEmployerModal(false);
 
   const handleConfirmCancel = async () => {
     if (!shopId || !noticeId || !applicationId) return;
@@ -115,11 +126,29 @@ function NoticeInfo({
         status: 'canceled',
       },
     });
+
     if (res) {
       closeCancelModal();
       onApply();
     }
+
     setIsCancel(false);
+  };
+
+  const handleApply = () => {
+    if (isEmployer) {
+      openEmployerModal();
+      return;
+    }
+
+    if (!profileChecked) return;
+
+    if (!hasProfile) {
+      openProfileModal();
+      return;
+    }
+
+    fetch().then(onApply);
   };
 
   const applyStatusSwitch = () => {
@@ -129,9 +158,7 @@ function NoticeInfo({
       case 'pending':
         return <SecondaryButton text="취소하기" onClick={openCancelModal} />;
       case 'accepted':
-        return <InActiveButton />;
       case 'canceled':
-        return <InActiveButton />;
       case 'rejected':
         return <InActiveButton />;
       default:
@@ -142,10 +169,7 @@ function NoticeInfo({
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const item = localStorage.getItem('token');
-
-      if (item) {
-        setToken(item);
-      }
+      if (item) setToken(item);
     }
   }, []);
 
@@ -191,6 +215,22 @@ function NoticeInfo({
         </ShopInfoContainer>
         <NoticeDescription description={noticeDescription} />
       </Wrapper>
+
+      {isEmployerModal && (
+        <AlertModal
+          message="사장님은 신청할 수 없습니다."
+          onClose={closeEmployerModal}
+          confirmText="확인"
+        />
+      )}
+
+      {isProfileModal && (
+        <AlertModal
+          message="내 프로필을 먼저 등록해 주세요."
+          onClose={closeProfileModal}
+          confirmText="확인"
+        />
+      )}
 
       {isCancelModal && (
         <ConfirmModal

@@ -1,24 +1,25 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useAsync from '@/hooks/useAsync';
-import { getShopNotice } from '@/api/notice';
+import { getShopNotice, getUser } from '@/api/notice';
 import NoticeInfo from '@/components/list/NoticeInfo/NoticeInfo';
+import NoticeRecentViewed from '@/components/list/NoticeRecentViewed/NoticeRecentViewed';
 import { Notice } from '@/types/notice.types';
+import { UserData } from '@/types/user.types';
 import { Address } from '@/types/address.types';
 import { addNewNotice } from '@/utils/noticeRecentViewed';
-import NoticeRecentViewed from '@/components/list/NoticeRecentViewed/NoticeRecentViewed';
-import { UserData } from '@/types/user.types';
-import { getUser } from '@/api/notice';
 import extractUserIdFromJWT from '@/utils/extractUserIdFromJWT';
 import { Wrapper } from './NoticeDetailPage.styles';
 
 function NoticeDetailPage() {
-  const [token, setToken] = useState<string>('');
   const { execute } = useAsync(getShopNotice);
   const { execute: getUserExecute } = useAsync(getUser);
+
   const [notice, setNotice] = useState<Notice | undefined>();
   const [user, setUser] = useState<UserData>();
-  console.log(user); //나중에 user 정보 활용할 때 사용
+
+  const [profileChecked, setProfileChecked] = useState(false);
+  const [hasProfile, setHasProfile] = useState(false);
 
   const { shopId, noticeId } = useParams<{
     shopId: string;
@@ -32,38 +33,34 @@ function NoticeDetailPage() {
     setNotice(response.data);
   };
 
-  useEffect(() => {
-    if (shopId && noticeId) {
-      fetchNotice();
-    }
-  }, [shopId, noticeId, token]);
-
   const userDataFetch = async () => {
-    const response: any = await getUserExecute({
-      userId: extractUserIdFromJWT(token),
-    });
-    setUser(response.data);
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) return;
+
+    const userId = extractUserIdFromJWT(accessToken);
+    if (!userId) return;
+
+    const response: any = await getUserExecute({ userId });
+    const data = response?.data ?? response;
+
+    setUser(data);
+
+    const ok =
+      data?.item?.type === 'employee' &&
+      !!(data?.item?.name && data?.item?.phone && data?.item?.address);
+
+    setHasProfile(ok);
+    setProfileChecked(true);
   };
 
   useEffect(() => {
-    if (token) {
-      userDataFetch();
-    }
-  }, [token]);
+    if (!shopId || !noticeId) return;
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const item = localStorage.getItem('token');
+    fetchNotice();
+    userDataFetch();
+  }, [shopId, noticeId]);
 
-      if (item) {
-        setToken(item);
-      }
-    }
-  }, []);
-
-  if (!notice) {
-    return null;
-  }
+  if (!notice) return null;
 
   addNewNotice(notice);
 
@@ -86,6 +83,8 @@ function NoticeDetailPage() {
     description: shopDescription,
   } = shopItem;
 
+  const isEmployer = user?.item?.type === 'employer';
+
   return (
     <Wrapper>
       <NoticeInfo
@@ -105,6 +104,9 @@ function NoticeDetailPage() {
         workhour={workhour}
         onApply={fetchNotice}
         applicationId={currentUserApplication?.item.id}
+        hasProfile={hasProfile}
+        profileChecked={profileChecked}
+        isEmployer={isEmployer}
       />
       <NoticeRecentViewed />
     </Wrapper>

@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { updataMyProfile } from '@/api/user';
+import { updateMyProfile } from '@/api/user';
 import { ProfileContext } from '@/contexts/ProfileContext';
 import { UserInfo, SeoulAddress } from '@/types/user.types';
 
@@ -73,7 +73,7 @@ export const useProfileForm = () => {
       const userId = localStorage.getItem('userId');
       if (!userId) return false;
 
-      const response = await updataMyProfile(userId, {
+      const response = await updateMyProfile(userId, {
         ...formData,
         address: selectLocation,
       });
