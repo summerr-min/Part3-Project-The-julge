@@ -4,7 +4,7 @@ import separatorHourlyPay from '@/utils/separatorHourlyPay';
 import NoticeCardDescription from '@/components/list/NoticeCard/NoticeCardDescription';
 import { Address } from '@/types/address.types';
 import formatWorkTime from '@/utils/formatWorkTime';
-import InActiveButton from './Button/InActiveButton';
+import Button from '@/components/common/Button/Button';
 import PrimaryButton from './Button/PrimaryButton';
 import SecondaryButton from './Button/SecondaryButton';
 import { Status } from '@/types/notice.types';
@@ -152,7 +152,12 @@ function NoticeInfo({
   };
 
   const applyStatusSwitch = () => {
-    if (isClosed) return <InActiveButton />;
+    if (isClosed)
+      return (
+        <Button variant="disabled" disabled>
+          신청 불가
+        </Button>
+      );
 
     switch (applyStatus) {
       case 'pending':
@@ -160,7 +165,11 @@ function NoticeInfo({
       case 'accepted':
       case 'canceled':
       case 'rejected':
-        return <InActiveButton />;
+        return (
+          <Button variant="disabled" disabled>
+            신청 불가
+          </Button>
+        );
       default:
         return <PrimaryButton text="신청하기" onClick={handleApply} />;
     }
