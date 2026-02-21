@@ -61,7 +61,7 @@ export const InputGroup = styled.div`
 `;
 export const BioWrapper = styled.div`
   margin-top: 24px;
-  display: flex;ㅎ
+  display: flex;
   flex-direction: column;
   margin-bottom: 20px;
   width: 100%;
@@ -71,6 +71,14 @@ export const BioWrapper = styled.div`
     margin: 0 auto;
     margin-top: 20px;
     margin-bottom: 8px;
+  }
+`;
+export const ButtonWrapper = styled.div`
+  text-align: center;
+  margin-top: 90px;
+
+  @media (max-width: ${breakpoints.mobile}) {
+    margin-top: 32px;
   }
 `;
 
@@ -115,7 +123,7 @@ export const TextAreaField = styled.textarea`
   border: 1px solid ${({ theme }) => theme.colors.gray30};
   border-radius: 6px;
   resize: none;
-  margin-bottom: 80px;
+
   ${({ theme }) => theme.fonts.body1Regular};
 `;
 

@@ -95,10 +95,15 @@ function ProfileEditPage() {
             value={formData.bio}
             onChange={handleChange}
           />
-          <div style={{ textAlign: 'center' }}>
-            <S.SubmitButton type="submit">등록하기</S.SubmitButton>
-          </div>
         </S.BioWrapper>
+        <S.ButtonWrapper style={{ textAlign: 'center' }}>
+          <S.SubmitButton
+            type="submit"
+            disabled={!formData.name || !formData.phone}
+          >
+            등록하기
+          </S.SubmitButton>
+        </S.ButtonWrapper>
       </S.FormContainer>
       {/* 등록 결과 모달 (훅에서 관리) */}
       {formModal.isOpen && (
