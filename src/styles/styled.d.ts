@@ -21,6 +21,8 @@ declare module 'styled-components' {
       blue10: string;
       green20: string;
       green10: string;
+      yellow20: string;
+      yellow10: string;
       kakao: string;
     };
 
