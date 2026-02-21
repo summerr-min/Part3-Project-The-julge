@@ -9,7 +9,6 @@ export const ResetButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.2rem 5.6rem;
   min-width: 8rem;
   background-color: ${({ theme }) => theme.colors.white};
   color: ${({ theme }) => theme.colors.primary};
