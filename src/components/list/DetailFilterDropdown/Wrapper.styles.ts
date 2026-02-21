@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 
 export const FilterWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: fixed;
   top: 0;
   left: 0;
@@ -41,5 +44,25 @@ export const FilterContainer = styled.div`
     width: 39rem;
     height: 84.2rem;
     border-radius: 1rem;
+  }
+
+  &::-webkit-scrollbar {
+    width: 1.3rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border: 0.2rem solid transparent;
+    background-color: hsl(0, 0%, 67%);
+    background-clip: padding-box;
+    border-radius: 1rem;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: ${({ theme }) => theme.colors.red30};
+  }
+
+  &::-webkit-scrollbar-track {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
 `;

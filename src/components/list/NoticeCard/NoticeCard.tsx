@@ -1,6 +1,7 @@
 import NoticeCardDescription from './NoticeCardDescription';
 import HourlyPayBadge from '@/components/list/HourlyPayBadge/HourlyPayBadge';
 import separatorHourlyPay from '@/utils/separatorHourlyPay';
+import { Link } from 'react-router-dom';
 import {
   Wrapper,
   ImageContainer,
@@ -14,6 +15,8 @@ import {
 } from '@/components/list/NoticeCard/NoticeCard.styles';
 
 interface Props {
+  shopId?: string;
+  noticeId: string;
   cardImageUrl: string;
   restaurantName: string;
   duration: string;
@@ -24,6 +27,8 @@ interface Props {
 }
 
 function NoticeCard({
+  shopId,
+  noticeId,
   cardImageUrl,
   restaurantName,
   duration,
@@ -35,11 +40,13 @@ function NoticeCard({
   return (
     <Wrapper $isClosed={isClosed}>
       <ImageContainer>
-        <CardImage
-          src={cardImageUrl}
-          alt={restaurantName}
-          $isClosed={isClosed}
-        />
+        <Link to={`/shops/${shopId}/notices/${noticeId}/detail`}>
+          <CardImage
+            src={cardImageUrl}
+            alt={restaurantName}
+            $isClosed={isClosed}
+          />
+        </Link>
         <LastNoticeText $isClosed={isClosed}>지난 공고</LastNoticeText>
       </ImageContainer>
 

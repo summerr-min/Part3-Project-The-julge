@@ -29,7 +29,7 @@ function NoticeCustomized({ address = ['서울시 종로구'], limit = 10 }: Pro
       limit,
       address,
       startsAtGte: convertDate(currentDate),
-      wageGte: 0,
+      hourlyPayGte: 0,
       sort: 'pay' as const,
     },
   };

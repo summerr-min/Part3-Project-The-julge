@@ -12,13 +12,6 @@ export const Wrapper = styled.div`
   }
 `;
 
-export const Name = styled.p`
-  font-size: 1.6rem;
-  font-weight: 400;
-  line-height: 2.6rem;
-  margin-bottom: 0.8rem;
-`;
-
 export const Input = styled.input`
   display: flex;
   gap: 1rem;
