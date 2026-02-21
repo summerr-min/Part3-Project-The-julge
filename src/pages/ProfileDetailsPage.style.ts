@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import Button from '@/components/common/Button/Button';
 import { EmptyCard as SharedEmptyCard } from '@/pages/ProfilePage.style'; // 기존 컴포넌트 가져오기
 import { breakpoints } from '@/pages/profileCommom.style';
@@ -282,4 +282,36 @@ export const StatusBadge = styled.span<{ $status: string }>`
         return `color: #20A81E; background: #D4F7D4;`; // 대기중
     }
   }}
+`;
+
+/** 로딩 스피너 애니메이션 */
+const rotate = keyframes`
+  from { transform: rotate(0deg); } /*0도에서*/
+  to { transform: rotate(360deg); } /*360도 까지 돌기*/
+`;
+
+/** 스피너를 중앙에 배치할 컨테이너 */
+export const SpinnerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+  gap: 16px;
+  width: 100%;
+`;
+
+/** 실제 스피너 UI */
+export const LoadingSpinner = styled.div`
+  width: 40px;
+  height: 40px;
+  border: 4px solid ${({ theme }) => theme.colors.gray20}; /*배경원임*/
+  border-top: 4px solid ${({ theme }) => theme.colors.primary}; /*돌아가는부분*/
+  border-radius: 50%; /*스피너 원형 */
+  animation: ${rotate} 1s linear infinite; /* 애니메이션 적용 1초 동안 일정한 속도로 움직이게*/
+`;
+
+export const LoadingText = styled.p`
+  ${({ theme }) => theme.fonts.body1Regular};
+  color: ${({ theme }) => theme.colors.gray50};
 `;

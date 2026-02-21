@@ -119,7 +119,10 @@ function ProfileDetailsPage() {
           <S.Title>신청 내역</S.Title>
 
           {isAppLoading ? (
-            <p>데이터를 가져오고 있어요...</p>
+            <D.SpinnerWrapper>
+              <D.LoadingSpinner />
+              <D.LoadingText>데이터를 가져오고 있어요...</D.LoadingText>
+            </D.SpinnerWrapper>
           ) : applications.length === 0 ? (
             <D.DetailsEmptyCard>
               <p>아직 신청 내역이 없어요.</p>
