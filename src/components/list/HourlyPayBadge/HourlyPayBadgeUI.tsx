@@ -8,7 +8,7 @@ interface Props {
 
 function HourlyPayBadgeUI({ averageHourlyPay, arrow, isClosed }: Props) {
   if (averageHourlyPay === 0) {
-    return <HourlyPayBadge $averageHourlyPay={0} $isClosed={isClosed} />;
+    return null;
   }
 
   return (
