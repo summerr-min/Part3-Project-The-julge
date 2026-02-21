@@ -42,11 +42,22 @@ function NoticeCustomized({ address = ['서울시 종로구'], limit = 10 }: Pro
 
   if (currentUser?.type && currentUser.type === 'employer') return null;
 
-  const userFetch = async () => {
-    if (!currentUser?.id) return;
-    const res = await useProfile(currentUser?.id);
-    setUserAddress(res.item.address);
-  };
+  useEffect(() => {
+    const initAddress = async () => {
+      if (currentUser?.id) {
+        const res = await useProfile(currentUser.id);
+        if (res?.item?.address) {
+          setUserAddress(res.item.address);
+        } else {
+          setUserAddress(address[0]);
+        }
+      } else {
+        setUserAddress(address[0]);
+      }
+    };
+
+    initAddress();
+  }, [currentUser?.id]);
 
   const fetch = async () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -125,10 +136,6 @@ function NoticeCustomized({ address = ['서울시 종로구'], limit = 10 }: Pro
       }
     };
   }, [dragging]);
-
-  useEffect(() => {
-    userFetch();
-  }, [userAddress]);
 
   useEffect(() => {
     if (userAddress) {
