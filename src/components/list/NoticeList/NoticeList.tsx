@@ -5,7 +5,7 @@ import { Wrapper } from './NoticeList.styles';
 import NotFoundNotice from '@/components/list/NotFoundNotice/NotFoundNotice';
 
 interface Props {
-  type: 'customized' | 'entire';
+  type: 'customized' | 'entire' | 'recent';
   items?: Notice[];
   count: number;
   shopId?: string;

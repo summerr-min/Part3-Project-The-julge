@@ -7,7 +7,8 @@ function NoticeRecentViewed() {
   return (
     <Wrapper>
       <SectionName>최근에 본 공고</SectionName>
-      <NoticeList type="entire" count={6} items={items} />
+      {/* <NoticeList type="entire" count={6} items={items} /> */}
+      <NoticeList type="recent" count={6} items={items} />
     </Wrapper>
   );
 }
