@@ -154,3 +154,18 @@ export const ButtonContainer = styled.div`
   align-items: flex-end;
   flex-grow: 2;
 `;
+
+export const DisabledButtonWrapper = styled.div`
+  width: 346px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+
+  flex: 0 0 auto;
+
+  & > button {
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+  }
+`;

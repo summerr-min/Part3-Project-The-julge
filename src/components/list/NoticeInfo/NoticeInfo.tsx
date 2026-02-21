@@ -29,6 +29,7 @@ import {
   HourlyPayDescription,
   Description,
   ButtonContainer,
+  DisabledButtonWrapper,
 } from './NoticeInfo.styles';
 
 interface Props {
@@ -154,9 +155,11 @@ function NoticeInfo({
   const applyStatusSwitch = () => {
     if (isClosed)
       return (
-        <Button variant="disabled" disabled>
-          신청 불가
-        </Button>
+        <DisabledButtonWrapper>
+          <Button variant="disabled" disabled>
+            신청 불가
+          </Button>
+        </DisabledButtonWrapper>
       );
 
     switch (applyStatus) {
@@ -166,9 +169,11 @@ function NoticeInfo({
       case 'canceled':
       case 'rejected':
         return (
-          <Button variant="disabled" disabled>
-            신청 불가
-          </Button>
+          <DisabledButtonWrapper>
+            <Button variant="disabled" disabled>
+              신청 불가
+            </Button>
+          </DisabledButtonWrapper>
         );
       default:
         return <PrimaryButton text="신청하기" onClick={handleApply} />;
