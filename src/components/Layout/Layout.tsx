@@ -1,8 +1,5 @@
-// import { Outlet, useNavigate } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
-import NavBar from '@/components/common/NavBar/NavBar';
 import { ProfileStorage } from '@/contexts/ProfileContext';
-import Footer from '../common/Footer/Footer';
 import { MainContent, MainWrapper } from '@/styles/EmployerLayoutStyles';
 
 export function AuthLayout() {
@@ -20,11 +17,9 @@ export function AuthLayout() {
 export function EmployerLayout() {
   return (
     <MainWrapper>
-      <NavBar />
       <MainContent>
         <Outlet />
       </MainContent>
-      <Footer />
     </MainWrapper>
   );
 }
@@ -32,7 +27,6 @@ export function EmployerLayout() {
 export function UserLayout() {
   return (
     <div>
-      <NavBar />
       <main>
         <div>
           <ProfileStorage>
@@ -40,23 +34,18 @@ export function UserLayout() {
           </ProfileStorage>
         </div>
       </main>
-      <Footer />
     </div>
   );
 }
 
 export function FullLayout() {
-  // const navigate = useNavigate();
-
   return (
     <div>
-      <NavBar />
       <main>
         <div>
           <Outlet />
         </div>
       </main>
-      <Footer />
     </div>
   );
 }

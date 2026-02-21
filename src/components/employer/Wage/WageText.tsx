@@ -6,8 +6,10 @@ interface Props {
   current: number;
 }
 
-function WageText({ original, current }: Props) {
-  if (original === current || original === 0) return '';
+const WageText = ({ original, current }: Props) => {
+  if (original === 0) return null;
+
+  if (original === current) return <WageWrap>시급 변동 없음</WageWrap>;
 
   const isIncrease = current > original;
   const diff = Math.abs(current - original);
@@ -26,5 +28,6 @@ function WageText({ original, current }: Props) {
       />
     </WageWrap>
   );
-}
+};
+
 export default WageText;
