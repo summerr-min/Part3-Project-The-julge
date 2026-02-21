@@ -53,6 +53,8 @@ function NoticeList({ type, items, count }: Props) {
                 defaultHourlyPay={originalHourlyPay}
                 currentHourlyPay={hourlyPay}
                 isClosed={closed}
+                startsAt={startsAt}
+                workhour={workhour}
               />
             </li>
           );

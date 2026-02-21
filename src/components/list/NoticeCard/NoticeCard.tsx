@@ -13,6 +13,7 @@ import {
   HourlyPayContainer,
   HourlyPay,
 } from '@/components/list/NoticeCard/NoticeCard.styles';
+import { getStatusNotice } from '@/utils/shopUtils';
 
 interface Props {
   shopId?: string;
@@ -24,6 +25,8 @@ interface Props {
   defaultHourlyPay: number;
   currentHourlyPay: number;
   isClosed: boolean;
+  startsAt: string;
+  workhour: number;
 }
 
 function NoticeCard({
@@ -36,46 +39,78 @@ function NoticeCard({
   defaultHourlyPay,
   currentHourlyPay,
   isClosed,
+  startsAt,
+  workhour,
 }: Props) {
+  const shopNotice = {
+    item: {
+      closed: isClosed,
+      description: '',
+      hourlyPay: currentHourlyPay,
+      id: noticeId,
+      startsAt: startsAt,
+      workhour: workhour,
+    },
+  };
+  const noticeStatus = getStatusNotice(shopNotice);
+
+  const isActuallyClosed = isClosed || noticeStatus === 'expired';
+
   return (
-    <Wrapper $isClosed={isClosed}>
-      <ImageContainer>
-        <Link to={`/shops/${shopId}/notices/${noticeId}/detail`}>
+    <Link
+      to={
+        isActuallyClosed ? '#' : `/shops/${shopId}/notices/${noticeId}/detail`
+      }
+      onClick={(e) => isActuallyClosed && e.preventDefault()}
+      style={{
+        cursor: isActuallyClosed ? 'default' : 'pointer',
+        textDecoration: 'none',
+      }}
+    >
+      <Wrapper $isClosed={isActuallyClosed}>
+        <ImageContainer>
           <CardImage
             src={cardImageUrl}
             alt={restaurantName}
-            $isClosed={isClosed}
+            $isClosed={isActuallyClosed}
           />
-        </Link>
-        <LastNoticeText $isClosed={isClosed}>지난 공고</LastNoticeText>
-      </ImageContainer>
 
-      <ContentContainer>
-        <DescriptionContainer>
-          <RestaurantName $isClosed={isClosed}>{restaurantName}</RestaurantName>
-          <NoticeCardDescription
-            type="duration"
-            description={duration}
-            isClosed={isClosed}
-          />
-          <NoticeCardDescription
-            type="address"
-            description={address}
-            isClosed={isClosed}
-          />
-        </DescriptionContainer>
-        <HourlyPayContainer>
-          <HourlyPay $isClosed={isClosed}>
-            {separatorHourlyPay(currentHourlyPay)}원
-          </HourlyPay>
-          <HourlyPayBadge
-            defaultHourlyPay={defaultHourlyPay}
-            currentHourlyPay={currentHourlyPay}
-            isClosed={isClosed}
-          />
-        </HourlyPayContainer>
-      </ContentContainer>
-    </Wrapper>
+          <LastNoticeText $isClosed={isActuallyClosed}>
+            {getStatusNotice(shopNotice) === 'expired'
+              ? '지난 공고'
+              : '마감 완료'}
+          </LastNoticeText>
+        </ImageContainer>
+
+        <ContentContainer>
+          <DescriptionContainer>
+            <RestaurantName $isClosed={isActuallyClosed}>
+              {restaurantName}
+            </RestaurantName>
+            <NoticeCardDescription
+              type="duration"
+              description={duration}
+              isClosed={isActuallyClosed}
+            />
+            <NoticeCardDescription
+              type="address"
+              description={address}
+              isClosed={isActuallyClosed}
+            />
+          </DescriptionContainer>
+          <HourlyPayContainer>
+            <HourlyPay $isClosed={isActuallyClosed}>
+              {separatorHourlyPay(currentHourlyPay)}원
+            </HourlyPay>
+            <HourlyPayBadge
+              defaultHourlyPay={defaultHourlyPay}
+              currentHourlyPay={currentHourlyPay}
+              isClosed={isActuallyClosed}
+            />
+          </HourlyPayContainer>
+        </ContentContainer>
+      </Wrapper>
+    </Link>
   );
 }
 
