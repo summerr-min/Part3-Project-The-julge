@@ -74,7 +74,8 @@ const variantStyles = {
 };
 
 export const ButtonStyles = styled.button<ButtonStyleProps>`
-  display: inline-flex;
+  width: 100%;
+  display: flex;
   align-items: center;
   justify-content: center;
 
