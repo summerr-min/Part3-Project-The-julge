@@ -1,6 +1,5 @@
 import { NoticeStatus } from '@/types/shop.types';
 import instance from './axios';
-import axios from 'axios';
 import { NoticeBody, ShopBody } from './employer.types';
 
 export async function getUserById(userId: string) {
@@ -69,7 +68,7 @@ export const postImagePresignedUrl = async (name: string) => {
 };
 
 export const uploadImageToS3 = async (presignedUrl: string, file: File) => {
-  await axios.put(presignedUrl, file, {
+  await instance.put(presignedUrl, file, {
     headers: {
       'Content-Type': file.type,
     },
