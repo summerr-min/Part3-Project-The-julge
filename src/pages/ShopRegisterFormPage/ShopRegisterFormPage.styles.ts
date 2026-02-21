@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import CameraIcon from '@/assets/icons/icon_camera.svg?react';
 
 const tablet = `@media (max-width: 744px)`;

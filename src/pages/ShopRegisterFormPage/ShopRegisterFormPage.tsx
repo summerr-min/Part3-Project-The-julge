@@ -79,21 +79,19 @@ function ShopRegisterFormPage() {
     }
   };
 
-  const { exec: submitShop, isLoading: submitShopLoading } = useShopAsync<
+  const { exec: submitShop } = useShopAsync<
     [string | undefined, ShopBody],
     SingleResponse<ShopInfo>
   >(submitMyShopApi);
 
   const {
     exec,
-    isSubmitting,
     handleChange,
     setFieldValue,
     values,
     setValues,
     isOpenModal,
     modalMessage,
-    isSuccess,
     isSubmitDisabled,
     closeModal,
   } = useShopForm<ShopFormData, SingleResponse<ShopInfo>>({

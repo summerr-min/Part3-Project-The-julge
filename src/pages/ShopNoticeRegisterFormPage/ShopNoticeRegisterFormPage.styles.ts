@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 const desktop = `@media (max-width: 930px)`;
 const tablet = `@media (max-width: 744px)`;

@@ -76,22 +76,19 @@ function ShopNoticeRegisterFormPage() {
     }
   };
 
-  const { exec: submitShopNotice, isLoading: submitShopNoticeLoading } =
-    useShopAsync<
-      [string, string | undefined, NoticeBody],
-      SingleResponse<ShopNotice>
-    >(submitNoticeApi);
+  const { exec: submitShopNotice } = useShopAsync<
+    [string, string | undefined, NoticeBody],
+    SingleResponse<ShopNotice>
+  >(submitNoticeApi);
 
   const {
     exec,
-    isSubmitting,
     handleChange,
     setFieldValue,
     values,
     setValues,
     isOpenModal,
     modalMessage,
-    isSuccess,
     isSubmitDisabled,
     closeModal,
   } = useShopForm<NoticeBody, SingleResponse<ShopNotice>>({

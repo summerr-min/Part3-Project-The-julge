@@ -37,7 +37,7 @@ function ShopNoticeDetailPage() {
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize] = useState(5);
   const [count, setCount] = useState(0);
 
   const offset = (currentPage - 1) * pageSize;

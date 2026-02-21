@@ -1,8 +1,5 @@
 import styled, { css, keyframes } from 'styled-components';
 
-const tablet = `@media (max-width: 744px)`;
-const mobile = `@media (max-width: 375px)`;
-
 interface CardDisabledProps {
   $disabled?: boolean;
 }
