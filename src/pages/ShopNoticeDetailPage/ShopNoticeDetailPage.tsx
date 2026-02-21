@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   FullPageWrapper,
   LoadingText,
@@ -26,6 +26,7 @@ const ConfirmModal = React.lazy(
 );
 
 function ShopNoticeDetailPage() {
+  const navigate = useNavigate();
   const params = useParams<{ shopId: string; noticeId: string }>();
   const { shopId, noticeId } = params;
 
@@ -107,6 +108,10 @@ function ShopNoticeDetailPage() {
     console.log('res-handleStatusSubmit:::', res);
     setIsOpenModal(false);
     setModalMessage('');
+
+    if (applicantInfoById?.type === 'accepted') {
+      navigate(`/shops/${shopId}`);
+    }
   };
 
   const handleSubmitCancelModal = () => {

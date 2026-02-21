@@ -16,7 +16,7 @@ const tabletStyles = css`
     align-items: center;
     padding: 1.2rem;
     height: 3.6rem;
-    font-size: 1.4rem;
+    font-size: 1rem;
     font-weight: 700;
     border-radius: 2rem;
   }
@@ -28,7 +28,7 @@ const desktopStyles = css`
     align-items: center;
     padding: 1.2rem;
     height: 3.6rem;
-    font-size: 1.4rem;
+    font-size: 1rem;
     font-weight: 700;
     border-radius: 2rem;
   }
@@ -49,13 +49,13 @@ const red40Styles = css`
 `;
 
 const red30Styles = css`
-  color: ${(props) => props.theme.colors.red30});
-  
+  color: ${(props) => props.theme.colors.red30};
+
   @media (min-width: 768px) {
     background-color: ${(props) => props.theme.colors.red30};
     color: ${(props) => props.theme.colors.white};
   }
-  
+
   @media (min-width: 1200px) {
     background-color: ${(props) => props.theme.colors.red30};
     color: ${(props) => props.theme.colors.white};
