@@ -1,13 +1,16 @@
 import ArrowUpIcon from '@/assets/icons/icon_arrow_up_bold.svg?react';
 import { WageWrap } from './WageText.styles';
+import { memo } from 'react';
 
 interface Props {
   original: number;
   current: number;
 }
 
-function WageText({ original, current }: Props) {
-  if (original === current || original === 0) return '';
+const WageText = ({ original, current }: Props) => {
+  if (original === 0) return null;
+
+  if (original === current) return <WageWrap>시급 변동 없음</WageWrap>;
 
   const isIncrease = current > original;
   const diff = Math.abs(current - original);
@@ -26,5 +29,6 @@ function WageText({ original, current }: Props) {
       />
     </WageWrap>
   );
-}
+};
+
 export default WageText;
