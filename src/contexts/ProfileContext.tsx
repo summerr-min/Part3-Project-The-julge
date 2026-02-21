@@ -50,9 +50,7 @@ export function ProfileStorage({ children }: { children: ReactNode }) {
 
   // 알림 상태
   const [alerts, setAlerts] = useState<any[]>([]);
-  useEffect(() => {
-    (window as any).alerts = alerts;
-  }, [alerts]);
+
   const [unreadCount, setUnreadCount] = useState(0);
   const [isAlertLoading, setIsAlertLoading] = useState(false);
 
@@ -145,8 +143,7 @@ export function ProfileStorage({ children }: { children: ReactNode }) {
       console.error('읽음 처리 실패:', error);
     }
   };
-  // 테스트
-  (window as any).testMarkAsRead = markAsRead;
+
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     if (token && !auth?.currentUser) return;

@@ -59,6 +59,20 @@ export const InputGroup = styled.div`
     gap: 16px;
   }
 `;
+export const BioWrapper = styled.div`
+  margin-top: 24px;
+  display: flex;ㅎ
+  flex-direction: column;
+  margin-bottom: 20px;
+  width: 100%;
+
+  @media (max-width: ${breakpoints.mobile}) {
+    max-width: 351px;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+`;
 
 export const InputWrapper = styled.div`
   display: flex;
