@@ -26,7 +26,7 @@ import ShopRegisterFormPage from './pages/ShopRegisterFormPage/ShopRegisterFormP
 import ShopNoticeDetailPage from './pages/ShopNoticeDetailPage/ShopNoticeDetailPage';
 import ShopNoticeRegisterFormPage from './pages/ShopNoticeRegisterFormPage/ShopNoticeRegisterFormPage';
 import ShopDetailPage from './pages/ShopDetailPage/ShopDetailPage';
-import { LayoutWithNavbarFooter } from './components/Layout/aa';
+import { LayoutWithNavbarFooter } from './components/Layout/LayoutWithNavbarFooter';
 
 function App() {
   return (
