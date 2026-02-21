@@ -131,7 +131,10 @@ export const ContentContainer = styled.div`
   gap: 1.2rem;
   flex-direction: column;
   padding-top: 1.6rem;
-  width: 400px;
+
+  @media (min-width: 1200px) {
+    width: 400px;
+  }
 `;
 
 export const HourlyPayContainer = styled.div``;
