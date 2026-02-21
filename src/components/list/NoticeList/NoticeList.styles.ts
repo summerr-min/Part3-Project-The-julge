@@ -38,6 +38,7 @@ export const Wrapper = styled.ul<{ type: 'customized' | 'entire' | 'recent' }>`
     gap: 1.4rem;
   } 
 
+
   `}
 
   /* entire 타입일 때만 grid 레이아웃 적용 */
