@@ -26,11 +26,11 @@ export const StyledShopButton = styled.button<ButtonShopProps>`
     $variant === 'outline'
       ? css`
           background: ${theme.colors.white};
-          border: 1px solid ${theme.colors.red40};
-          color: ${theme.colors.red40};
+          border: 1px solid ${theme.colors.primary};
+          color: ${theme.colors.primary};
         `
       : css`
-          background: ${theme.colors.red40};
+          background: ${theme.colors.primary};
           color: ${theme.colors.white};
           border: none;
         `};

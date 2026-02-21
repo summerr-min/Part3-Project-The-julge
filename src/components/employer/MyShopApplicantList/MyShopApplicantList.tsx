@@ -109,7 +109,12 @@ function MyShopApplicantList({
       try {
         setIsSubmitting(true);
         onShopApplicantById(applicant, type);
-        onSetModalMessage('신청을 거절하시겠어요??');
+
+        if (type === 'accepted') {
+          onSetModalMessage('신청을 승인하시겠어요??');
+        } else if (type === 'rejected') {
+          onSetModalMessage('신청을 거절하시겠어요??');
+        }
         onSetIsOpenModal(true);
       } catch (e) {
         if (axios.isAxiosError(e)) {
