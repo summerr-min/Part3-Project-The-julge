@@ -10,7 +10,8 @@ import SecondaryButton from './Button/SecondaryButton';
 import { Status } from '@/types/notice.types';
 import NoticeDescription from './NoticeDescription/NoticeDescription';
 import useAsync from '@/hooks/useAsync';
-import { postApply } from '@/api/notice';
+import { postApply, updateApplication } from '@/api/notice';
+import ConfirmModal from '@/components/common/Modal/ConfirmModal';
 import {
   Wrapper,
   Container,
@@ -45,6 +46,7 @@ interface Props {
   startsAt: string;
   workhour: number;
   onApply: () => void;
+  applicationId?: string;
 }
 
 function NoticeInfo({
@@ -63,13 +65,21 @@ function NoticeInfo({
   startsAt,
   workhour,
   onApply,
+  applicationId,
 }: Props) {
   const formattedWorkTime = formatWorkTime({ startsAt, workhour });
   const { execute } = useAsync(postApply);
-  const [token, setToken] = useState<string>('');
+  const { execute: updateExecute } = useAsync(updateApplication);
+
+  const [isCancelModal, setIsCancelModal] = useState(false);
+  const [isCancel, setIsCancel] = useState(false);
+  const [token, setToken] = useState<string>(() => {
+    if (typeof window === 'undefined') return '';
+    return localStorage.getItem('token') ?? '';
+  });
 
   const Props = {
-    authorazition: { token },
+    authorization: { token },
     data: {
       shopId: shopId as string,
       noticeId: noticeId as string,
@@ -83,8 +93,33 @@ function NoticeInfo({
   };
 
   const handleApply = () => {
-    fetch();
-    onApply();
+    fetch().then(() => {
+      onApply();
+    });
+  };
+
+  const openCancelModal = () => setIsCancelModal(true);
+  const closeCancelModal = () => setIsCancelModal(false);
+
+  const handleConfirmCancel = async () => {
+    if (!shopId || !noticeId || !applicationId) return;
+
+    setIsCancel(true);
+
+    const res = await updateExecute({
+      authorization: { token },
+      data: {
+        shopId,
+        noticeId,
+        applicationId,
+        status: 'canceled',
+      },
+    });
+    if (res) {
+      closeCancelModal();
+      onApply();
+    }
+    setIsCancel(false);
   };
 
   const applyStatusSwitch = () => {
@@ -92,10 +127,10 @@ function NoticeInfo({
 
     switch (applyStatus) {
       case 'pending':
-        return <SecondaryButton text="취소하기" />;
+        return <SecondaryButton text="취소하기" onClick={openCancelModal} />;
       case 'accepted':
         return <InActiveButton />;
-      case 'cancelled':
+      case 'canceled':
         return <InActiveButton />;
       case 'rejected':
         return <InActiveButton />;
@@ -115,46 +150,61 @@ function NoticeInfo({
   }, []);
 
   return (
-    <Wrapper>
-      <Container>
-        <Category>{category}</Category>
-        <ShopName>{shopName}</ShopName>
-      </Container>
-      <ShopInfoContainer>
-        <ImageContainer>
-          <StyledImage src={imageUrl} alt={shopName} $isClosed={isClosed} />
-          {isClosed && <LastNotice>마감 완료</LastNotice>}
-        </ImageContainer>
-        <ContentContainer>
-          <HourlyPayContainer>
-            <HourlyPayName>시급</HourlyPayName>
-            <HourlyPayDescriptionContainer>
-              <HourlyPayDescription>
-                {separatorHourlyPay(currentHourlyPay)}원
-              </HourlyPayDescription>
-              <HourlyPayBadge
-                defaultHourlyPay={defaultHourlyPay}
-                currentHourlyPay={currentHourlyPay}
-                isClosed={isClosed}
-              />
-            </HourlyPayDescriptionContainer>
-          </HourlyPayContainer>
-          <NoticeCardDescription
-            type="duration"
-            description={formattedWorkTime}
-            isClosed={isClosed}
-          />
-          <NoticeCardDescription
-            type="address"
-            description={address}
-            isClosed={isClosed}
-          />
-          <Description>{shopDescription}</Description>
-          <ButtonContainer>{applyStatusSwitch()}</ButtonContainer>
-        </ContentContainer>
-      </ShopInfoContainer>
-      <NoticeDescription description={noticeDescription} />
-    </Wrapper>
+    <>
+      <Wrapper>
+        <Container>
+          <Category>{category}</Category>
+          <ShopName>{shopName}</ShopName>
+        </Container>
+        <ShopInfoContainer>
+          <ImageContainer>
+            <StyledImage src={imageUrl} alt={shopName} $isClosed={isClosed} />
+            {isClosed && <LastNotice>마감 완료</LastNotice>}
+          </ImageContainer>
+          <ContentContainer>
+            <HourlyPayContainer>
+              <HourlyPayName>시급</HourlyPayName>
+              <HourlyPayDescriptionContainer>
+                <HourlyPayDescription>
+                  {separatorHourlyPay(currentHourlyPay)}원
+                </HourlyPayDescription>
+                <HourlyPayBadge
+                  defaultHourlyPay={defaultHourlyPay}
+                  currentHourlyPay={currentHourlyPay}
+                  isClosed={isClosed}
+                />
+              </HourlyPayDescriptionContainer>
+            </HourlyPayContainer>
+            <NoticeCardDescription
+              type="duration"
+              description={formattedWorkTime}
+              isClosed={isClosed}
+            />
+            <NoticeCardDescription
+              type="address"
+              description={address}
+              isClosed={isClosed}
+            />
+            <Description>{shopDescription}</Description>
+            <ButtonContainer>{applyStatusSwitch()}</ButtonContainer>
+          </ContentContainer>
+        </ShopInfoContainer>
+        <NoticeDescription description={noticeDescription} />
+      </Wrapper>
+
+      {isCancelModal && (
+        <ConfirmModal
+          message="신청을 취소하시겠어요?"
+          cancelText="아니요"
+          confirmText="취소하기"
+          onCancel={closeCancelModal}
+          onConfirm={() => {
+            if (isCancel) return;
+            handleConfirmCancel();
+          }}
+        />
+      )}
+    </>
   );
 }
 

@@ -104,6 +104,7 @@ function NoticeDetailPage() {
         startsAt={startsAt}
         workhour={workhour}
         onApply={fetchNotice}
+        applicationId={currentUserApplication?.item.id}
       />
       <NoticeRecentViewed />
     </Wrapper>
