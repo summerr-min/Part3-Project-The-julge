@@ -8,23 +8,29 @@ export const Wrapper = styled.div`
   min-height: 40.5rem;
   background-color: ${({ theme }) => theme.colors.red10};
 
-  @media (min-width: 768px) {
-    gap: 3.2rem;
-    padding: 6rem 3.2rem;
-    min-height: 53.2rem;
+  zoom: 0.8;
+
+  @media (max-width: 375px) {
   }
 
-  @media (min-width: 1200px) {
+  @media (max-width: 768px) {
+    zoom: 0.8;
+    gap: 3.2rem;
+    padding: 6rem 3.2rem 2rem;
+    /* min-height: 53.2rem; */
+  }
+
+  @media (max-width: 1200px) {
+    zoom: 0.8;
     gap: 3.2rem;
     padding: 6rem 0;
-    min-height: 53.2rem;
+    /* min-height: 53.2rem; */
   }
 `;
 
 export const SectionContainer = styled.div`
   margin: 0 auto;
   width: 100%;
-  max-width: 96.4rem;
 `;
 
 export const SectionName = styled.h2`
@@ -32,6 +38,20 @@ export const SectionName = styled.h2`
   font-weight: 700;
   color: ${({ theme }) => theme.colors.black};
   letter-spacing: 0.056rem;
+
+  margin: 0 auto;
+  width: 100%;
+  max-width: 96.4rem;
+
+  @media (max-width: 768px) {
+    ${({ theme }) => theme.fonts.h1};
+    padding-left: 1.6rem;
+  }
+
+  @media (max-width: 375px) {
+    margin-bottom: 20px;
+    ${({ theme }) => theme.fonts.h2};
+  }
 `;
 
 export const CardsContainer = styled.div`

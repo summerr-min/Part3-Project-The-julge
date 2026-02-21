@@ -28,7 +28,7 @@ function NoticeListPage() {
   const { execute } = useAsync(getNoticeList);
   const { currentPage, totalItems, updateCurrentPage, updateTotalItems } =
     usePagination({});
-    const location = useLocation();
+  const location = useLocation();
   const {
     filterData,
     setOffset,
