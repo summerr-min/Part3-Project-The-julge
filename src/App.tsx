@@ -6,7 +6,6 @@ import {
   UserLayout,
 } from './components/Layout/Layout';
 
-import ShopDetailPage from './pages/ShopDetailPage';
 import ShopCreatePage from './pages/ShopCreatePage';
 import ProfilePage from './pages/ProfilePage';
 import ProfileEditPage from './pages/ProfileEditPage';
@@ -21,6 +20,12 @@ import Login from './pages/LoginPage';
 import { theme } from '@/styles/theme';
 import { GlobalStyles } from '@/styles/GlobalStyles';
 import { ThemeProvider } from 'styled-components';
+import EmployerRoute from './components/employer/EmployerRoute/EmployerRoute';
+import ShopRegisterPage from './pages/ShopRegisterPage/ShopRegisterPage';
+import ShopRegisterFormPage from './pages/ShopRegisterFormPage/ShopRegisterFormPage';
+import ShopNoticeDetailPage from './pages/ShopNoticeDetailPage/ShopNoticeDetailPage';
+import ShopNoticeRegisterFormPage from './pages/ShopNoticeRegisterFormPage/ShopNoticeRegisterFormPage';
+import ShopDetailPage from './pages/ShopDetailPage/ShopDetailPage';
 
 function App() {
   return (
@@ -45,7 +50,30 @@ function App() {
           </Route>
 
           <Route element={<EmployerLayout />}>
-            <Route path="shop/:id" element={<ShopDetailPage />} />
+            <Route element={<EmployerRoute />}>
+              <Route path="/shops/:shopId/" element={<ShopDetailPage />} />
+              <Route path="/shops/register/" element={<ShopRegisterPage />} />
+              <Route
+                path="/shops/:shopId/edit"
+                element={<ShopRegisterFormPage />}
+              />
+              <Route
+                path="/shops/register/form/"
+                element={<ShopRegisterFormPage />}
+              />
+              <Route
+                path="/shops/:shopId/notices/:noticeId"
+                element={<ShopNoticeDetailPage />}
+              />
+              <Route
+                path="/shops/:shopId/notices"
+                element={<ShopNoticeRegisterFormPage />}
+              />
+              <Route
+                path="/shops/:shopId/notices/:noticeId/edit"
+                element={<ShopNoticeRegisterFormPage />}
+              />
+            </Route>
           </Route>
 
           <Route element={<UserLayout />}>
