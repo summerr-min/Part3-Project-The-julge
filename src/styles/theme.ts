@@ -33,6 +33,10 @@ export const theme: DefaultTheme = {
     green20: '#20A81E',
     green10: '#D4F7D4',
 
+    // yellow
+    yellow20: '#a87c1e',
+    yellow10: '#f7eed4',
+
     kakao: '#FEE500',
   },
   fonts: {

@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import NavBar from '@/components/common/NavBar/NavBar';
 import { ProfileStorage } from '@/contexts/ProfileContext';
 import Footer from '../common/Footer/Footer';
+import { MainContent, MainWrapper } from '@/styles/EmployerLayoutStyles';
 
 export function AuthLayout() {
   return (
@@ -18,15 +19,13 @@ export function AuthLayout() {
 
 export function EmployerLayout() {
   return (
-    <div>
+    <MainWrapper>
       <NavBar />
-      <main>
-        <div>
-          <Outlet />
-        </div>
-      </main>
+      <MainContent>
+        <Outlet />
+      </MainContent>
       <Footer />
-    </div>
+    </MainWrapper>
   );
 }
 
