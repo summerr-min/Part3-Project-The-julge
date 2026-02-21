@@ -87,8 +87,8 @@ export const ImageContainer = styled.div`
   }
 
   @media (min-width: 1200px) {
-    width: 54rem;
-    height: 30.8rem;
+    /* width: 54rem; */
+    /* height: 30.8rem; */
   }
 `;
 
@@ -131,6 +131,7 @@ export const ContentContainer = styled.div`
   gap: 1.2rem;
   flex-direction: column;
   padding-top: 1.6rem;
+  width: 400px;
 `;
 
 export const HourlyPayContainer = styled.div``;
