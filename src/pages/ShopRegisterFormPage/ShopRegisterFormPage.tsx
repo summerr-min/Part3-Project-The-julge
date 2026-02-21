@@ -214,7 +214,7 @@ function ShopRegisterFormPage() {
         <MyShopRegisterForm onSubmit={handleSubmit}>
           <MyShopFormFieldWrap>
             {/* 가계 이름 */}
-            <MyShopFormField>
+            <MyShopFormField style={{ zIndex: 5 }}>
               <MyShopFormLabel htmlFor="name">가게 이름*</MyShopFormLabel>
               <MyShopFormInput
                 type="text"
@@ -225,7 +225,7 @@ function ShopRegisterFormPage() {
               />
             </MyShopFormField>
             {/* 분류 */}
-            <MyShopFormField>
+            <MyShopFormField style={{ zIndex: 4 }}>
               <MyShopFormLabel htmlFor="category">분류*</MyShopFormLabel>
               <Dropdown
                 id="address1"
@@ -236,7 +236,7 @@ function ShopRegisterFormPage() {
               />
             </MyShopFormField>
             {/* 주소 */}
-            <MyShopFormField>
+            <MyShopFormField style={{ zIndex: 3 }}>
               <MyShopFormLabel htmlFor="address1">주소*</MyShopFormLabel>
               <Dropdown
                 id="address1"
@@ -247,7 +247,7 @@ function ShopRegisterFormPage() {
               />
             </MyShopFormField>
             {/* 상세 주소 */}
-            <MyShopFormField>
+            <MyShopFormField style={{ zIndex: 2 }}>
               <MyShopFormLabel htmlFor="address2">상세 주소*</MyShopFormLabel>
               <MyShopFormInput
                 id="address2"
@@ -257,7 +257,7 @@ function ShopRegisterFormPage() {
               />
             </MyShopFormField>
             {/* 기본 시급 */}
-            <MyShopFormField>
+            <MyShopFormField style={{ zIndex: 1 }}>
               <MyShopFormLabel htmlFor="originalHourlyPay">
                 기본 시급*
               </MyShopFormLabel>

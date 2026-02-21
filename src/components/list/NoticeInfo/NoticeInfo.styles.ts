@@ -87,8 +87,8 @@ export const ImageContainer = styled.div`
   }
 
   @media (min-width: 1200px) {
-    width: 54rem;
-    height: 30.8rem;
+    /* width: 54rem; */
+    /* height: 30.8rem; */
   }
 `;
 
@@ -131,6 +131,10 @@ export const ContentContainer = styled.div`
   gap: 1.2rem;
   flex-direction: column;
   padding-top: 1.6rem;
+
+  @media (min-width: 1200px) {
+    width: 400px;
+  }
 `;
 
 export const HourlyPayContainer = styled.div``;
@@ -165,4 +169,19 @@ export const ButtonContainer = styled.div`
   display: flex;
   align-items: flex-end;
   flex-grow: 2;
+`;
+
+export const DisabledButtonWrapper = styled.div`
+  width: 346px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+
+  flex: 0 0 auto;
+
+  & > button {
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+  }
 `;
