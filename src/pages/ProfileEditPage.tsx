@@ -86,9 +86,10 @@ function ProfileEditPage() {
           </S.InputWrapper>
         </S.InputGroup>
 
-        <S.InputWrapper>
-          <S.Label>소개</S.Label>
+        <S.BioWrapper>
+          <S.Label htmlFor="bio">소개</S.Label>
           <S.TextAreaField
+            id="bio"
             placeholder="입력"
             name="bio"
             value={formData.bio}
@@ -97,7 +98,7 @@ function ProfileEditPage() {
           <div style={{ textAlign: 'center' }}>
             <S.SubmitButton type="submit">등록하기</S.SubmitButton>
           </div>
-        </S.InputWrapper>
+        </S.BioWrapper>
       </S.FormContainer>
       {/* 등록 결과 모달 (훅에서 관리) */}
       {formModal.isOpen && (
