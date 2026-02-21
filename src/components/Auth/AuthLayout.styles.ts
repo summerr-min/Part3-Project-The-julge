@@ -27,7 +27,8 @@ export const InputStyles = styled.input<{ $error?: boolean }>`
   box-sizing: border-box;
 
   border: 1px solid
-    ${({ theme, $error }) => ($error ? theme.colors.red40 : theme.colors.gray30)};
+    ${({ theme, $error }) =>
+      $error ? theme.colors.red40 : theme.colors.gray30};
   background: ${({ theme }) => theme.colors.white};
   color: ${({ theme }) => theme.colors.black};
 
@@ -88,7 +89,8 @@ export const ToggleButtonStyles = styled.button<{ $active: boolean }>`
   padding: 13px 41px;
 
   border: 1px solid
-    ${({ theme, $active }) => ($active ? theme.colors.primary : theme.colors.gray30)};
+    ${({ theme, $active }) =>
+      $active ? theme.colors.primary : theme.colors.gray30};
   background: ${({ theme }) => theme.colors.white};
 
   cursor: pointer;
@@ -100,6 +102,9 @@ export const ToggleButtonStyles = styled.button<{ $active: boolean }>`
 
   ${({ theme }) => theme.fonts.body2Regular};
   color: ${({ theme }) => theme.colors.black};
+
+  white-space: nowrap;
+  word-break: keep-all;
 `;
 
 export const IconStyles = styled.span<{ $active: boolean }>`
@@ -113,8 +118,10 @@ export const IconStyles = styled.span<{ $active: boolean }>`
   flex: 0 0 20px;
 
   border: 2px solid
-    ${({ theme, $active }) => ($active ? theme.colors.primary : theme.colors.gray30)};
-  background: ${({ theme, $active }) => ($active ? theme.colors.primary : 'transparent')};
+    ${({ theme, $active }) =>
+      $active ? theme.colors.primary : theme.colors.gray30};
+  background: ${({ theme, $active }) =>
+    $active ? theme.colors.primary : 'transparent'};
 
   svg {
     width: 12px;
