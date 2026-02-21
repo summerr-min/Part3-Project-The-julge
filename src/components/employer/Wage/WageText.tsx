@@ -1,6 +1,5 @@
 import ArrowUpIcon from '@/assets/icons/icon_arrow_up_bold.svg?react';
 import { WageWrap } from './WageText.styles';
-import { memo } from 'react';
 
 interface Props {
   original: number;
