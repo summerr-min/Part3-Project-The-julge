@@ -29,7 +29,7 @@ interface ProfileContextType {
   alerts: any[]; // 알림 목록
   unreadCount: number; // 읽지 않은 알림 개수
   isAlertLoading: boolean;
-  fetchAlerts: () => Promise<void>; // 알림 목록 가져오기
+  fetchAlerts: (isSilent?: boolean) => Promise<void>; // 알림 목록 가져오기
   markAsRead: (alertId: string) => Promise<void>; // 알림 읽음 처리
 }
 
@@ -109,36 +109,39 @@ export function ProfileStorage({ children }: { children: ReactNode }) {
   ); // 유저 id가 바뀔때만 함수 재생성
 
   // 알림 API 연동
-  const fetchAlerts = useCallback(async () => {
-    const userId = auth?.currentUser?.id || localStorage.getItem('userId');
-    if (!userId) return;
+  const fetchAlerts = useCallback(
+    async (isSilent = false) => {
+      const userId = auth?.currentUser?.id || localStorage.getItem('userId');
+      if (!userId) return;
 
-    try {
-      setIsAlertLoading(true);
-      const response = await getUserAlerts(userId, 0, 10);
-      setAlerts(response.items);
+      try {
+        if (!isSilent) setIsAlertLoading(true);
 
-      // 읽지 않은 알림(read: false) 개수 계산
-      const unread = response.items.filter(
-        (item: any) => !item.item.read
-      ).length;
-      setUnreadCount(unread);
-    } catch (error) {
-      console.error('알림 로드 실패:', error);
-    } finally {
-      setIsAlertLoading(false);
-    }
-  }, [auth?.currentUser?.id]);
+        const response = await getUserAlerts(userId, 0, 10);
+        // 데이터 존재 여부 확인 후 업데이트
+        const fetchedItems = response?.items || [];
+        setAlerts(fetchedItems);
+
+        const unread = fetchedItems.filter(
+          (item: any) => item?.item && !item.item.read
+        ).length;
+        setUnreadCount(unread);
+      } catch (error) {
+        console.error('알림 로드 실패:', error);
+      } finally {
+        if (!isSilent) setIsAlertLoading(false);
+      }
+    },
+    [auth?.currentUser?.id]
+  );
 
   const markAsRead = async (alertId: string) => {
     const userId = auth?.currentUser?.id || localStorage.getItem('userId');
     if (!userId) return;
 
     try {
-      const response = await readAlert(userId, alertId);
-
-      console.log('알람 읽음 처리 API 응답: ', response);
-      await fetchAlerts(); // 목록 새로고침 개수/상태 동기화
+      await readAlert(userId, alertId);
+      await fetchAlerts(true);
     } catch (error) {
       console.error('읽음 처리 실패:', error);
     }
@@ -150,6 +153,14 @@ export function ProfileStorage({ children }: { children: ReactNode }) {
 
     checkProfileFromServer();
     fetchAlerts(); // 초기 로드 시 알림도 가져옴
+
+    // (60초)마다 알림 목록 갱신
+    const interval = setInterval(() => {
+      fetchAlerts(true); // 데이터만 갱신
+    }, 60000);
+
+    // 컴포넌트가 사라질 때 인터벌 제거
+    return () => clearInterval(interval);
   }, [auth?.currentUser, fetchAlerts]);
 
   return (

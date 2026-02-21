@@ -1,5 +1,4 @@
 import { Outlet } from 'react-router-dom';
-import { ProfileStorage } from '@/contexts/ProfileContext';
 import { MainContent, MainWrapper } from '@/styles/EmployerLayoutStyles';
 
 export function AuthLayout() {
@@ -29,9 +28,7 @@ export function UserLayout() {
     <div>
       <main>
         <div>
-          <ProfileStorage>
-            <Outlet />
-          </ProfileStorage>
+          <Outlet />
         </div>
       </main>
     </div>
