@@ -4,7 +4,7 @@ export const Wrapper = styled.ul<{ type: 'customized' | 'entire' }>`
   display: flex;
   gap: 0.4rem;
   justify-content: flex-start;
-  padding: 0;
+  padding: 0 1.6rem;
   margin: 0;
   list-style: none;
 

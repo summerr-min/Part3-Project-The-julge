@@ -37,7 +37,7 @@ function DetailFilterDropdown({
     <Wrapper onClose={onClose}>
       <Container>
         <TopContainer>
-          <Title />
+          <Title>상세 필터</Title>
           <button type="button" onClick={onClose}>
             <CloseIcon />
           </button>

@@ -27,7 +27,7 @@ function NoticeDetailPage() {
 
   const fetchNotice = async () => {
     const response: any = await execute({
-      url: { shopId: shopId!, noticeId: noticeId! },
+      url: { shopId: shopId as string, noticeId: noticeId as string },
     });
     setNotice(response.data);
   };
@@ -36,7 +36,7 @@ function NoticeDetailPage() {
     if (shopId && noticeId) {
       fetchNotice();
     }
-  }, [shopId, noticeId]);
+  }, [shopId, noticeId, token]);
 
   const userDataFetch = async () => {
     const response: any = await getUserExecute({
@@ -71,7 +71,7 @@ function NoticeDetailPage() {
     closed,
     currentUserApplication,
     shop: { item: shopItem },
-    HourlyPay,
+    hourlyPay,
     description: noticeDescription,
     startsAt,
     workhour,
@@ -90,15 +90,15 @@ function NoticeDetailPage() {
     <Wrapper>
       <NoticeInfo
         isClosed={closed}
-        shopId={shopId!}
-        noticeId={noticeId!}
+        shopId={shopId as string}
+        noticeId={noticeId as string}
         applyStatus={currentUserApplication?.item.status}
         category={category}
         shopName={shopName}
         address={address as Address}
         imageUrl={imageUrl}
         defaultHourlyPay={defaultHourlyPay}
-        currentHourlyPay={HourlyPay}
+        currentHourlyPay={hourlyPay}
         shopDescription={shopDescription}
         noticeDescription={noticeDescription}
         startsAt={startsAt}

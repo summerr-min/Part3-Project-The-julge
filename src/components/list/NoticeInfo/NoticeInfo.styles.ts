@@ -45,6 +45,7 @@ export const ShopInfoContainer = styled.div`
   gap: 1.2rem;
   flex-direction: column;
   padding: 2rem;
+  margin: 0 auto;
   border: 0.1rem solid ${({ theme }) => theme.colors.gray20};
   background: ${({ theme }) => theme.colors.white};
   border-radius: 1.2rem;

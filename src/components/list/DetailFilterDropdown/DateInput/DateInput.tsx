@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react';
 import convertDate from '@/utils/convertDate';
-import { Wrapper, Name, Input } from './DateInput.styles';
+import { Wrapper, Input } from './DateInput.styles';
 
 interface Props {
   startsAt: string;
@@ -16,7 +16,6 @@ function DateInput({ startsAt, setStartsAt }: Props) {
 
   return (
     <Wrapper>
-      <Name>시작일</Name>
       <Input
         placeholder="선택"
         type="datetime-local"

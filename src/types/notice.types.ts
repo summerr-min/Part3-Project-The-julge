@@ -23,7 +23,7 @@ export interface Item {
   currentUserApplication?: {
     item: CurrentUserApplication;
   };
-  HourlyPay: number;
+  hourlyPay: number;
   startsAt: string;
   workhour: number;
   description: string;
