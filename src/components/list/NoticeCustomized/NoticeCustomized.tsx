@@ -4,8 +4,10 @@ import NoticeList from '../NoticeList/NoticeList';
 import convertDate from '@/utils/convertDate';
 import useAsync from '@/hooks/useAsync';
 import { getNoticeList } from '@/api/notice';
-import { NoticeData } from '@/types/notice.types';
+import { Notice } from '@/types/notice.types';
 import { Address } from '@/types/address.types';
+import { useAuth } from '@/hooks/useAuth';
+import { getMyProfile } from '@/api/user';
 
 interface Props {
   address: Address[];
@@ -19,8 +21,10 @@ function NoticeCustomized({ address = ['서울시 종로구'], limit = 10 }: Pro
   const [dragging, setDragging] = useState(false);
   const [clickPoint, setClickPoint] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
-  const [notice, setNotice] = useState<NoticeData>();
+  const [userAddress, setUserAddress] = useState('');
+  const [notice, setNotice] = useState<Notice[]>();
   const { execute } = useAsync(getNoticeList);
+  const { execute: useProfile } = useAsync(getMyProfile);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const Props = {
@@ -34,10 +38,28 @@ function NoticeCustomized({ address = ['서울시 종로구'], limit = 10 }: Pro
     },
   };
 
+  const { currentUser } = useAuth();
+
+  if (currentUser?.type && currentUser.type === 'employer') return null;
+
+  const userFetch = async () => {
+    if (!currentUser?.id) return;
+    const res = await useProfile(currentUser?.id);
+    setUserAddress(res.item.address);
+  };
+
   const fetch = async () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const response: any = await execute(Props);
-    setNotice(response.data);
+    if (!userAddress) return;
+    const response: any = await execute({
+      ...Props,
+      params: {
+        ...Props.params,
+        limit: 3,
+        address: [userAddress as Address],
+      },
+    });
+    setNotice(response.data.items);
   };
 
   const handleMouseDownEvent = (e: MouseEvent<HTMLDivElement>) => {
@@ -105,8 +127,14 @@ function NoticeCustomized({ address = ['서울시 종로구'], limit = 10 }: Pro
   }, [dragging]);
 
   useEffect(() => {
-    fetch();
-  }, []);
+    userFetch();
+  }, [userAddress]);
+
+  useEffect(() => {
+    if (userAddress) {
+      fetch();
+    }
+  }, [userAddress]);
 
   return (
     <NoticeCustomizedUI
@@ -117,7 +145,7 @@ function NoticeCustomized({ address = ['서울시 종로구'], limit = 10 }: Pro
       onMouseMove={handleMouseMoveEvent}
       onMouseEnter={handleMouseEnterEvent}
     >
-      <NoticeList type="customized" items={notice?.items} count={limit} />
+      <NoticeList type="customized" items={notice} count={limit} />
     </NoticeCustomizedUI>
   );
 }

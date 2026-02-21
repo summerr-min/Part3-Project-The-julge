@@ -49,7 +49,7 @@ export interface NoticeData {
   offset: number;
 }
 
-export type Status = 'pending' | 'accepted' | 'rejected' | 'cancelled';
+export type Status = 'pending' | 'accepted' | 'rejected' | 'canceled';
 
 export interface CurrentUserApplication {
   id: string;

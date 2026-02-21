@@ -26,9 +26,9 @@ export async function getNoticeList(Props: GetNoticeListProps) {
   try {
     const search = getSearchFromUrl();
     const params = {
-   ...Props.params,
-   keyword: search ? search : undefined,
-};
+      ...Props.params,
+      keyword: search ? search : undefined,
+    };
 
     const response = await instance.get('/notices', {
       ...Props,
@@ -88,6 +88,25 @@ export async function postApply(Props: PostApplyProps) {
   } catch (error) {
     return error;
   }
+}
+
+interface UpdateApplicationData extends ShopId, NoticeId {
+  applicationId: string;
+  status: 'accepted' | 'rejected' | 'canceled';
+}
+
+interface UpdateApplicationProps {
+  authorization?: { token: string };
+  data: UpdateApplicationData;
+}
+
+export async function updateApplication(Props: UpdateApplicationProps) {
+  const response = await instance.put(
+    `/shops/${Props.data.shopId}/notices/${Props.data.noticeId}/applications/${Props.data.applicationId}`,
+    { status: Props.data.status },
+    { headers: { Authorization: `Bearer ${Props.authorization?.token}` } }
+  );
+  return response;
 }
 
 interface GetShopNoticeProps {
