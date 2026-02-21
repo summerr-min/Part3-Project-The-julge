@@ -62,7 +62,7 @@ function NoticeListPage() {
       address: filterData.filter.address
         ? filterData.filter.address
         : ([] as Address[]),
-      startsAGte: filterData.filter.startsAtGte
+      startsAtGte: filterData.filter.startsAtGte
         ? filterData.filter.startsAtGte
         : convertDate(currentDate),
       hourlyPayGte: filterData.filter.hourlyPayGte
