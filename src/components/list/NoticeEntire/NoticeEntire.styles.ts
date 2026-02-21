@@ -23,6 +23,7 @@ export const SectionContainer = styled.div`
   align-items: flex-start;
   flex-direction: column;
   width: 100%;
+  padding: 0px 25px;
 
   @media (min-width: 768px) {
     justify-content: space-between;
@@ -40,4 +41,14 @@ export const SectionName = styled.h2`
   font-weight: 700;
   color: var(--black);
   letter-spacing: 0.056rem;
+
+  @media (max-width: 768px) {
+    margin-bottom: 20px;
+    ${({ theme }) => theme.fonts.h1};
+  }
+
+  @media (max-width: 375px) {
+    margin-bottom: 20px;
+    ${({ theme }) => theme.fonts.h2};
+  }
 `;

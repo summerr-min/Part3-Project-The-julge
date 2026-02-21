@@ -12,6 +12,10 @@ export const Wrapper = styled.div<{ $isClosed: boolean }>`
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: 1.2rem;
 
+  @media (min-width: 375px) {
+    height: 400px;
+  }
+
   @media (min-width: 768px) {
     gap: 2rem;
     width: 31.2rem;

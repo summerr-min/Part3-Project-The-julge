@@ -2,19 +2,22 @@ import styled from 'styled-components';
 
 export const NoticeEntireContainer = styled.div`
   display: flex;
-  gap: 3rem;
-  align-items: center;
   flex-direction: column;
-  padding: 4rem 0 8rem;
+  align-items: center;
+  width: 100%;
 
-  @media (min-width: 768px) {
+  zoom: 0.8;
+
+  @media (min-width: 375px) {
+    zoom: 0.8;
     gap: 4rem;
-    padding: 6rem 0;
+    margin: 100px 0;
   }
 
-  @media (min-width: 1200px) {
+  @media (min-width: 768px) {
+    zoom: 0.8;
     gap: 4rem;
-    padding: 6rem 0;
+    margin: 100px 0;
   }
 `;
 

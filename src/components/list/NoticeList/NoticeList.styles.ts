@@ -8,6 +8,8 @@ export const Wrapper = styled.ul<{ type: 'customized' | 'entire' }>`
   margin: 0;
   list-style: none;
 
+  zoom: 0.8;
+
   @media (min-width: 768px) {
     gap: 1.4rem;
   }

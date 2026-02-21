@@ -7,6 +7,18 @@ export const Wrapper = styled.div`
   padding: 4rem 0;
   width: max-content;
 
+  zoom: 0.8;
+
+  @media (min-width: 375px) {
+    zoom: 0.8;
+    gap: 4rem;
+  }
+
+  @media (min-width: 768px) {
+    zoom: 0.8;
+    gap: 4rem;
+  }
+
   @media (min-width: 768px) {
     padding: 6rem 0;
   }

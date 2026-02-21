@@ -19,4 +19,6 @@ export const SectionName = styled.h2`
   font-size: 2rem;
   font-weight: 700;
   color: ${({ theme }) => theme.colors.black};
+
+  padding-left: 20px;
 `;
