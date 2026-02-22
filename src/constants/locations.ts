@@ -24,4 +24,5 @@ export const SEOUL_DISTRICTS = [
   '서울시 강남구',
   '서울시 송파구',
   '서울시 강동구',
+  '제주도 제주시',
 ] as const; // 읽기 전용
