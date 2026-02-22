@@ -96,7 +96,7 @@ function ProfileEditPage() {
             onChange={handleChange}
           />
         </S.BioWrapper>
-        <S.ButtonWrapper style={{ textAlign: 'center' }}>
+        <S.ButtonWrapper>
           <S.SubmitButton
             type="submit"
             disabled={!formData.name || !formData.phone}
